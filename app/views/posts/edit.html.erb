@@ -1,0 +1,131 @@
+<div class="row mx-auto mt-2">
+
+<div class="col-sm-3 p-0 d-md-block d-lg-block"></div>
+
+<div class="col-sm-6 p-0">
+    
+<%= form_with model: @post, id: :commentSubmit, local: true do |f| %>
+  <%= f.text_area :body,
+  :class => 'mb-2 form-control',
+  :placeholder => '内容をお書きください',
+  :onkeyup => 'updateCount(value, "count")',
+  :id => 'commentInput' %>
+  <% if @post.errors.messages[:body].any? %>
+  <div class="bg-secondary p-2 mb-1" style="border-radius: 3px 3px 3px 3px; opacity: 0.9;">
+    <span class="font-weight-bold text-warning"><%= @post.errors.messages[:body][0] %></span>
+  </div>
+  <% end %>
+
+  <div id="firstBox">
+
+  <% unless @post.title == "冒険の拠点を登録" %>
+
+  <div class="bg-secondary p-2" style="border-radius: 3px 3px 0px 0px; opacity: 0.9;">
+    <span class="oi oi-paperclip text-white ml-1 mb-2" title="タグ" aria-hidden="true"></span> <span class="font-weight-bold text-white">タグ<br>関連する地名や言葉をカンマ（ ，）区切りで複数つけよう。見つかりやすくなるよ</span>
+    <%= text_field_tag 'post[label_list]', @post.label_list.join(','), 'data-role' => 'tagsinput',
+    'class' => 'mt-1 mb-2 form-control' %>
+  </div>
+
+  <% end %>
+
+  <div class="bg-secondary p-2" style="border-radius: 0px; opacity: 0.9;">
+  <div class="imagePreview"></div>
+    <div class="input-group">
+      <label class="input-group-btn">
+          <span class="btn btn-secondary mt-1 mb-1 p-2" style="border: solid 1px #fff;">
+              <span class="oi oi-camera-slr text-white" title="写真" aria-hidden="true"></span> よければ写真もどうぞ
+                  <%= f.file_field :image, class: 'uploadFile', style: 'display:none' %>  
+          </span>
+      </label>
+    <div class="preview mb-3" style="border-radius: 8px;"></div> 
+  </div>
+  </div>
+
+  <div class="bg-secondary p-2" style="border-radius: 0px; opacity: 0.9;">
+  <span class="oi oi-map-marker text-white" title="場所" aria-hidden="true"></span> <span class="font-weight-bold text-white">マップ追加オプション</span>
+
+  <% if @post.placename.present? %>
+    <%= f.text_field :placename,
+    name: 'placename[]',
+    :class => 'mb-2 form-control',
+    :autocomplete => 'off',
+    :placeholder => '正確な住所orスポット名をどうぞ' %>
+  <% elsif @post.latitude.present? %>
+    <%= f.text_field :latitude,
+    :class => 'mb-2 form-control' %>
+    <%= f.text_field :longitude,
+    :class => 'mb-2 form-control' %>
+  <% else %>
+    <%= f.text_field :placename,
+    name: 'placename[]',
+    :class => 'mb-2 form-control',
+    :placeholder => '正確な住所orスポット名をどうぞ' %>
+  <% end %>
+  </div>
+  </div>
+
+  <% unless @post.title == "冒険の拠点を登録" %>
+
+  <div class="bg-secondary p-2" style="border-radius: 0px 0px 3px 3px; opacity: 0.9;">
+  <span class="oi oi-location text-white ml-1 mb-2" title="ルート" aria-hidden="true"></span> <span class="font-weight-bold text-white">周辺の攻略スポットも追加する？</span>
+        <%= f.nested_fields_for :qroutes, wrapper_tag: :div do |q| %>
+            <div class="form-row mb-1">
+              <div class="col-5">
+              <%= q.text_field :qplacename, class: 'form-control', autocomplete: 'off', placeholder: '追加する住所orスポット名' %>
+              </div>
+              <div class="col">
+              <%= q.text_field :qdescription, class: 'form-control', autocomplete: 'off', placeholder: 'そこで何を攻略する？' %>
+              </div>
+              <div class="col">
+              <%= q.remove_nested_fields_link sanitize('<span class="oi oi-trash" title="ルート削除" aria-hidden="true"></span>'), class: 'btn btn-danger', role: 'button' %>
+              </div>
+            </div>
+        <% end %>
+  <br>
+  <%= f.add_nested_fields_link :qroutes, sanitize('<span class="oi oi-plus" title="ルート追加" aria-hidden="true"></span>'), class: 'btn btn-info', role: 'button' %>
+  </div>
+
+  <% end %>
+
+  <p class="float-left mt-1 mb-3">
+  (200字以内推奨)<br><span id="count">0</span>
+  </p>
+  <p class="text-right mt-1 mb-5">
+  <%= button_tag :type => "submit", :class =>"btn btn-lg btn-blue700_rsd", data: { disable_with: "投稿中 <i class='fa fa-spinner fa-spin'></i>" } do %>
+  投稿する
+  <% end %>
+  </p>
+<% end %>
+
+</div>
+
+<div class="col-sm-3 p-0 d-md-block d-lg-block"></div>
+
+</div>
+
+<script>
+$('form').on('change', 'input[type="file"]', function(e) {
+  var file = e.target.files[0],
+      reader = new FileReader(),
+      $preview = $(".preview");
+      t = this;
+
+  if(file.type.indexOf("image") < 0){
+    return false;
+  }
+
+  reader.onload = (function(file) {
+    return function(e) {
+      $preview.empty();
+      $preview.append($('<img>').attr({
+                src: e.target.result,
+                width: "150px",
+                class: "preview",
+                title: file.name
+            }));
+    };
+  })(file);
+
+  reader.readAsDataURL(file);
+});
+</script>

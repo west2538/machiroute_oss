@@ -1,0 +1,11 @@
+<% unless Comment.find_by(post_id: post.id, user_uid: session[:uid]) %>
+<% if post.title == '新規サブクエスト' && post.image.attached? %>
+    <div class="card text-white bg-danger tilt">
+        <%= link_to post_path(post) do %>
+            <%= image_tag post.image.variant(combine_options:{resize:"288x200^",crop:"288x200+0+0",gravity: :center,auto_orient: true,strip: true,quality: 60}), :class => "card-img-top" %>
+        <% end %>
+        <%= link_to(post_path(post), class: 'card-body') do %>
+        <% end %>
+    </div>
+<% end %>
+<% end %>

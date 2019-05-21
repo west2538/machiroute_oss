@@ -1,0 +1,14 @@
+<% posts.shuffle.first(3).each do |post| %>
+    <div>
+    <li class="m-0 d-inline-block text-truncate" style="max-width: 240px;">
+    <% if Comment.find_by(post_id: post.id, user_uid: session[:uid]) %>
+      <span class="oi oi-task text-success" title="クリア" aria-hidden="true"></span> 
+    <% else %>
+      <span class="oi oi-task text-danger" title="未クリア" aria-hidden="true"></span> 
+    <% end %>
+    <%= link_to post.body,
+        post_path(post),
+        :class => 'font-weight-bold' %>
+    </li>
+    </div>
+<% end %>

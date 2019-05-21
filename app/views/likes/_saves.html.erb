@@ -1,0 +1,76 @@
+<div id="likes_ajax">
+
+<% if session[:uid] && current_user %>
+
+    <% if Like.find_by(user_id: current_user.id, post_id: post.id) %>
+        <%= button_to("/likes/#{post.id}/destroy", {method: "post", remote: true, class: "btn btn-secondary btn-block", style: "height:100px;", data: { disable_with: "せーぶ解除中 <i class='fa fa-spinner fa-spin'></i>" }}) do %>
+        <div class="bg-secondary p-2 text-center"><h5 class="oi oi-task text-white font-weight-bold d-inline-block mt-2" title="せーぶ" aria-hidden="true">
+        <%= post.saves_count %> せーぶ済み </h5><br>
+        <% if Comment.find_by(post_id: post.id, user_uid: session[:uid]) %>
+        <small class="text-white d-inline-block mx-auto" style="font-size: 0.9em;"> 世界がアップデートされました✨</small>
+        <% else %>
+        <small class="text-white d-inline-block mx-auto" style="font-size: 0.9em;"> ↓クリアコメント投稿でクリア！</small>
+        <% end %>
+        </div>
+        <% end %>
+
+    <% else %>
+        <%= button_to("/likes/#{post.id}/create", {method: "post", remote: true, class: "btn btn-info btn-block", style: "height:100px;", data: { disable_with: "せーぶ処理中 <i class='fa fa-spinner fa-spin'></i>" }}) do %>
+        <div class="bg-info p-2 text-center"><h5 class="oi oi-task text-white font-weight-bold d-inline-block mt-2" title="せーぶする" aria-hidden="true">
+        <%= post.saves_count %> せーぶする </h5><br>
+        <% if Comment.find_by(post_id: post.id, user_uid: session[:uid]) %>
+        <small class="text-white d-inline-block mx-auto" style="font-size: 0.9em;"> 世界がアップデートされました✨</small>
+        <% else %>
+        <small class="text-white d-inline-block mx-auto" style="font-size: 0.9em;"> せーぶしてクリアコメントを投稿！</small>
+        <% end %>
+        </div>
+        <% end %>
+
+    <% end %>
+
+<% else %>
+
+    <div class="px-3 mb-3 text-secondary bg-white" style="border:#fff solid 1px; border-radius: 0px 0px 6px 6px;">
+        <p class="font-weight-bold text-center">サブクエストをクリアするには<br>ログインが必要です</p>
+        <div class="ac-container3 mb-3">
+            <input id="ac-3" name="accordion-3" type="checkbox" />
+            <label for="ac-3">新規アカウント登録</label>
+            <div class="ac-small3">
+                <p class="my-1" style="text-align: justify; font-weight: bold; text-justify: inter-ideograph; word-break: break-all;">まちかどルートでは世界中で使われているオープンなSNS「Mastodon」のアカウントでログインできます。ここではまちかどルート公式のMastodonインスタンス「アナザーギルド」でアカウントを作成します。下記の項目を入力して「登録」ボタンを押してください。</p>
+                <%= form_with url: '/auth/create/account', method: :post, local: true do |f| %>
+                <input type="hidden" name="agreement" value="true">
+                <input type="hidden" name="locale" value="ja">
+                <input type="text" name="username" class="form-control mb-1 pl-2" style="width:100%;" placeholder="ユーザー名(英数字&空白なし)">
+                <input type="email" name="email" class="form-control mb-1 pl-2" placeholder="メールアドレス">
+                <input type="password" name="password" class="form-control mb-1 pl-2" placeholder="パスワード">
+                <%= button_tag :type => "submit", data: { disable_with: "<i class='fa fa-spinner fa-spin'></i> 登録中..." }, :class =>"btn btn-primary btn-block" do %>
+                <span class="oi oi-account-login" title="登録する" aria-hidden="true"> 登録</span>
+                <% end %>
+                <% end %>
+                <p class="my-1" style="text-align: justify; font-weight: bold; text-justify: inter-ideograph; word-break: break-all;">登録がうまくいくとMastodonからメールが届きます。そのメール内の確認ボタンを押してまちかどルートに戻り、下のボタンから「ログイン」してください。</p>
+            </div>
+        </div>
+        <p class="font-weight-bold text-center">冒険者アカウントをお持ちなら</p>
+        <%= link_to sanitize('<span class="oi oi-account-login" title="ログイン" aria-hidden="true"></span>') + ' ログイン',
+        '/auth/mastodon',
+        :data => { disable_with: "処理中 <i class='fa fa-spinner fa-spin'></i>" },
+        :class => 'btn btn-success btn-lg btn-block py-1 mx-auto mb-2',
+        :style => 'width: 100%;' %>
+        <p class="small font-weight-bold text-center">アナザーギルド以外のMastodonインスタンスのアカウントでもログイン可能です</p>
+        <div class="text-secondary text-center mt-3">
+        <span class="oi oi-person text-secondary" title="開発者" aria-hidden="true"></span> <a href="https://twitter.com/west2538" target="_blank">開発者</a>
+        <span class="oi oi-shield text-secondary" title="まちかどルートとは" aria-hidden="true"></span> <a href="https://www.makepost.net/projects/67" target="_blank">まちかどルートとは</a>
+        </div>
+    </div>
+
+<% end %>
+
+</div>
+
+<% flash.each do |type, msg| %>
+  <% type = 'success' if type == 'notice' %>
+  <% type = 'error' if type == 'error' %>
+  <script>
+    toastr['<%= type %>']('<%= msg %>');
+  </script>
+<% end %>

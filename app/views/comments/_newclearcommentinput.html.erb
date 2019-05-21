@@ -1,0 +1,29 @@
+<div id="newclearcommentinput_ajax">
+<% if post.title == "新規サブクエスト" && session[:uid] %>
+    <% if Comment.find_by(post_id: post.id, user_uid: session[:uid]) %>
+    <% elsif Like.find_by(user_id: current_user.id, post_id: post.id) %>
+        <%= form_with model: [post, post.comments.build] do |f| %>
+            <div class="input-group pl-3 pr-3 mb-1">
+                <%= f.text_area :body,
+                :class => 'form-control',
+                :style => 'height:80px;',
+                :autocomplete => 'off',
+                :placeholder => 'どんなふうにクリアした？' %>
+                <div class="imagePreview"></div>
+                <label class="input-group-btn m-0">
+                    <span class="btn btn-secondary" style="border: solid 1px #fff;">
+                        <span class="oi oi-camera-slr text-white" title="写真" aria-hidden="true"></span>
+                            <%= f.file_field :image, class: 'uploadFile', style: 'display:none' %>  
+                    </span>
+                </label>
+            </div>
+            <div class="preview pl-3 mb-2"></div>
+            <p class="text-white text-left mb-3 px-3">
+            <%= button_tag :type => "submit", :class => "btn btn-purple700_rsd", data: { disable_with: "投稿中 <i class='fa fa-spinner fa-spin'></i>" } do %>
+            クリアコメントを投稿
+            <% end %>        
+            </p>
+        <% end %>
+    <% end %>
+<% end %>
+</div>

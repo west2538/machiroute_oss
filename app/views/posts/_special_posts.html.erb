@@ -1,0 +1,39 @@
+<tr>
+    <td class="px-0">
+        <% if Comment.find_by(post_id: post.id, user_uid: session[:uid]) %>
+        <div class="card text-white text-center bg-success my-1 tilt" style="max-width: 18rem;">
+            <% if post.image.attached? %>
+                <%= link_to post_path(post) do %>
+                <div class="trim"><%= image_tag post.image.variant(resize: "288x288", auto_orient: true, strip: true, quality: 60), :class => "card-img-top" %></div>
+                <% end %>
+            <% end %>
+            <%= link_to(post_path(post), class: 'card-body bg-success d-inline-block') do %>
+            <h5 class="card-title text-white d-inline-block wf-nicomoji"><span class="oi oi-task" title="サブクエスト[クリア済]" aria-hidden="true"></span> サブクエ クリア✨</h5><br>
+            <p class="card-text font-weight-bold text-white d-inline-block text-truncate my-0" style="max-width: 220px; opacity: 0.87;">
+                <%= post.body %>
+            </p>
+            <div class="mark bg-transparent p-1">
+            <i class="fa fa-calendar" title="トップ掲載期間指定のサブクエスト" aria-hidden="true"></i>
+            </div>
+            <% end %>
+        </div>
+        <% else %>
+        <div class="card text-white text-center bg-danger my-1 tilt" style="max-width: 18rem;">
+            <% if post.image.attached? %>
+                <%= link_to post_path(post) do %>
+                <div class="trim"><%= image_tag post.image.variant(resize: "288x288", auto_orient: true, strip: true, quality: 60), :class => "card-img-top" %></div>
+                <% end %>
+            <% end %>
+            <%= link_to(post_path(post), class: 'card-body bg-danger d-inline-block') do %>
+            <h5 class="card-title text-white d-inline-block wf-nicomoji"><span class="oi oi-task" title="サブクエスト" aria-hidden="true"></span> サブクエスト ⚔</h5><br>
+            <p class="card-text font-weight-bold text-white d-inline-block text-truncate my-0" style="max-width: 220px; opacity: 0.87;">
+                <%= post.body %>
+            </p>
+            <div class="mark bg-transparent p-1">
+            <i class="fa fa-calendar" title="トップ掲載期間指定のサブクエスト" aria-hidden="true"></i>
+            </div>
+            <% end %>
+        </div>
+        <% end %>
+    </td>
+</tr>

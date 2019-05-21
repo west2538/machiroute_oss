@@ -1,0 +1,30 @@
+<% if notification.notified_type == 'mastodon' %>
+
+    <% session_bunkatsu = session[:uid].split("@") %>
+    <div class="small clearfix">
+        <p class="mb-0">
+        <a href="https://<%= session_bunkatsu.last %>" target="_blank" class="list-group-item pb-0" style="width:210px;">
+        <span class="font-weight-bold">Mastodonに<br>通知が届いています</span>
+        </a>
+        </p>
+        <p class="mt-2 mr-3" style="float:right;">
+        <%= link_to(link_through_path(notification)) do %>
+        既読にする - <span data-livestamp="<%= notification.updated_at.strftime('%Y-%m-%d %H:%M:%S') %>"></span>
+        <% end %>
+        </p>
+    </div>
+
+<% else %>
+
+    <%= link_to(link_through_path(notification), class: 'list-group-item pb-0', style: 'width:210px;') do %>
+    <div class="small clearfix">
+        <p class="mb-0">
+        <span class="font-weight-bold"><%= "あなたのサブクエストが" %><br><%= "#{notification.notified_type}" %><%= "されました！" %></span>
+        </p>
+        <p class="mt-0" style="float:right;">
+        <span data-livestamp="<%= notification.updated_at.strftime('%Y-%m-%d %H:%M:%S') %>"></span>
+        </p>
+    </div>
+    <% end %>
+
+<% end %>

@@ -1,0 +1,15 @@
+<% unless member.display_name.present? %>
+<% online_bunkatsu = member.uid.split("@") %>
+<% member.display_name = "@" + online_bunkatsu[0] %>
+<% end %>
+<% if member.online == true %>
+<li class="list-unstyled font-weight-bold text-success usershadow">
+<%= member.display_name %> <span class="oi oi-account-login" title="<%= member.online_at.strftime('%-m月%-d日 %-H:%M') %>"></span>
+<small class="text-secondary"> <span data-livestamp="<%= member.online_at.strftime('%Y-%m-%d %H:%M:%S') %>"></span></small>
+</li>
+<% elsif member.online == false %>
+<li class="list-unstyled font-weight-bold text-danger usershadow">
+<%= member.display_name %> <span class="oi oi-account-logout" title="<%= member.online_at.strftime('%-m月%-d日 %-H:%M') %>"></span>
+<small class="text-secondary"> <span data-livestamp="<%= member.online_at.strftime('%Y-%m-%d %H:%M:%S') %>"></span></small>
+</li>
+<% end %>

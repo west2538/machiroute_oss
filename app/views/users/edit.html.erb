@@ -1,0 +1,190 @@
+<% if @user.uid == session[:uid] && @user.id == @current_user.id || session[:uid] == 'townsguild@another-guild.com' %>
+
+  <% session_bunkatsu = @user.uid.split("@") %>
+  <% session_bokensha = "https://" + session_bunkatsu.last + "/@" + session_bunkatsu[0] %>
+
+  <div class="card">
+  <%= form_with model: @user, multipart: true, local: true do |f| %>
+
+    <h5 class="card-header"><i class="fa fa-cog fa-lg text-success" aria-hidden="true"></i> 冒険者のステータス</h5>
+
+    <div class="card-body">
+
+      <div class="row">
+        <div class="col-sm mb-4">
+          <div class="imagePreview"></div>
+          <div class="input-group">
+            <label class="input-group-btn">
+                <span class="btn btn-secondary mt-1 p-2" style="border: solid 1px #fff;">
+                    <span class="oi oi-camera-slr text-white" title="写真" aria-hidden="true"></span> アイコン
+                        <%= f.file_field :image, class: 'uploadFile', style: 'display:none' %>  
+                </span>
+            </label>
+          </div>
+          <div class="preview" style="border-radius: 8px;"></div> 
+          <% if @user.errors.messages[:image].any? %>
+          <span class="font-weight-bold text-warning"><%= @user.errors.messages[:image][0] %></span>
+          <% end %>
+          <div class="mb-2">
+          <p class="card-text">
+          冒険者名<br>
+            <%= f.text_field :display_name,
+            :class => 'form-control',
+            :autocomplete => 'off',
+            :placeholder => '冒険者名をどうぞ',
+            :style => 'width:100%;' %>
+          </p>
+          </div>
+          プロフィール文<br>
+          <p class="card-text">
+            <%= f.text_area :note,
+            :placeholder => 'プロフィール文をどうぞ',
+            :class => 'form-control' %>
+          </p>
+        </div>
+      </div>
+
+      <div>
+        <hr>
+      </div>
+
+      <div class="row">
+        <div class="col-sm mb-3">
+          <h5 class="card-title">スキル</h5>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-sm mb-4">
+          No.1<br>
+          <p class="card-text font-weight-bold mb-1">
+          <%= f.text_field :fields1_name,
+          :class => 'mb-2 form-control',
+          :autocomplete => 'off',
+          :placeholder => '一番のスキルは？',
+          :style => 'width:100%;' %>
+          </p>
+          <p class="card-text">
+          <%= f.text_area :fields1_value,
+          :class => 'mb-2 form-control',
+          :placeholder => 'どんなスキルですか？' %>
+          </p>
+        </div>
+        <div class="col-sm mb-4">
+          No.2<br>
+          <p class="card-text font-weight-bold mb-1">
+          <%= f.text_field :fields2_name,
+          :class => 'mb-2 form-control',
+          :autocomplete => 'off',
+          :placeholder => '2番目のスキルは？',
+          :style => 'width:100%;' %>
+          </p>
+          <p class="card-text">
+          <%= f.text_area :fields2_value,
+          :class => 'mb-2 form-control',
+          :placeholder => 'どんなスキルですか？' %>
+          </p>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-sm mb-4">
+          No.3<br>
+          <p class="card-text font-weight-bold mb-1">
+          <%= f.text_field :fields3_name,
+          :class => 'mb-2 form-control',
+          :autocomplete => 'off',
+          :placeholder => '3番目のスキルは？',
+          :style => 'width:100%;' %>
+          </p>
+          <p class="card-text">
+          <%= f.text_area :fields3_value,
+          :class => 'mb-2 form-control',
+          :placeholder => 'どんなスキルですか？' %>
+          </p>
+        </div>
+        <div class="col-sm mb-4">
+          No.4<br>
+          <p class="card-text font-weight-bold mb-1">
+          <%= f.text_field :fields4_name,
+          :class => 'mb-2 form-control',
+          :autocomplete => 'off',
+          :placeholder => '4番目のスキルは？',
+          :style => 'width:100%;' %>
+          </p>
+          <p class="card-text">
+          <%= f.text_area :fields4_value,
+          :class => 'mb-2 form-control',
+          :placeholder => 'どんなスキルですか？' %>
+          </p>
+        </div>
+      </div>
+
+      <div>
+        <hr>
+      </div>
+
+      <div class="row">
+        <div class="col-sm">
+          <h5 class="card-title">称号</h5>
+          <% if session[:uid] == 'townsguild@another-guild.com' %>
+            <p class="card-title">
+            <%= f.text_field :shogo,
+            :class => 'mb-2 form-control',
+            :autocomplete => 'off',
+            :placeholder => 'どんな称号を与えますか？',
+            :style => 'width:100%;' %>
+            </p>
+          <% else %>
+            <% if @user.shogo.present? %>
+              <p class="card-title wf-nicomoji text-success" style="font-size:30px; text-indent:20px;"><%= @user.shogo %></p>
+              <p class="card-text small">※聖地「<a href="https://goo.gl/maps/DvaHN68o8Uv" target="_blank">ギルドハウス十日町</a>」に住むグランドマスターから与えられました</p>
+            <% else %>
+            <p class="card-title wf-nicomoji text-warning" style="font-size:30px; text-indent:20px;">ノービス</p>
+            <p class="card-text small">※ノービスは駆け出しの冒険者を意味します。聖地「<a href="https://goo.gl/maps/DvaHN68o8Uv" target="_blank">ギルドハウス十日町</a>」に行けばグランドマスターから正式な称号が与えられますよ</p>
+            <% end %>
+          <% end %>
+        </div>
+      </div>
+
+    </div>
+
+    <div class="card-footer text-muted text-center">
+      <%= button_tag :type => "submit", :class => "btn btn-success mb-1", data: { disable_with: "処理中 <i class='fa fa-spinner fa-spin'></i>" } do %>
+      ステータスの変更を保存
+      <% end %>
+      <p class="card-text font-weight-bold small">
+      アイコン、冒険者名、プロフィール文はMastodonの<br>インスタンスも同時に更新されます</p>
+    </div>
+
+  <% end %>
+  </div>
+
+<% end %>
+
+<script>
+$('form').on('change', 'input[type="file"]', function(e) {
+  var file = e.target.files[0],
+      reader = new FileReader(),
+      $preview = $(".preview");
+      t = this;
+
+  if(file.type.indexOf("image") < 0){
+    return false;
+  }
+
+  reader.onload = (function(file) {
+    return function(e) {
+      $preview.empty();
+      $preview.append($('<img>').attr({
+                src: e.target.result,
+                width: "150px",
+                class: "preview",
+                title: file.name
+            }));
+    };
+  })(file);
+
+  reader.readAsDataURL(file);
+});
+</script>

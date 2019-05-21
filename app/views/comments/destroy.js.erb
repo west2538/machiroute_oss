@@ -1,0 +1,2 @@
+<%# 削除はajaxではないのでコード仮置き %>
+$("#comment_ajax").replaceWith("<%= escape_javascript(render partial: 'clearcomments', locals: { post: @post, comment: @comment, current_user: @current_user }, id: 'comment_ajax') %>");

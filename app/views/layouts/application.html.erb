@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+
+<!--
+
+召喚されし冒険者よ 選ばれし勇者よ
+いまこそ ソーシャルアップデート じゃ
+世界をアップデートするときがやってきましたぞ！
+Your route changes the world.
+
+-->
+
+<%= display_meta_tags(default_meta_tags) %>
+
+<%= action_cable_meta_tag %>
+<%= csrf_meta_tags %>
+<%= csp_meta_tag %>
+<meta name="viewport" content="width=device-width,initial-scale=1">
+
+<%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track': 'reload' %>
+
+<%= javascript_tag do %>
+<%= raw "window.vapidPublicKey = new Uint8Array(#{vapid_public_key});\n" %>
+<% end %>
+
+<%= javascript_include_tag 'application', 'data-turbolinks-track': 'reload' %>
+
+<script src="https://maps.google.com/maps/api/js?key=<%=ENV['GMAP_API_KEY']%>"></script>
+<script src="https://cdn.rawgit.com/mahnunchik/markerclustererplus/master/dist/markerclusterer.min.js"></script>
+<script src='https://cdn.rawgit.com/printercu/google-maps-utility-library-v3-read-only/master/infobox/src/infobox_packed.js' type='text/javascript'></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/livestamp/1.1.2/livestamp.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.9.1/underscore-min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.min.js"></script>
+
+<link rel="stylesheet" href="https://cdn.rawgit.com/maechabin/bootstrap-material-button-color/master/dist/cb-materialbtn.0.5.5.min.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/open-iconic/1.1.1/font/css/open-iconic-bootstrap.css">
+<link href="https://fonts.googleapis.com/css?family=Montserrat:400,800" rel="stylesheet">
+<link href="https://fonts.googleapis.com/earlyaccess/nicomoji.css" rel="stylesheet">
+
+<link rel="manifest" href="/manifest.json" />
+<meta name="theme-color" content="#000000">
+<meta property="fb:app_id" content="1978263365541185" />
+<link rel="icon" href="/assets/favicon.ico">
+<link rel="apple-touch-icon" sizes="180x180" href="/assets/apple-touch-icon.png">
+<meta name="application-name" content="まちかどルート"/>
+<meta name="msapplication-square70x70logo" content="/assets/mstile-70x70.png"/>
+<meta name="msapplication-square150x150logo" content="/assets/mstile-150x150.png"/>
+<meta name="msapplication-wide310x150logo" content="/assets/mstile-310x150.png"/>
+<meta name="msapplication-square310x310logo" content="/assets/mstile-310x310.png"/>
+<meta name="msapplication-TileColor" content="#FFFFFF"/>
+
+<% if session[:uid] && @current_user %>
+<meta name="current_user" content="<%= @current_user.uid %>" />
+<meta name="current_token" content="<%= @current_user.token %>" />
+<% end %>
+
+</head>
+
+<body>
+
+<a rel="me" href="https://tokamstdn.jp/@west2538"></a>
+
+<div class="container-fluid">
+
+<div class="row">
+
+  <nav class="navbar fixed-top navbar-expand-lg navbar-dark bg-dark" style="opacity: 0.87;">
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <%= link_to image_tag('/assets/logo.png', { :border => '0', :alt => 'まちかどルート', :class => 'm-0 p-0', :style => 'width:140px; height:32px;'}),
+    root_path,
+    :class => 'navbar-brand ml-auto mr-0' %>
+
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav">
+        <li class="nav-item mb-0 text-right">
+          <a class="nav-link" href="https://www.makepost.net/projects/67" target="_blank">v6.0rc3</a>
+        </li>
+        <li class="nav-item mb-0">
+          <%= link_to sanitize('<span class="oi oi-home text-primary" title="トップページに戻る" aria-hidden="true"></span>') + ' トップ',
+          root_path,
+          :class => 'nav-link' %>
+        </li>
+        <li class="nav-item dropdown mb-0">
+          <div class="d-inline-block text-truncate" style="max-width: 240px;">
+          <% if session[:uid] && @current_user.level.present? %>
+            <% session_bunkatsu = session[:uid].split("@") %>
+            <% if @current_user.display_name.present? %>
+              <%= link_to sanitize('<span class="oi oi-person text-success" title="ログインしています" aria-hidden="true"></span>') + ' ' + @current_user.display_name,
+              user_path(@current_user),
+              :class => 'nav-link' %>
+            <% else %>
+              <%= link_to sanitize('<span class="oi oi-person text-success" title="ログインしています" aria-hidden="true"></span> @') + session_bunkatsu[0],
+              user_path(@current_user),
+              :class => 'nav-link' %>
+            <% end %>
+          <% else %>
+              <%= link_to sanitize('<span class="oi oi-account-login text-success" title="ログインする" aria-hidden="true"></span>') + ' ログインする',
+              '/auth/mastodon',
+              data: { no_turbolink: true },
+              :class => 'nav-link' %>
+          <% end %>
+          </div>
+        </li>
+        <% if session[:uid] && @current_user.instance_title %>
+        <li class="nav-item mb-0">
+          <a class="nav-link" href="https://<%= session_bunkatsu.last %>" target="_blank"><span class="oi oi-people text-warning" aria-hidden="true"></span> <%= @current_user.instance_title %></a>
+        </li>
+        <% else %>
+        <li class="nav-item mb-0">
+          <a class="nav-link" href="https://another-guild.com/" target="_blank"><span class="oi oi-people text-warning" aria-hidden="true"></span> アナザーギルド</a>
+        </li>
+        <% end %>
+        <li class="nav-item mb-0">
+          <a class="nav-link" href="http://machikado-guild.com/" target="_blank"><span class="oi oi-location text-info" aria-hidden="true"></span> まちかどギルド</a>
+        </li>
+        <li class="nav-item mb-0">
+          <a class="nav-link" href="https://www.makepost.net/projects/67" target="_blank"><i class="fa fa-question-circle-o fa-lg" aria-hidden="true"></i> アプリについて</a>
+        </li>
+      </ul>
+    </div>
+
+    <% if session[:uid] && @current_user.level.present? %>
+      <%= render 'notifications/notification_dropdown' %>
+      <% if request.path == '/posts/new' || request.path_info.include?('edit') || request.path_info.include?('form2') || request.path_info.include?('form3') %>
+        <span class="btn btn-sm btn-bluegrey200_ftg" style="width: 38px; height: 38px;"><span class="oi oi-pencil" aria-hidden="true"></span></span>
+      <% else %>
+      <%= link_to sanitize('<span class="oi oi-pencil" title="投稿する" aria-hidden="true"></span>'),
+      new_post_path,
+      :class => 'btn btn-sm btn-blue600_ftg',
+      :style => 'width: 38px; height: 38px;' %>
+      <% end %>
+    <% else %>
+      <div class="dropdown dropleft ml-auto mr-1">
+        <button class="btn btn-sm btn-secondary dropdown-toggle" type="button" data-toggle="dropdown" id='dropdownMenu1' aria-haspopup="true" aria-expanded="true">
+        <span class="oi oi-bell" title="通知" aria-hidden="true"></span>
+        </button>
+      </div>
+      <span class="btn btn-sm btn-bluegrey200_ftg" style="width: 38px; height: 38px;"><span class="oi oi-pencil" title="投稿する" aria-hidden="true"></span></span>
+    <% end %>
+  </nav>
+
+  <div style="height: 90px;"></div>
+
+</div>
+
+<% if session[:uid] && @current_user && @current_user.avatar || controller.action_name == 'show' || controller.action_name == 'tag' %>
+
+  <%= yield %>
+
+<% else %>
+
+  <div class="row mx-auto text-center" style="width:290px;">
+    <img src="/assets/ogpimage.png" width="290" height="145" alt="まちかどルート">
+    <div class="p-3 mb-2 text-secondary bg-white" style="width:100%; border:#fff solid 1px; border-radius: 0px 0px 6px 6px;">
+      <p class="font-weight-bold text-center mb-1">リアルRPGの世界へ</p>
+      <h5 class="font-weight-bold text-center mb-3">ようこそ！</h5>
+      <p class="font-weight-bold text-center">これから冒険をはじめるひとは</p>
+      <div class="ac-container3 mb-3">
+          <input id="ac-3" name="accordion-3" type="checkbox" />
+          <label for="ac-3">新規アカウント登録</label>
+          <div class="ac-small3">
+              <p class="my-1" style="text-align: justify; font-weight: bold; text-justify: inter-ideograph; word-break: break-all;">まちかどルートでは世界中で使われているオープンなSNS「Mastodon」のアカウントでログインできます。ここではまちかどルート公式のMastodonインスタンス「アナザーギルド」でアカウントを作成します。下記の項目を入力して「登録」ボタンを押してください。</p>
+              <%= form_with url: '/auth/create/account', method: :post, local: true do |f| %>
+                <input type="hidden" name="agreement" value="true">
+                <input type="hidden" name="locale" value="ja">
+                <input type="text" name="username" class="form-control mb-1 pl-2" style="width:100%;" placeholder="ユーザー名(英数字&空白なし)">
+                <input type="email" name="email" class="form-control mb-1 pl-2" placeholder="メールアドレス">
+                <input type="password" name="password" class="form-control mb-1 pl-2" placeholder="パスワード">
+                <%= button_tag :type => "submit", data: { disable_with: "<i class='fa fa-spinner fa-spin'></i> 登録中..." }, :class =>"btn btn-primary btn-block" do %>
+                <span class="oi oi-account-login" title="登録する" aria-hidden="true"> 登録</span>
+                <% end %>
+              <% end %>
+              <p class="my-1" style="text-align: justify; font-weight: bold; text-justify: inter-ideograph; word-break: break-all;">登録がうまくいくとMastodonからメールが届きます。そのメール内の確認ボタンを押してまちかどルートに戻り、下のボタンから「ログイン」してください。</p>
+          </div>
+      </div>
+      <p class="font-weight-bold text-center">冒険者アカウントをお持ちなら</p>
+      <%= link_to sanitize('<span class="oi oi-account-login" title="ログイン" aria-hidden="true"></span>') + ' ログイン',
+      '/auth/mastodon',
+      :data => { disable_with: "処理中 <i class='fa fa-spinner fa-spin'></i>" },
+      :class => 'btn btn-success btn-lg btn-block py-1 mx-auto mb-2',
+      :style => 'width: 100%;' %>
+      <small class="font-weight-bold text-center">アナザーギルド以外のMastodonインスタンスのアカウントでもログイン可能です</small>
+      <div class="text-secondary text-center mt-3">
+        <span class="oi oi-person text-secondary" title="開発者" aria-hidden="true"></span> <a href="https://twitter.com/west2538" target="_blank">開発者</a>
+        <span class="oi oi-shield text-secondary" title="まちかどルートとは" aria-hidden="true"></span> <a href="https://www.makepost.net/projects/67" target="_blank">まちかどルートとは</a>
+      </div>
+    </div>
+
+    <div class="m-0 p-0" style="width:290px; text-align: justify;">
+      <div style="float:left;">
+      <a class="mastodon-share-button"
+      target="_blank"
+      rel="noopener noreferrer"
+      href="web+mastodon://share?text=%E3%83%AA%E3%82%A2%E3%83%ABRPG%EF%BC%81%E3%81%82%E3%81%AA%E3%81%9F%E3%81%AE%E5%86%92%E9%99%BA%E3%81%8C%E4%B8%96%E7%95%8C%E3%82%92%E3%81%A1%E3%82%87%E3%81%A3%E3%81%A8%E6%A5%BD%E3%81%97%E3%81%8F%E3%81%99%E3%82%8B%E3%80%82%E3%82%B5%E3%83%96%E3%82%AF%E3%82%A8%E3%82%B9%E3%83%88%E3%82%92%E3%81%A4%E3%81%8F%E3%81%A3%E3%81%A6%E3%82%AF%E3%83%AA%E3%82%A2%E3%81%99%E3%82%8BWeb%E3%82%A2%E3%83%97%E3%83%AA%E3%80%8C%E3%81%BE%E3%81%A1%E3%81%8B%E3%81%A9%E3%83%AB%E3%83%BC%E3%83%88%E3%80%8D+https%3A%2F%2Fmachiroute.herokuapp.com%2F"
+      ><span class="font-weight-bold">ｍ </span>トゥート</a>
+      </div>
+      <script>
+      if (!navigator.registerProtocolHandler) {
+        document.body.classList.add("no-protocol-handlers");
+      }
+      </script>
+      <div style="float:right;">
+        <a href="https://twitter.com/share?ref_src=twsrc%5Etfw" class="twitter-share-button" data-text="リアルRPG！あなたの冒険が世界をちょっと楽しくする。サブクエストをつくってクリアするWebアプリ「まちかどルート」" data-url="https://machiroute.herokuapp.com/" data-via="townsguild" data-hashtags="ソーシャルアップデート" data-lang="ja" data-show-count="false">Tweet</a><script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+      </div>
+      <div class="px-1" style="float:right;">
+        <a href="https://b.hatena.ne.jp/entry/s/machiroute.herokuapp.com/" class="hatena-bookmark-button" data-hatena-bookmark-layout="basic" data-hatena-bookmark-width="28" data-hatena-bookmark-height="20" title="このエントリーをはてなブックマークに追加"><img src="https://b.st-hatena.com/images/entry-button/button-only@2x.png" alt="このエントリーをはてなブックマークに追加" width="20" height="20" style="border: none;" /></a><script type="text/javascript" src="https://b.st-hatena.com/js/bookmark_button.js" charset="utf-8" async="async"></script>
+      </div>
+    </div>
+
+  </div>
+
+  <% unless browser.device.mobile? %>
+  <div class="magic-square mx-auto" style="position:flexed; top:-80px; left:0px;">
+  <div class="magic-square-content">
+    <div class="magic-square-content__inner">
+      <p class="magic-square-content__txt--top">ま</p>
+      <p class="magic-square-content__txt--top-right">ち</p>
+      <p class="magic-square-content__txt--right">か</p>
+      <p class="magic-square-content__txt--bottom-right">ど</p>
+      <p class="magic-square-content__txt--bottom">ル</p>
+      <p class="magic-square-content__txt--bottom-left">ー</p>
+      <p class="magic-square-content__txt--left">ト</p>
+      <p class="magic-square-content__txt--top-left">！</p>
+    </div>
+  </div>
+  </div>
+  <% end %>
+
+<% end %>
+
+<div style="height: 100px;"></div>
+
+<div class="row">
+  <footer class="fixed-bottom text-center text-white mt-3 pt-3" style="height:70px; background-image: url('/assets/footer_weed.png'); background-repeat: repeat-x; opacity: 0.87;">
+    <p class="mt-2 pt-3">Your route <span class="oi oi-pencil" title="あなたの冒険が世界を変える" aria-hidden="true"></span> changes the world.</p>
+  </footer>
+</div>
+
+</div>
+
+<%#  
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js" integrity="sha384-smHYKdLADwkXOn1EmN1qk/HfnUcbVRZyYmZ4qpPea6sjB/pTJ0euyQp0Mk8ck+5T" crossorigin="anonymous"></script>
+%>
+
+<% flash.each do |type, msg| %>
+  <% type = 'success' if type == 'notice' %>
+  <% type = 'error' if type == 'error' %>
+  <script>
+    toastr['<%= type %>']('<%= msg %>');
+  </script>
+<% end %>
+
+</body>
+</html>

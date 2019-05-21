@@ -1,0 +1,2 @@
+$("#unclear_item").append("<%= escape_javascript(render partial: 'unclear', collection: @post, as: :post) %>");
+$("#unclear_more_link").replaceWith("<%= escape_javascript(link_to_next_page(@post, 'つづきを見る', remote: true, id: 'unclear_more_link', class: 'btn btn-info btn-block', data: { disable_with: "読み込み中 <i class='fa fa-spinner fa-spin'></i>" })) %>");

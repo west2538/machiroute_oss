@@ -1,0 +1,1 @@
+$("#likes_ajax").replaceWith("<%= escape_javascript(render partial: 'saves', locals: { posts: @posts, likes: @likes }, id: 'likes_ajax') %>");

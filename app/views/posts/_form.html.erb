@@ -1,0 +1,315 @@
+<script src="/assets/tagsinput.js"></script>
+<script src="/assets/nested_form_fields.js"></script>
+<script type="text/javascript">
+  function updateCount(str, id)
+  {
+    var obj = document.getElementById(id);
+    if(str)
+    {
+        obj.innerHTML = str.length;
+    }
+    else
+    {
+        obj.innerHTML = '0';
+    }
+  }
+</script>
+
+<script>
+  $(function(){
+    $('#commentInput').keydown(function(e){
+    if(event.ctrlKey){
+      if(e.keyCode === 13 && $(this).val()){
+        $('#commentSubmit').submit();
+        return false;
+      }
+    }
+    });
+  });
+</script>
+
+<script>
+$(function() {
+  $('select').change(function() {
+    if ($(this).val() == '新規サブクエスト'){
+    var holder = '世の中ちょっと明るくなるやつ頼みます！'
+    }
+    if ($(this).val() == '冒険中のつぶやき'){
+    var holder = '人生はRPG！冒険中にあった出来事をどうぞ！'
+    }
+    if ($(this).val() == 'アイテムを装備した話'){
+    var holder = 'どんなアイテムを入手しましたか？'
+    }
+    if ($(this).val() == 'ただのつぶやき'){
+    var holder = 'どうでもいいこともOK！ぼやきも必要ですよ'
+    }
+    if ($(this).val() == '公式のつぶやき'){
+    var holder = '開発おつかれさまです'
+    }
+    if ($(this).val() == '復活の呪文でHP回復'){
+    var holder = 'あなたの呪文をどうぞ！'
+    }
+    $('h4').text(holder);
+  });
+});
+</script>
+
+<script type="text/javascript">
+	function entryChange(){
+		if(document.getElementById('post_title')){
+			id = document.getElementById('post_title').value;
+			
+			if(id == '新規サブクエスト'){
+				document.getElementById('firstBox').style.display = "";
+			}else{
+				document.getElementById('firstBox').style.display = "none";
+			}
+		}
+	}
+	window.onload = entryChange;
+</script>
+
+<script>
+$(function(){
+  //画像ファイルプレビュー表示のイベント追加 fileを選択時に発火するイベントを登録
+  $('form').on('change', 'input[type="file"]', function(e) {
+    var file = e.target.files[0],
+        reader = new FileReader(),
+        $preview = $(".preview");
+        t = this;
+
+    // 画像ファイル以外の場合は何もしない
+    if(file.type.indexOf("image") < 0){
+      return false;
+    }
+
+    // ファイル読み込みが完了した際のイベント登録
+    reader.onload = (function(file) {
+      return function(e) {
+        //既存のプレビューを削除
+        $preview.empty();
+        // .prevewの領域の中にロードした画像を表示するimageタグを追加
+        $preview.append($('<img>').attr({
+                  src: e.target.result,
+                  width: "150px",
+                  class: "preview",
+                  title: file.name
+              }));
+      };
+    })(file);
+
+    reader.readAsDataURL(file);
+  });
+});
+</script>
+
+<div class="row mx-auto">
+
+<div class="col-sm-2 p-0 d-none d-sm-block">
+</div>
+
+<div class="col-sm-8 p-0">
+
+<% if @current_user.hp == 0 %>
+
+  <%= form_for @post, html: { id: 'commentSubmit'} do |f| %>
+      <%= f.select :title,
+      ['復活の呪文でHP回復'],
+      {},
+      class: 'mb-2 form-control form-control-lg' %>
+
+      <%# <%= f.text_field :title, %>
+      <%# :class => 'mb-2 form-control', %>
+      <%# :placeholder => 'どんな冒険？' %>
+      <%# <% if @post.errors.messages[:title].any? %>
+      <%# <span class="error"><%= @post.errors.messages[:title][0]></span> %>
+      <%# <% end %>
+
+      <h4 class="font-weight-bold" style="text-size: 8px;">あなたの呪文をどうぞ！</h4>
+
+      <%= f.text_area :body,
+      :class => 'mb-2 form-control',
+      :placeholder => '内容をお書きください',
+      :onkeyup => 'updateCount(value, "count")',
+      :id => 'commentInput' %>
+      <% if @post.errors.messages[:body].any? %>
+      <span class="error"><%= @post.errors.messages[:body][0] %></span>
+      <% end %>
+      <p class="float-left mt-1 mb-3">
+      (200字以内推奨)<br><span id="count">0</span>
+      </p>
+      <p class="text-right mt-1 mb-3">
+      <%= submit_tag "投稿する", :class => "btn btn-lg btn-blue700_rsd", data: { disable_with: "投稿中 <i class='fa fa-spinner fa-spin'></i>" } %>
+      <%# <input class="btn btn-lg btn-blue700_rsd" type="submit" value="投稿する"> %>
+      <%# <%= f.submit %>
+      </p>
+  <% end %>
+
+<% elsif session[:uid] == "townsguild@another-guild.com" %>
+
+  <%= form_for @post, html: { id: 'commentSubmit'} do |f| %>
+      <%= f.select :title,
+      [['新規サブクエスト','新規サブクエスト'],['冒険中のつぶやき','冒険中のつぶやき'],['ただのつぶやき','ただのつぶやき'],['公式のつぶやき','公式のつぶやき']],
+      {},
+      class: 'mb-2 form-control form-control-lg',
+      onchange: 'entryChange();' %>
+
+      <h4 class="font-weight-bold" style="text-size: 8px;">世の中ちょっと明るくなるやつ頼みます！</h4>
+
+      <%= f.text_area :body,
+      :class => 'mb-2 form-control',
+      :placeholder => '内容をお書きください',
+      :onkeyup => 'updateCount(value, "count")',
+      :id => 'commentInput' %>
+      <% if @post.errors.messages[:body].any? %>
+      <span class="error"><%= @post.errors.messages[:body][0] %></span>
+      <% end %>
+
+      <div id="firstBox">
+
+        <div class="bg-secondary p-2" style="border-radius: 3px 3px 0px 0px; opacity: 0.9;">
+        <span class="oi oi-paperclip text-white ml-1 mb-2" title="タグ" aria-hidden="true"></span> <span class="font-weight-bold text-white">タグ<br>関連する地名や言葉をカンマ（ ，）区切りで複数つけよう。見つかりやすくなるよ</span>
+        <%= text_field_tag 'post[label_list]', @post.label_list.join(','), 'data-role' => 'tagsinput', 'class' => 'mt-1 mb-2 form-control' %>
+        </div>
+
+        <div class="bg-secondary p-2" style="border-radius: 0px; opacity: 0.9;">
+        <div class="imagePreview"></div>
+          <div class="input-group">
+            <label class="input-group-btn">
+                <span class="btn btn-secondary mt-1 mb-1 p-2" style="border: solid 1px #fff;">
+                    <span class="oi oi-camera-slr text-white" title="写真" aria-hidden="true"></span> よければ写真もどうぞ
+                    <%= f.file_field :image, accept: 'image/jpg,image/jpeg,image/png,image/gif', class: 'uploadFile', style: 'display:none' %>
+                </span>
+            </label>
+          <div class="preview mb-3" style="border-radius: 8px;"></div> 
+        </div>
+        </div>
+
+        <div class="bg-secondary p-2" style="border-radius: 0px; opacity: 0.9;">
+
+        <span class="oi oi-map-marker text-white ml-1 mb-2" title="場所" aria-hidden="true"></span> <span class="font-weight-bold text-white">マップ追加オプション</span>
+        <%= f.text_field :placename,
+        :class => 'form-control',
+        :placeholder => '正確な住所orスポット名をどうぞ' %>
+        </div>
+
+        <div class="bg-secondary p-2" style="border-radius: 0px 0px 3px 3px; opacity: 0.9;">
+        <span class="oi oi-location text-white ml-1 mb-2" title="ルート" aria-hidden="true"></span> <span class="font-weight-bold text-white">周辺の攻略スポットも追加する？</span>
+              <%= f.nested_fields_for :qroutes, wrapper_tag: :div do |q| %>
+                  <div class="form-row mb-1">
+                    <div class="col-5">
+                    <%= q.text_field :qplacename, class: 'form-control', placeholder: '追加する住所orスポット名' %>
+                    </div>
+                    <div class="col">
+                    <%= q.text_field :qdescription, class: 'form-control', placeholder: 'そこで何を攻略する？' %>
+                    </div>
+                    <div class="col">
+                    <%= q.remove_nested_fields_link sanitize('<span class="oi oi-trash" title="ルート削除" aria-hidden="true"></span>'), class: 'btn btn-danger', role: 'button' %>
+                    </div>
+                  </div>
+              <% end %>
+        <br>
+        <%= f.add_nested_fields_link :qroutes, sanitize('<span class="oi oi-plus" title="ルート追加" aria-hidden="true"></span>'), class: 'btn btn-info', role: 'button' %>
+        </div>
+      </div>
+
+      <p class="float-left mt-1 mb-3">
+      (200字以内推奨)<br><span id="count">0</span>
+      </p>
+      <p class="text-right mt-1 mb-3">
+      <%= submit_tag "投稿する", class: "btn btn-lg btn-blue700_rsd", data: { disable_with: "投稿中 <i class='fa fa-spinner fa-spin'></i>" } %>
+      <%# <input class="btn btn-lg btn-blue700_rsd" type="submit" value="投稿する"> %>
+      <%# <%= f.submit "投稿する", :class => "btn btn-lg btn-blue700_rsd", data: { disable_with: "投稿中..." } %>
+      </p>
+  <% end %>
+
+<% elsif session[:uid] %>
+
+  <%= form_for @post, html: { id: 'commentSubmit'} do |f| %>
+      <%= f.select :title,
+      [['新規サブクエスト','新規サブクエスト'],['冒険中のつぶやき','冒険中のつぶやき'],['ただのつぶやき','ただのつぶやき']],
+      {},
+      class: 'mb-2 form-control form-control-lg',
+      onchange: 'entryChange();' %>
+
+      <h4 class="font-weight-bold" style="text-size: 8px;">世の中ちょっと明るくなるやつ頼みます！</h4>
+
+      <%= f.text_area :body,
+      :class => 'mb-2 form-control',
+      :placeholder => '内容をお書きください',
+      :onkeyup => 'updateCount(value, "count")',
+      :id => 'commentInput' %>
+      <% if @post.errors.messages[:body].any? %>
+      <span class="error"><%= @post.errors.messages[:body][0] %></span>
+      <% end %>
+
+      <div id="firstBox">
+
+        <div class="bg-secondary p-2" style="border-radius: 3px 3px 0px 0px; opacity: 0.9;">
+          <span class="oi oi-paperclip text-white ml-1 mb-2" title="タグ" aria-hidden="true"></span> <span class="font-weight-bold text-white">タグ<br>関連する地名や言葉をカンマ（ ，）区切りで複数つけよう。見つかりやすくなるよ</span>
+          <%= text_field_tag 'post[label_list]', @post.label_list.join(','), 'data-role' => 'tagsinput',
+          'class' => 'mt-1 mb-2 form-control' %>
+        </div>
+
+        <div class="bg-secondary p-2" style="border-radius: 0px; opacity: 0.9;">
+        <div class="imagePreview"></div>
+          <div class="input-group">
+            <label class="input-group-btn">
+                <span class="btn btn-secondary mt-1 mb-1 p-2" style="border: solid 1px #fff;">
+                    <span class="oi oi-camera-slr text-white" title="写真" aria-hidden="true"></span> よければ写真もどうぞ
+                    <%= f.file_field :image, accept: 'image/jpg,image/jpeg,image/png,image/gif', class: 'uploadFile', style: 'display:none' %>
+                </span>
+            </label>
+          <div class="preview mb-3" style="border-radius: 8px;"></div> 
+        </div>
+        </div>
+
+        <div class="bg-secondary p-2" style="border-radius: 0px; opacity: 0.9;">
+        <span class="oi oi-map-marker text-white ml-1 mb-2" title="場所" aria-hidden="true"></span> <span class="font-weight-bold text-white">マップ追加オプション</span>
+        <%= f.text_field :placename,
+        :class => 'mb-2 form-control',
+        :placeholder => '正確な住所orスポット名をどうぞ' %>
+        </div>
+
+        <div class="bg-secondary p-2" style="border-radius: 0px 0px 3px 3px; opacity: 0.9;">
+        <span class="oi oi-location text-white ml-1 mb-2" title="ルート" aria-hidden="true"></span> <span class="font-weight-bold text-white">周辺の攻略スポットも追加する？</span>
+              <%= f.nested_fields_for :qroutes, wrapper_tag: :div do |q| %>
+                  <div class="form-row mb-1">
+                    <div class="col-5">
+                    <%= q.text_field :qplacename, class: 'form-control', placeholder: '追加する住所orスポット名' %>
+                    </div>
+                    <div class="col">
+                    <%= q.text_field :qdescription, class: 'form-control', placeholder: 'そこで何を攻略する？' %>
+                    </div>
+                    <div class="col">
+                    <%= q.remove_nested_fields_link sanitize('<span class="oi oi-trash" title="ルート削除" aria-hidden="true"></span>'), class: 'btn btn-danger', role: 'button' %>
+                    </div>
+                  </div>
+              <% end %>
+        <br>
+        <%= f.add_nested_fields_link :qroutes, sanitize('<span class="oi oi-plus" title="ルート追加" aria-hidden="true"></span>'), class: 'btn btn-info', role: 'button' %>
+        </div>
+      </div>
+
+      <p class="float-left mt-1 mb-3">
+      (200字以内推奨)<br><span id="count">0</span>
+      </p>
+      <p class="text-right mt-1 mb-3">
+      <%= submit_tag "投稿する", :class => "btn btn-lg btn-blue700_rsd", data: { disable_with: "投稿中 <i class='fa fa-spinner fa-spin'></i>" } %>
+      <%# <input class="btn btn-lg btn-blue700_rsd" type="submit" value="投稿する"> %>
+      </p>
+  <% end %>
+
+<% end %>
+
+</div>
+
+<div class="col-sm-2 p-0 d-none d-sm-block">
+</div>
+
+</div>
+
+
+
+</div>
+</div>

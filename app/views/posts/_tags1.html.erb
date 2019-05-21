@@ -1,0 +1,37 @@
+<div id="tags_ajax1">
+
+    <%= form_with url: 'tag', method: :get, id: :commentSubmit, class: 'my-0', local: true do |f| %>
+    <div class="input-group">
+        <%= f.text_field :tagsearch,
+        :class => 'form-control',
+        :placeholder => 'タグを検索',
+        :autocomplete => 'off',
+        :id => 'autocomplete_search1' %>
+        <label class="input-group-btn m-0">
+            <%= button_tag :type => "submit", data: { disable_with: "<i class='fa fa-spinner fa-spin'></i>" }, :class =>"btn btn-info" do %>
+            <span class="oi oi-magnifying-glass" title="検索" aria-hidden="true"></span>
+            <% end %>
+        </label>
+    </div>
+    <% end %>
+
+    <%= button_to '/posts/tagsreflesh1', method: :patch, remote: true, class: "btn btn-sm btn-info mt-1 mr-1", style: "float: left;", data: { disable_with: "<i class='fa fa-spinner fa-spin'></i>" } do %>
+    <span class="oi oi-loop-circular text-white"></span>
+    <% end %>
+
+    <% mostlabels = ActsAsTaggableOn::Tag.most_used(50) %>
+    <% mostlabels.shuffle.first(10).each do |tag| %>
+        <%= link_to tag, tag_path(:tag => tag), :class => 'btn btn-sm btn-purple700_rsd mt-1' %>
+    <% end %>
+
+</div>
+
+<script>
+$(function(){
+  $('#autocomplete_search1').autocomplete({
+      autoFocus: true,
+      source: "/posts/auto_complete.json",
+      minLength: 1,
+  });
+});
+</script>
