@@ -1,0 +1,9 @@
+<% if post.placename.present? %>
+
+<%= link_to post.placename, "https://maps.google.co.jp/maps?q=#{post.latitude},#{post.longitude}+#{post.placename}", target: "_blank" %>
+
+<% else %>
+
+<%= link_to '名もなき場所', "https://maps.google.co.jp/maps?q=#{post.latitude},#{post.longitude}", target: "_blank" %>
+
+<% end %>

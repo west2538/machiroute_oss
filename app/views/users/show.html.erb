@@ -1,0 +1,292 @@
+<% session_bunkatsu = @user.uid.split("@") %>
+<% session_bokensha = "https://" + session_bunkatsu.last + "/@" + session_bunkatsu[0] %>
+
+<% if @user.display_name.present? %>
+  <% og_title = truncate(@user.display_name, :length => 17) %>
+<% else %>
+  <% og_title = truncate('@' + session_bunkatsu[0], :length => 17) %>
+<% end %>
+
+<% set_meta_tags title: og_title, site: 'まちかどルート', og: { title: og_title + ' | まちかどルート', type: 'article', description: 'リアルRPG！サブクエストを作って共有してクリアするアプリ' },
+twitter: { title: og_title + ' | まちかどルート', description: 'リアルRPG！サブクエストを作って共有してクリアするアプリ' } %>
+
+<div class="card">
+  <h5 class="card-header"><i class="fa fa-cog fa-lg text-success" aria-hidden="true"></i> 冒険者のステータス</h5>
+
+  <div class="card-body">
+
+    <div class="row">
+
+      <div class="col-sm-5 text-center">
+
+        <span class="useravatar"><%= image_tag @user.avatar, :onerror => "this.src='/assets/missing.png'" %></span>
+        <h5 class="card-title mb-0" style="font-size: 14px;">冒険者名</h5>
+        <% if @user.display_name.present? %>
+          <p class="card-text font-weight-bold mt-0" style="font-size: 16px;"><%= @user.display_name %></p>
+        <% else %>
+          <p class="card-text font-weight-bold mb-0" style="font-size: 16px;">名無しの冒険者</p>
+        <% end %>
+        <div class="note_text">
+        <% if @user.note.present? %>
+          <%= @user.note = auto_link(simple_format(@user.note, {}, wrapper_tag: "p"), :html => { :target => '_blank' }) do |text| %>
+          <% truncate(text, :length => 32) %>
+          <% end %>
+        <% elsif @user.uid == session[:uid] %>
+          <p>まちかどルートで再ログインするとMastodonの「表示名」と「プロフィール」が自動的に読み込まれます</p>
+        <% end %>
+        </div>
+        <hr>
+
+      </div>
+
+      <div class="col-sm-7">
+
+        <div class="row">
+          <div class="col-sm">
+            <h5 class="card-title">レベル</h5>
+            <p class="card-text level_count3" style="text-indent:20px;">
+            <% if @user.level >= 200 %>
+                <span title="伝説の勇者">🏰</span>
+                <span class="level_count3 text-danger"><%= @user.level %></span>
+            <% elsif @user.level >= 100 %>
+                <span title="キング">🏆</span>
+                <span class="level_count3 text-success"><%= @user.level %></span>
+            <% elsif @user.level >= 50 %>
+                <span title="ナイト">🏅</span>
+                <span class="level_count3 text-success"><%= @user.level %></span>
+            <% elsif @user.level >= 10 %>
+                <span title="称号付き冒険者">🥇</span>
+                <span class="level_count3 text-primary"><%= @user.level %></span>
+            <% else %>
+                <span title="かけだしの冒険者">🔰</span>
+                <span class="level_count3"><%= @user.level %></span>
+            <% end %>
+            </p>
+            <hr>
+          </div>
+          <div class="col-sm">
+            <h5 class="card-title">経験値(EXP)</h5>
+            <p class="card-text level_count3" style="text-indent:20px;"><%= @user.exp.to_s(:delimited) %></p>
+            <hr>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col-sm">
+            <h5 class="card-title">HP</h5>
+            <p class="card-text level_count3" style="text-indent:20px;"><%= @user.hp %> / <%= (@user.level * 2) + 68 %></p>
+            <hr>
+          </div>
+          <div class="col-sm">
+            <h5 class="card-title">MaChiKa</h5>
+            <p class="card-text level_count3" style="text-indent:10px;"><a href="https://note.mu/west2538/n/n35103c6e7fd7" target="_blank"><span class="oi oi-globe text-black small" title="まちの価値＝MaChiKa" aria-hidden="true"></a> <%= @user.machika_token %></p>
+            <hr>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col-sm">
+            <h5 class="card-title">クリア件数</h5>
+            <p class="card-text level_count3 mb-0" style="text-indent:20px;"><%= @user_clears_count %> <span style="font-size:20px;">件</span></p>
+            <p class="card-text small mt-0">※クリアコメントを投稿した数</p>
+          <hr>
+          </div>
+          <div class="col-sm">
+            <h5 class="card-title">投稿の数</h5>
+            <p class="card-text level_count3 mb-0" style="text-indent:20px;"><%= @user_posts_count %> <span style="font-size:20px;">件</span></p>
+            <p class="card-text small mt-0">※クリアコメント以外の投稿数</p>
+            <hr>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col-sm mb-3">
+            <h5 class="card-title">スキル</h5>
+          </div>
+        </div>
+
+        <div class="row">
+          <% if @user.fields1_name.present? && @user.fields1_value.present? %>
+          <div class="col-sm mb-4">
+            <p class="card-text"><span class="font-weight-bold" style="font-size: 18px;"><%= @user.fields1_name %></span><br>
+            <%= @user.fields1_value = auto_link(simple_format(@user.fields1_value, {}, wrapper_tag: "span"), :html => { :target => '_blank' }) do |text| %>
+            <% truncate(text, :length => 24) %>
+            <% end %>
+            </p>
+          </div>
+          <% end %>
+          <% if @user.fields2_name.present? && @user.fields2_value.present? %>
+          <div class="col-sm mb-4">
+            <p class="card-text"><span class="font-weight-bold" style="font-size: 18px;"><%= @user.fields2_name %></span><br>
+            <%= @user.fields2_value = auto_link(simple_format(@user.fields2_value, {}, wrapper_tag: "span"), :html => { :target => '_blank' }) do |text| %>
+            <% truncate(text, :length => 24) %>
+            <% end %>
+          </div>
+          <% end %>
+        </div>
+
+        <div class="row">
+          <% if @user.fields3_name.present? && @user.fields3_value.present? %>
+          <div class="col-sm mb-4">
+            <p class="card-text"><span class="font-weight-bold" style="font-size: 18px;"><%= @user.fields3_name %></span><br>
+            <%= @user.fields3_value = auto_link(simple_format(@user.fields3_value, {}, wrapper_tag: "span"), :html => { :target => '_blank' }) do |text| %>
+            <% truncate(text, :length => 24) %>
+            <% end %>
+          </div>
+          <% end %>
+          <% if @user.fields4_name.present? && @user.fields4_value.present? %>
+          <div class="col-sm mb-4">
+            <p class="card-text"><span class="font-weight-bold" style="font-size: 18px;"><%= @user.fields4_name %></span><br>
+            <%= @user.fields4_value = auto_link(simple_format(@user.fields4_value, {}, wrapper_tag: "span"), :html => { :target => '_blank' }) do |text| %>
+            <% truncate(text, :length => 24) %>
+            <% end %>
+          </div>
+          <% end %>
+        </div>
+
+        <% if @user.fields1_name.blank? && @user.fields1_value.blank? && @user.fields2_name.blank? && @user.fields2_value.blank? && @user.fields3_name.blank? && @user.fields3_value.blank? && @user.fields4_name.blank? && @user.fields4_value.blank? %>
+        <div class="row">
+          <div class="col-sm">
+            <p class="card-text mb-0" style="text-indent:20px;">まだ登録されていません</p>
+          <hr>
+          </div>
+        </div>
+        <% else %>
+        <div>
+          <hr>
+        </div>
+        <% end %>
+
+        <div class="row">
+          <div class="col-sm">
+            <h5 class="card-title">称号</h5>
+            <% if @user.shogo.present? %>
+              <p class="card-title wf-nicomoji text-success" style="font-size:30px; text-indent:20px;"><%= @user.shogo %></p>
+              <p class="card-text small">※聖地「<a href="https://goo.gl/maps/DvaHN68o8Uv" target="_blank">ギルドハウス十日町</a>」に住むグランドマスターから与えられました</p>
+            <% else %>
+              <p class="card-title wf-nicomoji text-warning" style="font-size:30px; text-indent:20px;">ノービス</p>
+              <p class="card-text small">※ノービスは駆け出しの冒険者を意味します。聖地「<a href="https://goo.gl/maps/DvaHN68o8Uv" target="_blank">ギルドハウス十日町</a>」に行けばグランドマスターから正式な称号が与えられますよ</p>
+            <% end %>
+            <hr>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col-sm">
+            <h5 class="card-title">はじまりの召喚</h5>
+            <p class="card-text mb-0" style="text-indent:20px;"><%= @user.created_at.strftime('%Y年%-m月%-d日 %-H:%M') %></p>
+            <p class="card-text mt-0" style="text-indent:20px;">(<span data-livestamp="<%= @user.created_at.strftime('%Y-%m-%d %H:%M:%S') %>"></span>)</p>
+            <hr>
+          </div>
+          <div class="col-sm">
+            <h5 class="card-title">最近の召喚</h5>
+            <% if @user.online_at.present? %>
+              <p class="card-text mb-0" style="text-indent:20px;"><%= @user.online_at.strftime('%Y年%-m月%-d日 %-H:%M') %>
+              <p class="card-text mt-0" style="text-indent:20px;">(<span data-livestamp="<%= @user.online_at.strftime('%Y-%m-%d %H:%M:%S') %>"></span>)</p>
+              </p>
+            <% else %>
+              <p class="card-text mb-0" style="text-indent:20px;">不明</p>
+              <p class="card-text mt-0" style="text-indent:20px;">( - )</p>
+            <% end %>
+            <hr>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col-sm">
+            <h5 class="card-title">Mastodonインスタンス</h5>
+            <p class="card-text mb-1" style="text-indent:20px;"><a href="https://<%= session_bunkatsu.last %>" target="_blank"><%= @user.instance_title %></a></p>
+            <p class="card-text" style="text-indent:20px;"><a href="<%= session_bokensha %>" target="_blank"><%= @user.uid %></a></p>
+            <p class="card-text small">※冒険者に直接メッセージを送ったりするのは集会エリアのMastodonでお願いします</p>
+          </div>
+        </div>
+
+        <div>
+          <hr>
+        </div>
+
+        <% if @current_user.present? %>
+        <% if @user.id == @current_user.id %>
+
+        <div class="row">
+          <div class="col-sm">
+            <h5 class="card-title">Twitter 連携</h5>
+            <p class="card-text" style="text-indent:10px;">
+            <% if session[:provider] == 'twitter' && session[:oauth_token] && Auth.find_by(user_id: @current_user.id) %>
+              <i class="fa fa-twitter-square fa-lg text-success" aria-hidden="true"></i> <small class="font-weight-bold text-success m-0">連携中 <a href="https://twitter.com/<%= @current_user.twitter_screenname %>" target="_blank">@<%= @current_user.twitter_screenname %></a></small>
+              <br><%= link_to sanitize('<span class="oi oi-circle-x font-weight-bold text-danger small m-0" aria-hidden="true"> 連携を解除する</span>'), destroy_connection_path(:twitter), method: :delete, data:{confirm:"本当に解除しますか？"}, style: 'text-indent:20px;' %>
+            <% else %>
+              <%= link_to sanitize('<i class="fa fa-twitter-square fa-lg text-danger" aria-hidden="true"></i> <small class="font-weight-bold text-danger m-0"> 連携する</small>'),
+              "/auth/twitter" %>
+            <% end %>
+            </p>
+            <p class="card-text small">※「冒険中のつぶやき」を投稿すると連携先のTwitterに自動ツイートします</p>
+          </div>
+        </div>
+
+        <div>
+          <hr>
+        </div>
+
+        <div class="row">
+          <div class="col-sm">
+            <h5 class="card-title">アクセストークン</h5>
+            <p class="card-text" style="text-indent:20px;"><%= @current_user.token %></p>
+            <p class="card-text small">※IFTTTなどの外部サービスからまちかどルートのタイムラインにつぶやきたいときに使います。<a href="https://note.mu/west2538/n/nea30c9e3936f" target="_blank">詳しくはこちら</a></p>
+          </div>
+        </div>
+
+        <div>
+          <hr>
+        </div>
+
+        <% end %>
+        <% end %>
+
+        <div class="mt-5 mb-1 text-muted">
+            <a href="https://twitter.com/share?ref_src=twsrc%5Etfw" class="twitter-share-button" data-text="<%= og_title + ' #まちかどルート #ソーシャルアップデート' %>" data-url="<%= 'https://machiroute.herokuapp.com' + user_path(@user) %>" data-lang="ja" data-show-count="false">Tweet</a>
+            <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+            <button type="button" class="btn btn-sm btn-dark js-btn-share" style="width:70px; height:20px; position:relative; top:-6px;">
+                <i class="fa fa-share-alt" aria-hidden="true" style="position:relative; top:-4px;"></i>
+            </button>
+        </div>
+        <div class="form-group row small" style="margin-left:0px; margin-right:0px;">
+            <input class="border border-info rounded text-secondary form-control-plaintext col-10" id="CopyTarget" type="text" value="<%= og_title + ' https://machiroute.herokuapp.com' + user_path(@user) + ' #まちかどルート #ソーシャルアップデート' %>" readonly>
+            <button type="button" class="btn btn-sm btn-info col-2" onclick="CopyToClipboard()" data-toggle="tooltip" data-placement="top" title="コピー">
+                </i><i class="fa fa-clipboard" aria-hidden="true"></i>
+            </button>
+        </div>
+
+      </div>
+    </div>
+
+  </div>
+
+  <div class="card-footer text-muted text-right">
+    <% if @user.uid == session[:uid] && @user.id == @current_user.id || session[:uid] == 'townsguild@another-guild.com' %>
+      <%= link_to 'ステータス編集',
+      edit_user_path,
+      :class => 'btn btn-primary mb-1' %>
+      <% if session[:uid] && @current_user.level.present? %>
+      <%= link_to 'ログアウト',
+      signout_path,
+      method: :delete,
+      :class => 'btn btn-danger mb-1' %>
+      <% end %>
+    <% end %>
+  </div>
+</div>
+
+<script>
+    function CopyToClipboard() {
+        var copyTarget = document.getElementById('CopyTarget');
+
+        var selection = window.getSelection();
+        selection.removeAllRanges();
+
+        copyTarget.focus();
+        copyTarget.setSelectionRange(0, 999999);
+        document.execCommand('Copy');
+        alert('コピー完了！');
+    }
+</script>

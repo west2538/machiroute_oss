@@ -1,0 +1,296 @@
+<% if session[:uid] %>
+
+<div class="card">
+
+<h5 class="card-header"><span class="oi oi-map-marker text-danger" title="ルートマップ" aria-hidden="true"></span> ルートマップ</h5>
+<div class="card-body">
+
+    <ul class="nav nav-tabs mb-2">
+        <li class="nav-item">
+            <a href="#maptab01" class="nav-link font-weight-bold active" data-toggle="tab"><span class="oi oi-layers text-warning" title="すべて" aria-hidden="true"></span></a>
+        </li>
+        <li class="nav-item">
+            <a href="#maptab02" class="nav-link font-weight-bold" data-toggle="tab"><span class="oi oi-map-marker text-success" title="クリア済みのサブクエスト" aria-hidden="true"></span></a>
+        </li>
+        <li class="nav-item">
+            <a href="#maptab03" class="nav-link font-weight-bold" data-toggle="tab"><span class="oi oi-map-marker text-danger" title="未クリアのサブクエスト" aria-hidden="true"></span></a>
+        </li>
+        <li class="nav-item">
+            <a href="#maptab05" class="nav-link font-weight-bold" data-toggle="tab"><span class="oi oi-home text-info" title="冒険者の拠点" aria-hidden="true"></span></a>
+        </li>
+    </ul>
+
+<div class="tab-content">
+
+    <div id="maptab01" class="tab-pane active">
+
+            <p class="card-text">《位置情報つきの投稿》をすべて表示しています。</p>
+
+            <% @hash3 = Gmaps4rails.build_markers(@post) do |post, marker1| %>
+                <% marker1.lat post.latitude %>
+                <% marker1.lng post.longitude %>
+
+                <% if Comment.find_by(post_id: post.id, user_uid: session[:uid]) %>
+
+                <% marker1.picture({
+                    :url => "https://maps.google.co.jp/mapfiles/ms/icons/green-dot.png",
+                    :width   => 32,
+                    :height  => 32
+                }) %>
+
+                <% else %>
+
+                    <% if post.title == "冒険の拠点を登録" %>
+
+                    <% marker1.picture({
+                        :url => "/assets/guild.png",
+                        :width   => 16,
+                        :height  => 16
+                    }) %>
+
+                    <% else %>
+
+                    <% marker1.picture({
+                        :url => "https://maps.google.co.jp/mapfiles/ms/icons/red-dot.png",
+                        :width   => 32,
+                        :height  => 32
+                    }) %>
+
+                    <% end %>
+
+                <% end %>
+
+                <% marker1.infowindow render(partial: 'infowindow3', locals: { post: post }) %>
+            <% end %>
+
+            <div id="map1" style="width: 100%; height: 280px; border-radius: 8px;"></div>
+            <script>
+            handler1 = Gmaps.build('Google', { markers: { maxRandomDistance: 5 } });
+            handler1.buildMap({
+                provider: {
+                    disableDefaultUI: true
+                },
+                internal: {id: 'map1'}}, function(){
+                markers1 = handler1.addMarkers(<%= raw @hash3.to_json %>);
+                handler1.bounds.extendWith(markers1);
+                handler1.fitMapToBounds();
+                handler1.getMap().setCenter(new google.maps.LatLng(37.1253274,138.8001978));
+                handler1.getMap().setZoom(7);
+            });
+            </script>
+
+    </div>
+
+    <div id="maptab02" class="tab-pane">
+
+            <p class="card-text">《クリア済みのサブクエスト》を表示しています。</p>
+
+            <% @hash4 = Gmaps4rails.build_markers(@post) do |post, marker2| %>
+
+                <% if post.title == '新規サブクエスト' && Comment.find_by(post_id: post.id, user_uid: session[:uid]) %>
+
+                <% marker2.lat post.latitude %>
+                <% marker2.lng post.longitude %>
+
+                <% marker2.picture({
+                    :url => "https://maps.google.co.jp/mapfiles/ms/icons/green-dot.png",
+                    :width   => 32,
+                    :height  => 32
+                }) %>
+
+                <% end %>
+
+                <% marker2.infowindow render(partial: 'infowindow3', locals: { post: post }) %>
+            <% end %>
+
+            <div id="map2" style="width: 100%; height: 280px; border-radius: 8px;"></div>
+            <script>
+            handler2 = Gmaps.build('Google', { markers: { maxRandomDistance: 5 } });
+            handler2.buildMap({
+                provider: {
+                    disableDefaultUI: true
+                },
+                internal: {id: 'map2'}}, function(){
+                markers2 = handler2.addMarkers(<%= raw @hash4.to_json %>);
+                handler2.bounds.extendWith(markers2);
+                handler2.fitMapToBounds();
+                handler2.getMap().setCenter(new google.maps.LatLng(37.1253274,138.8001978));
+                handler2.getMap().setZoom(7);
+            });
+            </script>
+
+    </div>
+
+    <div id="maptab03" class="tab-pane">
+
+            <p class="card-text">《未クリアのサブクエスト》を表示しています。</p>
+
+            <% @hash5 = Gmaps4rails.build_markers(@post) do |post, marker3| %>
+
+                <% if post.title == '新規サブクエスト' %>
+                
+                    <% unless Comment.find_by(post_id: post.id, user_uid: session[:uid]) %>
+
+                    <% marker3.lat post.latitude %>
+                    <% marker3.lng post.longitude %>
+
+                    <% marker3.picture({
+                        :url => "https://maps.google.co.jp/mapfiles/ms/icons/red-dot.png",
+                        :width   => 32,
+                        :height  => 32
+                    }) %>
+
+                    <% end %>
+    
+                <% end %>
+
+                <% marker3.infowindow render(partial: 'infowindow3', locals: { post: post }) %>
+            <% end %>
+
+            <div id="map3" style="width: 100%; height: 280px; border-radius: 8px;"></div>
+            <script>
+            handler3 = Gmaps.build('Google', { markers: { maxRandomDistance: 5 } });
+            handler3.buildMap({
+                provider: {
+                    disableDefaultUI: true
+                },
+                internal: {id: 'map3'}}, function(){
+                markers3 = handler3.addMarkers(<%= raw @hash5.to_json %>);
+                handler3.bounds.extendWith(markers3);
+                handler3.fitMapToBounds();
+                handler3.getMap().setCenter(new google.maps.LatLng(37.1253274,138.8001978));
+                handler3.getMap().setZoom(7);
+            });
+            </script>
+    </div>
+
+    <div id="maptab05" class="tab-pane">
+
+            <p class="card-text">《冒険の拠点》を表示しています。</p>
+
+            <% @hash6 = Gmaps4rails.build_markers(@post) do |post, marker4| %>
+
+                <% if post.title == '冒険の拠点を登録' %>
+
+                <% marker4.lat post.latitude %>
+                <% marker4.lng post.longitude %>
+
+                <% marker4.picture({
+                    :url => "/assets/guild.png",
+                    :width   => 16,
+                    :height  => 16
+                }) %>
+
+                <% end %>
+
+                <% marker4.infowindow render(partial: 'infowindow3', locals: { post: post }) %>
+            <% end %>
+
+            <div id="map4" style="width: 100%; height: 280px; border-radius: 8px;"></div>
+            <script>
+            handler4 = Gmaps.build('Google', { markers: { maxRandomDistance: 5 } });
+            handler4.buildMap({
+                provider: {
+                    disableDefaultUI: true
+                },
+                internal: {id: 'map4'}}, function(){
+                markers4 = handler4.addMarkers(<%= raw @hash6.to_json %>);
+                handler4.bounds.extendWith(markers4);
+                handler4.fitMapToBounds();
+                handler4.getMap().setCenter(new google.maps.LatLng(37.1253274,138.8001978));
+                handler4.getMap().setZoom(7);
+            });
+            </script>
+    </div>
+
+</div>
+
+</div>
+</div>
+
+<div class="card mt-3">
+
+    <h5 class="card-header"><span class="oi oi-map-marker text-danger" aria-hidden="true"></span> 現在地の「名もなき場所」でサブクエストを作る</h5>
+    <div class="card-body">
+            <p>じぶんが今いる場所で世の中ちょっと明るくするようなおもしろいサブクエストを思いついたらどうぞ。</p>
+            <p>まず「現在の位置を取得」ボタンで表示されるマップ上のマーカーを動かして微調整してね。</p>
+            <p><button class="btn btn-sm btn-blue700_rsd" onclick="getMyPlace()" data-disable-with="取得中 <i class='fa fa-spinner fa-spin'></i>"><span class="oi oi-compass text-white"></span> 現在の位置を取得</button></p>
+            <div id="result"></div>
+            <div id="map6" style="width:100%; height:280px; border-radius: 8px;"></div>
+
+        <%= form_with url: 'form2', method: :get, class: 'mt-3', local: true do |f| %>
+        <div class="form-inline">
+            <div class="form-group mb-2">
+            <label for="latitude">緯度</label>
+            <input type="text" class="form-control" id="latitude" name="latitude" readonly />
+            </div>
+            <div class="form-group mx-sm-3 mb-2">
+            <label for="longitude">経度</label>
+            <input type="text" class="form-control" id="longitude" name="longitude" readonly />
+            </div>
+            <div class="mb-4">
+            <%= button_tag :type => "submit", :class => "btn btn-blue700_rsd mt-3", data: { disable_with: "処理中 <i class='fa fa-spinner fa-spin'></i>" } do %>
+            だいたい正しければ次へ
+            <% end %>
+            <%# <%= submit_tag "だいたい正しければ次へ", :class => "btn btn-blue700_rsd mt-3", data: { disable_with: "処理中 <i class='fa fa-spinner fa-spin'></i>" } %>
+            </div>
+        </div>
+        <% end %>
+
+        <script>
+        function getMyPlace() {
+        var output = document.getElementById("result");
+        if (!navigator.geolocation){//Geolocation apiがサポートされていない場合
+            output.innerHTML = "<p>Geolocationはあなたのブラウザーでサポートされておりません</p>";
+            return;
+        }
+        function success(position) {
+            var latitude  = position.coords.latitude;//緯度
+            var longitude = position.coords.longitude;//経度
+            document.getElementById('latitude').value = latitude;
+            document.getElementById('longitude').value = longitude;
+
+            // output.innerHTML = '<p>緯度 ' + latitude + '° <br>経度 ' + longitude + '°</p>';
+
+            // 位置情報
+            var latlng = new google.maps.LatLng( latitude , longitude ) ;
+
+            // Google Mapsに書き出し
+            var map6 = new google.maps.Map( document.getElementById( 'map6' ) , {
+                zoom: 15 ,// ズーム値
+                center: latlng ,// 中心座標
+                disableDefaultUI: true ,
+            } ) ;
+            // マーカーの新規出力
+            var marker = new google.maps.Marker( {
+                map6: map6 ,
+                position: latlng ,
+                draggable: true ,
+            } ) ;
+
+            marker.setMap(map6);
+
+            // ドロップ時に緯度経度取得
+            google.maps.event.addListener(marker, 'dragend', function(ev){
+                document.getElementById('latitude').value = ev.latLng.lat();
+                document.getElementById('longitude').value = ev.latLng.lng();
+                var latitude  = ev.latLng.lat();//緯度
+                var longitude = ev.latLng.lng();//経度
+            });
+
+        };
+
+        function error() {
+            //エラーの場合
+            output.innerHTML = "座標位置を取得できません";
+        };
+        navigator.geolocation.getCurrentPosition(success, error);//成功と失敗を判断
+
+        }
+        </script>
+
+    </div>
+
+</div>
+
+<% end %>

@@ -1,0 +1,101 @@
+// app/assets/javascripts/serviceworker.js.erb
+
+var CACHE_VERSION = 'v1';
+var CACHE_NAME = CACHE_VERSION + ':sw-cache-';
+
+function onInstall(event) {
+  console.log('[Serviceworker]', "Installing!", event);
+  event.waitUntil(
+    caches.open(CACHE_NAME).then(function prefill(cache) {
+      return cache.addAll([
+        '<%= asset_path("application.css") %>',
+        '/assets/bg.jpg',
+        '/assets/logo.png',
+        '/assets/footer_weed.png',
+        '/offline.html'
+        // you get the idea ...
+      ]);
+    })
+  );
+}
+
+function onActivate(event) {
+  console.log('[Serviceworker]', "Activating!", event);
+  event.waitUntil(
+    caches.keys().then(function(cacheNames) {
+      return Promise.all(
+        cacheNames.filter(function(cacheName) {
+          // Return true if you want to remove this cache,
+          // but remember that caches are shared across
+          // the whole origin
+           return cacheName.indexOf('v1') !== 0;
+        }).map(function(cacheName) {
+          return caches.delete(cacheName);
+        })
+      );
+    })
+  );
+}
+
+// Borrowed from https://github.com/TalAter/UpUp
+function onFetch(event) {
+  event.respondWith(
+    // try to return untouched request from network first
+    fetch(event.request).catch(function() {
+      // if it fails, try to return request from the cache
+      return caches.match(event.request).then(function(response) {
+        if (response) {
+          return response;
+        }
+        // if not found in cache, return default offline content for navigate requests
+        if (event.request.mode === 'navigate' ||
+          (event.request.method === 'GET' && event.request.headers.get('accept').includes('text/html'))) {
+          console.log('[Serviceworker]', "Fetching offline content", event);
+          return caches.match('/offline.html');
+        }
+      })
+    })
+  );
+}
+
+self.addEventListener('install', onInstall);
+self.addEventListener('activate', onActivate);
+self.addEventListener('fetch', onFetch);
+
+// プッシュ通知を受け取った時の処理
+self.addEventListener('push', function(event){
+  var title = 'まちかどルート';
+  var data = {
+    body: (event.data && event.data.text()) || 'テストプッシュ',
+    tag: "push-simple-demo-notification-tag",
+    icon: 'https://machiroute.herokuapp.com/assets/android-chrome-192x192.png',
+    vibrate: [400,100,400], // ミリ秒単位で振動と休止の時間を交互に任意の回数だけ配列に格納
+    data: {
+      link_to: '/'
+    }
+  };
+
+  event.waitUntil(self.registration.showNotification(title, data));
+});
+
+// 通知をクリックした時の処理
+self.addEventListener("notificationclick", function(event) {
+  event.notification.close();
+  var link_to = event.notification.data.link_to;
+
+  event.waitUntil(clients.matchAll({
+    type: "window"
+  }).then(function(clientList) {
+    for (var i = 0; i < clientList.length; i++) {
+      var client = clientList[i];
+      var regexp = new RegExp(link_to + '$');
+      var match = client.url.match(regexp);
+
+      if (match != null && 'focus' in client)
+        return client.focus();
+    }
+    if (clients.openWindow) {
+      return clients.openWindow(link_to);
+    }
+  }));
+});

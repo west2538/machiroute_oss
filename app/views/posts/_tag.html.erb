@@ -1,0 +1,31 @@
+<% if post.title == "新規サブクエスト" %>
+    <% if Comment.find_by(post_id: post.id, user_uid: session[:uid]) %>
+    <div class="card text-white bg-success tilt">
+        <% if post.image.attached? %>
+            <%= link_to post_path(post) do %>
+            <%= image_tag post.image.variant(combine_options:{resize:"288x200^",crop:"288x200+0+0",gravity: :center,auto_orient: true,strip: true,quality: 60}), :class => "card-img-top" %>
+            <% end %>
+        <% end %>
+        <%= link_to post_path(post), class: "card-body bg-success d-inline-block", style: "width: 100%;" do %>
+        <h5 class="card-title text-white text-center wf-nicomoji"><span class="oi oi-task" title="サブクエスト[クリア済]" aria-hidden="true"></span> クリア✨</h5>
+        <p class="card-text font-weight-bold text-white mx-0 p-2" style="opacity: 0.87; word-break: break-all;">
+            <%= truncate(post.body, omission: '...', length: 46) %>
+        </p>
+        <% end %>
+    </div>
+    <% else %>
+    <div class="card text-white bg-danger tilt">
+        <% if post.image.attached? %>
+            <%= link_to post_path(post) do %>
+            <%= image_tag post.image.variant(combine_options:{resize:"288x200^",crop:"288x200+0+0",gravity: :center,auto_orient: true,strip: true,quality: 60}), :class => "card-img-top" %>
+            <% end %>
+        <% end %>
+        <%= link_to post_path(post), class: "card-body bg-danger d-inline-block", style: "width: 100%;" do %>
+        <h5 class="card-title text-white text-center wf-nicomoji"><span class="oi oi-task" title="サブクエスト" aria-hidden="true"></span> サブクエスト ⚔</h5>
+        <p class="card-text font-weight-bold text-white mx-0 p-2" style="opacity: 0.87; word-break: break-all;">
+            <%= truncate(post.body, omission: '...', length: 46) %>
+        </p>
+        <% end %>
+    </div>
+    <% end %>
+<% end %>

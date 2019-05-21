@@ -1,0 +1,18 @@
+<% if session[:uid] %>
+
+<div class="card">
+    <h5 class="card-header wf-nicomoji"><span class="oi oi-task text-danger" title="サブクエスト" aria-hidden="true"></span> サブクエスト</h5>
+    <div class="card-body">
+        <p class="card-text">《せーぶ済みだけど未クリア》のサブクエストを表示しています。</p>
+        <%# <p class="card-text">※ただし過去にせーぶした100件までが対象</p> %>
+    </div>
+</div>
+
+<div class="card-columns mt-3" id="unclear_item">
+    <%= render partial: 'unclear', collection: @post, as: :post %>
+</div>
+
+<%# 
+<%= link_to_next_page @post, 'つづきを見る', remote: true, id: 'unclear_more_link', class: 'btn btn-info btn-block', data: { disable_with: "読み込み中 <i class='fa fa-spinner fa-spin'></i>" } %>
+
+<% end %>

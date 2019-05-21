@@ -1,0 +1,4 @@
+<% tag_list.each do |tag| %>
+  <% qtagid = ActsAsTaggableOn::Tag.find_by(name: tag) %>
+  <%= link_to tag, tag_path(:tag => qtagid.id), :class => 'btn btn-sm btn-purple700_rsd mt-1' %>
+<% end %>

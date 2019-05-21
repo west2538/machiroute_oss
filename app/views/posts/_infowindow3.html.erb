@@ -1,0 +1,26 @@
+<% if post.placename.present? %>
+
+    <% if post.title == "冒険の拠点を登録" %>
+        <%= link_to post.placename, "https://maps.google.co.jp/maps?q=#{post.latitude},#{post.longitude}+#{post.placename}", target: "_blank" %>
+        <br>
+        <small class="text-secondary">
+            <%= auto_link(post.body, html: { target: '_blank' }, link: :urls) %>
+        </small>
+        <br>
+        <% if post.image.attached? %>
+            <%= image_tag post.image.variant(resize: "200x200", strip: true) %>
+        <% end %>
+        <% if session[:uid] == post.post_uid || session[:uid] == "townsguild@another-guild.com" %>
+        <%= link_to sanitize('<span class="oi oi-pencil small text-primary" title="編集" aria-hidden="true"></span>'),
+            edit_post_path(post),
+            :class => 'font-weight-bold' %>
+        <% end %>
+    <% elsif %>
+        <%= link_to post.placename, post_path(post), data: { turbolinks: false } %>
+    <% end %>
+
+<% else %>
+
+<%= link_to '名もなき場所', post_path(post), data: { turbolinks: false } %>
+
+<% end %>

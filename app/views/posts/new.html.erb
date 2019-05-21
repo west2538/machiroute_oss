@@ -1,0 +1,566 @@
+<% if session[:uid] && @current_user %>
+
+<div class="row mx-auto mt-2">
+
+<div class="col-sm-3 p-0 d-md-block d-lg-block"></div>
+
+<div class="col-sm-6 p-0">
+
+<% if @current_user.hp == 0 %>
+
+  <%= form_with model: @post, multipart: true, local: true, id: :commentSubmit do |f| %>
+      <%= f.select :title,
+      ['復活の呪文でHP回復'],
+      {},
+      class: 'mb-2 form-control form-control-lg' %>
+
+      <h4 class="font-weight-bold" style="text-size: 8px;">あなたの呪文をどうぞ！</h4>
+
+      <%= f.text_area :body,
+      :class => 'mb-2 form-control',
+      :placeholder => '内容をお書きください',
+      :onkeyup => 'updateCount(value, "count")',
+      :id => 'commentInput' %>
+      <% if @post.errors.messages[:body].any? %>
+      <div class="bg-secondary p-2 mb-1" style="border-radius: 3px 3px 3px 3px; opacity: 0.9;">
+        <span class="font-weight-bold text-warning"><%= @post.errors.messages[:body][0] %></span>
+      </div>
+      <% end %>
+      <p class="float-left mt-1 mb-3">
+      (200字以内推奨)<br><span id="count">0</span>
+      </p>
+      <p class="text-right mt-1 mb-5">
+      <%= button_tag :type => "submit", :class =>"btn btn-lg btn-blue700_rsd", data: { disable_with: "投稿中 <i class='fa fa-spinner fa-spin'></i>" } do %>
+      投稿する
+      <% end %>
+      <%# <%= submit_tag "投稿する", :class => "btn btn-lg btn-blue700_rsd", data: { disable_with: "投稿中 <i class='fa fa-spinner fa-spin'></i>" } %>
+
+      </p>
+  <% end %>
+
+<% elsif session[:uid] == "townsguild@another-guild.com" %>
+
+  <%= form_with model: @post, multipart: true, local: true, id: :commentSubmit do |f| %>
+      <%= f.select :title,
+      [['新規サブクエスト','新規サブクエスト'],['冒険中のつぶやき','冒険中のつぶやき'],['書籍や漫画を読んだ','書籍や漫画を読んだ'],['ニュース','ニュース'],['駅でチェックイン','駅でチェックイン'],['冒険の拠点を登録','冒険の拠点を登録'],['公式のつぶやき','公式のつぶやき']],
+      {},
+      class: 'mb-2 form-control form-control-lg',
+      onchange: 'entryChange();' %>
+
+      <h4 class="font-weight-bold" style="text-size: 8px;">世の中ちょっと明るくなるやつ頼みます！</h4>
+
+      <%= f.text_area :body,
+      :class => 'mb-2 form-control',
+      :placeholder => '内容をお書きください',
+      :onkeyup => 'updateCount(value, "count")',
+      :id => 'commentInput' %>
+      <% if @post.errors.messages[:body].any? %>
+      <div class="bg-secondary p-2 mb-1" style="border-radius: 3px 3px 3px 3px; opacity: 0.9;">
+        <span class="font-weight-bold text-warning"><%= @post.errors.messages[:body][0] %></span>
+      </div>
+      <% end %>
+
+      <div id="firstBox">
+
+        <div class="bg-secondary p-2" style="border-radius: 3px 3px 0px 0px; opacity: 0.9;">
+          <span class="oi oi-paperclip text-white ml-1 mb-2" title="タグ" aria-hidden="true"></span> <span class="font-weight-bold text-white">タグ<br>関連する地名や言葉をカンマ（ ，）区切りで複数つけよう。見つかりやすくなるよ</span>
+          <div><%= text_field_tag 'post[label_list]', @post.label_list.join(','), { 'data-role' => 'tagsinput', 'class' => 'mt-1 mb-2 form-control' } %></div>
+        </div>
+
+        <div class="bg-secondary p-2" style="border-radius: 0px; opacity: 0.9;">
+        <div class="imagePreview"></div>
+          <div class="input-group">
+            <label class="input-group-btn">
+                <span class="btn btn-secondary mt-1 p-2" style="border: solid 1px #fff;">
+                    <span class="oi oi-camera-slr text-white" title="写真" aria-hidden="true"></span> よければ写真もどうぞ
+                        <%= f.file_field :image, class: 'uploadFile', style: 'display:none' %>  
+                </span>
+            </label>
+          </div>
+          <div class="preview" style="border-radius: 8px;"></div> 
+          <% if @post.errors.messages[:image].any? %>
+          <span class="font-weight-bold text-warning"><%= @post.errors.messages[:image][0] %></span>
+          <% end %>
+        </div>
+
+        <% if @current_user.level >= 50 %>
+        <div class="bg-secondary p-2" style="border-radius: 0px; opacity: 0.9;">
+          <p class="font-weight-bold text-warning my-0"><span class="oi oi-warning" aria-hidden="true"></span> Lv.50以上の冒険者 限定</p>
+          <span class="font-weight-bold text-white">投稿後も一定期間中(最長10日間)トップに載せたいイベント性の強いサブクエストにどうぞ</span>
+          <br><small class="text-white">※なお、投稿したあとに期間は編集できません</small>
+          <p>
+          <div class="row">
+          <div class="col-lg-6">
+            <span class="oi oi-caret-right text-white py-0" aria-hidden="true"></span>
+             <span class="text-white">期間の開始日(明日以降)</span>
+            <%= date_field_tag 'post[scenario_start]', nil,
+              :class => 'form-control mx-0 my-1',
+              :style => '' %>
+          </div>
+          <div class="col-lg-6">
+            <span class="oi oi-media-pause text-white py-0" aria-hidden="true"></span>
+             <span class="text-white">期間の終了日</span>
+            <%= date_field_tag 'post[scenario_end]', nil,
+              :class => 'form-control mx-0 my-1',
+              :style => '' %>
+          </div>
+          </div>
+          </p>
+        </div>
+        <% end %>
+
+        <div class="bg-secondary p-2" style="border-radius: 0px; opacity: 0.9;">
+        <span class="oi oi-map-marker text-white ml-1 mb-2" title="場所" aria-hidden="true"></span> <span class="font-weight-bold text-white">マップ追加オプション</span>
+        <%= f.text_field :placename,
+        name: 'placename[]',
+        :class => 'form-control',
+        :autocomplete => 'off',
+        :placeholder => '正確な住所orスポット名をどうぞ' %>
+        <% if @post.errors.messages[:placename].any? %>
+        <span class="font-weight-bold text-warning"><%= @post.errors.messages[:placename][0] %></span>
+        <% end %>
+       </div>
+
+        <div class="bg-secondary p-2" style="border-radius: 0px 0px 3px 3px; opacity: 0.9;">
+        <span class="oi oi-location text-white ml-1 mb-2" title="ルート" aria-hidden="true"></span> <span class="font-weight-bold text-white">周辺の攻略スポットも追加する？</span>
+              <%= f.nested_fields_for :qroutes, wrapper_tag: :div do |q| %>
+                  <div class="form-row mb-1">
+                    <div class="col-5">
+                    <%= q.text_field :qplacename, class: 'form-control', autocomplete: 'off', placeholder: '追加する住所orスポット名' %>
+                    </div>
+                    <div class="col">
+                    <%= q.text_field :qdescription, class: 'form-control', autocomplete: 'off', placeholder: 'そこで何を攻略する？' %>
+                    </div>
+                    <div class="col">
+                    <%= q.remove_nested_fields_link sanitize('<span class="oi oi-trash" title="ルート削除" aria-hidden="true"></span>'), class: 'btn btn-danger', role: 'button' %>
+                    </div>
+                  </div>
+              <% end %>
+        <br>
+        <%= f.add_nested_fields_link :qroutes, sanitize('<span class="oi oi-plus" title="ルート追加" aria-hidden="true"></span>'), class: 'btn btn-info', role: 'button' %>
+        </div>
+      </div>
+
+      <div id="secondBox">
+
+        <div class="bg-secondary p-2" style="border-radius: 3px 3px 0px 0px; opacity: 0.9;">
+          <span class="oi oi-book text-white ml-1 mb-2" title="本" aria-hidden="true"></span> <span class="font-weight-bold text-white">読んだ本を登録してね</span>
+          <div class="input-group">
+            <input id="booktitle" type="text" name="post[booktitle]" value="" class="form-control" autocomplete="off" placeholder="本のISBNコード(-不要)で検索">
+            <label class="input-group-btn m-0">
+              <span class="btn btn-secondary" style="border: solid 1px #fff;" id="getBookInfo">
+                  <span class="oi oi-magnifying-glass" title="書籍検索" aria-hidden="true"></span>
+              </span>
+            </label>
+          </div>
+          <div><small class="text-white">Powered by openBD project</small></div>
+          <% if @post.errors.messages[:bookisbn].any? %>
+          <span class="font-weight-bold text-warning"><%= @post.errors.messages[:bookisbn][0] %></span>
+          <% end %>
+          <div class="mt-1" id="thumbnail"></div> 
+        </div>
+
+      </div>
+
+      <div id="3rdBox">
+
+        <div class="bg-secondary p-2" style="border-radius: 0px 0px 3px 3px; opacity: 0.9;">
+        <div class="imagePreview"></div>
+          <div class="input-group">
+            <label class="input-group-btn">
+                <span class="btn btn-secondary mt-1 p-2" style="border: solid 1px #fff;">
+                    <span class="oi oi-camera-slr text-white" title="写真" aria-hidden="true"></span> よければ写真もどうぞ
+                        <%= f.file_field :image, class: 'uploadFile', style: 'display:none' %>  
+                </span>
+            </label>
+          </div>
+          <div class="preview" style="border-radius: 8px;"></div> 
+          <% if @post.errors.messages[:image].any? %>
+          <span class="font-weight-bold text-warning"><%= @post.errors.messages[:image][0] %></span>
+          <% end %>
+        </div>
+
+        <div class="bg-secondary p-2" style="border-radius: 0px; opacity: 0.9;">
+        <span class="oi oi-map-marker text-white ml-1 mb-2" title="場所" aria-hidden="true"></span> <span class="font-weight-bold text-white">マップ追加オプション</span>
+        <%= f.text_field :placename,
+        name: 'placename[]',
+        :class => 'form-control',
+        :autocomplete => 'off',
+        :placeholder => '正確な住所orスポット名をどうぞ' %>
+        <% if @post.errors.messages[:placename].any? %>
+        <span class="font-weight-bold text-warning"><%= @post.errors.messages[:placename][0] %></span>
+        <% end %>
+       </div>
+
+      </div>
+
+      <div id="4thBox">
+
+        <div class="bg-secondary p-2" style="border-radius: 3px 3px 0px 0px; opacity: 0.9;">
+          <span class="oi oi-link-intact text-white ml-1 mb-2" title="URL" aria-hidden="true"></span> <span class="font-weight-bold text-white">ニュースのURLをペーストしてね</span>
+          <div class="input-group">
+            <input id="newsurl" type="text" name="post[newsurl]" value="" class="form-control" autocomplete="off" placeholder="https://から始まるURLをペースト">
+            <input id="newsimage" type="hidden" name="post[newsimage]" value="">
+            <input id="newstitle" type="hidden" name="post[newstitle]" value="">
+          </div>
+          <% if @post.errors.messages[:newsurl].any? %>
+          <span class="font-weight-bold text-warning"><%= @post.errors.messages[:newsurl][0] %></span>
+          <% end %>
+        </div>
+
+      </div>
+
+      <div id="5thBox">
+
+        <div class="bg-secondary p-2" style="border-radius: 3px 3px 0px 0px; opacity: 0.9;">
+          <div class="input-group">
+            <select id="stationname" name="post[stationname]" class="form-control">
+            <option id="searchstation" value="" disabled selected style="display:none;">右のボタンで最寄駅検索</option>
+            </select>
+            <label class="input-group-btn m-0">
+              <span class="btn btn-secondary" style="border: solid 1px #fff;" id="getStationInfo">
+                  <span class="oi oi-compass" title="現在地から最寄り駅を検索" aria-hidden="true"></span>
+              </span>
+            </label>
+          </div>
+          <div id="result" class="text-white"></div>
+          <div><small class="text-white">Powered by HeartRails Express</small></div>
+          <% if @post.errors.messages[:stationname].any? %>
+          <span class="font-weight-bold text-warning"><%= @post.errors.messages[:stationname][0] %></span>
+          <% end %>
+        </div>
+
+      </div>
+
+      <p class="float-left mt-1 mb-3">
+      (200字以内推奨)<br><span id="count">0</span>
+      </p>
+      <p class="text-right mt-1 mb-5">
+      <% if session[:provider] == 'twitter' && session[:oauth_token] && Auth.find_by(user_id: @current_user.id) %>
+        <span id="twitter_relation" style="position:relative; top:-10px;"><i class="fa fa-twitter-square fa-lg text-success" aria-hidden="true"></i> <small class="font-weight-bold text-success m-0">連携中</small></span>
+      <% else %>
+        <span id="twitter_relation"></span>
+      <% end %>
+      <%= button_tag :type => "submit", :class =>"btn btn-lg btn-blue700_rsd", data: { disable_with: "投稿中 <i class='fa fa-spinner fa-spin'></i>" } do %>
+      投稿する
+      <% end %>
+      </p>
+  <% end %>
+
+<% else %>
+
+  <%= form_with model: @post, multipart: true, local: true, id: :commentSubmit do |f| %>
+      <%= f.select :title,
+      [['新規サブクエスト','新規サブクエスト'],['冒険中のつぶやき','冒険中のつぶやき'],['書籍や漫画を読んだ','書籍や漫画を読んだ'],['ニュース','ニュース'],['駅でチェックイン','駅でチェックイン'],['冒険の拠点を登録','冒険の拠点を登録']],
+      {},
+      class: 'mb-2 form-control form-control-lg',
+      onchange: 'entryChange();' %>
+
+      <h4 class="font-weight-bold" style="text-size: 8px;">世の中ちょっと明るくなるやつ頼みます！</h4>
+
+      <%= f.text_area :body,
+      :class => 'mb-2 form-control',
+      :placeholder => '内容をお書きください',
+      :onkeyup => 'updateCount(value, "count")',
+      :id => 'commentInput' %>
+      <% if @post.errors.messages[:body].any? %>
+      <div class="bg-secondary p-2 mb-1" style="border-radius: 3px 3px 3px 3px; opacity: 0.9;">
+        <span class="font-weight-bold text-warning"><%= @post.errors.messages[:body][0] %></span>
+      </div>
+      <% end %>
+
+      <div id="firstBox">
+
+        <div class="bg-secondary p-2" style="border-radius: 3px 3px 0px 0px; opacity: 0.9;">
+          <span class="oi oi-paperclip text-white ml-1 mb-2" title="タグ" aria-hidden="true"></span> <span class="font-weight-bold text-white">タグ<br>関連する地名や言葉をカンマ（ ，）区切りで複数つけよう。見つかりやすくなるよ</span>
+          <div><%= text_field_tag 'post[label_list]', @post.label_list.join(','), {'data-role' => 'tagsinput', 'class' => 'mt-1 mb-2 form-control' } %></div>
+        </div>
+
+        <div class="bg-secondary p-2" style="border-radius: 0px; opacity: 0.9;">
+        <div class="imagePreview"></div>
+          <div class="input-group">
+            <label class="input-group-btn">
+                <span class="btn btn-secondary mt-1 p-2" style="border: solid 1px #fff;">
+                    <span class="oi oi-camera-slr text-white" title="写真" aria-hidden="true"></span> よければ写真もどうぞ
+                        <%= f.file_field :image, class: 'uploadFile', style: 'display:none' %>  
+                </span>
+            </label>
+          </div>
+          <div class="preview" style="border-radius: 8px;"></div> 
+          <% if @post.errors.messages[:image].any? %>
+          <span class="font-weight-bold text-warning"><%= @post.errors.messages[:image][0] %></span>
+          <% end %>
+        </div>
+
+        <% if @current_user.level >= 50 %>
+        <div class="bg-secondary p-2" style="border-radius: 0px; opacity: 0.9;">
+          <p class="font-weight-bold text-warning my-0"><span class="oi oi-warning" aria-hidden="true"></span> Lv.50以上の冒険者 限定</p>
+          <span class="font-weight-bold text-white">投稿後も一定期間中(最長10日間)トップに載せたいイベント性の強いサブクエストにどうぞ</span>
+          <br><small class="text-white">※なお、投稿したあとに期間は編集できません</small>
+          <p>
+          <div class="row">
+          <div class="col-lg-6">
+            <span class="oi oi-caret-right text-white py-0" aria-hidden="true"></span>
+             <span class="text-white">期間の開始日(明日以降)</span>
+            <%= date_field_tag 'post[scenario_start]', nil,
+              :class => 'form-control mx-0 my-1',
+              :style => '' %>
+          </div>
+          <div class="col-lg-6">
+            <span class="oi oi-media-pause text-white py-0" aria-hidden="true"></span>
+             <span class="text-white">期間の終了日</span>
+            <%= date_field_tag 'post[scenario_end]', nil,
+              :class => 'form-control mx-0 my-1',
+              :style => '' %>
+          </div>
+          </div>
+          </p>
+        </div>
+        <% end %>
+
+        <div class="bg-secondary p-2" style="border-radius: 0px; opacity: 0.9;">
+        <span class="oi oi-map-marker text-white ml-1 mb-2" title="場所" aria-hidden="true"></span> <span class="font-weight-bold text-white">マップ追加オプション</span>
+        <%= f.text_field :placename,
+        name: 'placename[]',
+        :class => 'form-control',
+        :autocomplete => 'off',
+        :placeholder => '正確な住所orスポット名をどうぞ' %>
+        <% if @post.errors.messages[:placename].any? %>
+        <span class="font-weight-bold text-warning"><%= @post.errors.messages[:placename][0] %></span>
+        <% end %>
+        </div>
+
+        <div class="bg-secondary p-2" style="border-radius: 0px 0px 3px 3px; opacity: 0.9;">
+        <span class="oi oi-location text-white ml-1 mb-2" title="ルート" aria-hidden="true"></span> <span class="font-weight-bold text-white">周辺の攻略スポットも追加する？</span>
+              <%= f.nested_fields_for :qroutes, wrapper_tag: :div do |q| %>
+                  <div class="form-row mb-1">
+                    <div class="col-5">
+                    <%= q.text_field :qplacename, class: 'form-control', autocomplete: 'off', placeholder: '追加する住所orスポット名' %>
+                    </div>
+                    <div class="col">
+                    <%= q.text_field :qdescription, class: 'form-control', autocomplete: 'off', placeholder: 'そこで何を攻略する？' %>
+                    </div>
+                    <div class="col">
+                    <%= q.remove_nested_fields_link sanitize('<span class="oi oi-trash" title="ルート削除" aria-hidden="true"></span>'), class: 'btn btn-danger', role: 'button' %>
+                    </div>
+                  </div>
+              <% end %>
+        <br>
+        <%= f.add_nested_fields_link :qroutes, sanitize('<span class="oi oi-plus" title="ルート追加" aria-hidden="true"></span>'), class: 'btn btn-info', role: 'button' %>
+        </div>
+      </div>
+
+      <div id="secondBox">
+
+        <div class="bg-secondary p-2" style="border-radius: 3px 3px 0px 0px; opacity: 0.9;">
+        <span class="oi oi-book text-white ml-1 mb-2" title="本" aria-hidden="true"></span> <span class="font-weight-bold text-white">読んだ本を登録してね</span>
+        <div class="input-group">
+          <input id="booktitle" type="text" name="post[booktitle]" value="" class="form-control" autocomplete="off" placeholder="本のISBNコード(-不要)で検索">
+          <label class="input-group-btn m-0">
+            <span class="btn btn-secondary" style="border: solid 1px #fff;" id="getBookInfo">
+                <span class="oi oi-magnifying-glass" title="書籍検索" aria-hidden="true"></span>
+            </span>
+          </label>
+        </div>
+        <div><small class="text-white">Powered by openBD project</small></div>
+        <% if @post.errors.messages[:bookisbn].any? %>
+        <span class="font-weight-bold text-warning"><%= @post.errors.messages[:bookisbn][0] %></span>
+        <% end %>
+        <div class="mt-1" id="thumbnail"></div> 
+        </div>
+
+      </div>
+
+      <div id="3rdBox">
+
+        <div class="bg-secondary p-2" style="border-radius: 0px 0px 3px 3px; opacity: 0.9;">
+        <div class="imagePreview"></div>
+          <div class="input-group">
+            <label class="input-group-btn">
+                <span class="btn btn-secondary mt-1 p-2" style="border: solid 1px #fff;">
+                    <span class="oi oi-camera-slr text-white" title="写真" aria-hidden="true"></span> よければ写真もどうぞ
+                        <%= f.file_field :image, class: 'uploadFile', style: 'display:none' %>  
+                </span>
+            </label>
+          </div>
+          <div class="preview" style="border-radius: 8px;"></div>
+          <% if @post.errors.messages[:image].any? %>
+          <span class="font-weight-bold text-warning"><%= @post.errors.messages[:image][0] %></span>
+          <% end %>
+        </div>
+
+        <div class="bg-secondary p-2" style="border-radius: 0px; opacity: 0.9;">
+        <span class="oi oi-map-marker text-white ml-1 mb-2" title="場所" aria-hidden="true"></span> <span class="font-weight-bold text-white">マップ追加オプション</span>
+        <%= f.text_field :placename,
+        name: 'placename[]',
+        :class => 'form-control',
+        :autocomplete => 'off',
+        :placeholder => '正確な住所orスポット名をどうぞ' %>
+        <% if @post.errors.messages[:placename].any? %>
+        <span class="font-weight-bold text-warning"><%= @post.errors.messages[:placename][0] %></span>
+        <% end %>
+       </div>
+
+      </div>
+
+      <div id="4thBox">
+
+        <div class="bg-secondary p-2" style="border-radius: 3px 3px 0px 0px; opacity: 0.9;">
+          <span class="oi oi-link-intact text-white ml-1 mb-2" title="URL" aria-hidden="true"></span> <span class="font-weight-bold text-white">ニュースのURLをペーストしてね</span>
+          <div class="input-group">
+            <input id="newsurl" type="text" name="post[newsurl]" value="" class="form-control" autocomplete="off" placeholder="https://から始まるURLをペースト">
+            <input id="newsimage" type="hidden" name="post[newsimage]" value="">
+            <input id="newstitle" type="hidden" name="post[newstitle]" value="">
+          </div>
+          <div id="result" class="text-white"></div>
+          <% if @post.errors.messages[:newsurl].any? %>
+          <span class="font-weight-bold text-warning"><%= @post.errors.messages[:newsurl][0] %></span>
+          <% end %>
+        </div>
+
+      </div>
+
+      <div id="5thBox">
+
+        <div class="bg-secondary p-2" style="border-radius: 3px 3px 0px 0px; opacity: 0.9;">
+          <div class="input-group">
+            <select id="stationname" name="post[stationname]" class="form-control">
+            <option id="searchstation" value="" disabled selected style="display:none;">右のボタンで最寄駅検索</option>
+            </select>
+            <label class="input-group-btn m-0">
+              <span class="btn btn-secondary" style="border: solid 1px #fff;" id="getStationInfo">
+                  <span class="oi oi-compass" title="現在地から最寄り駅を検索" aria-hidden="true"></span>
+              </span>
+            </label>
+          </div>
+          <div id="result" class="text-white"></div>
+          <div><small class="text-white">Powered by HeartRails Express</small></div>
+          <% if @post.errors.messages[:stationname].any? %>
+          <span class="font-weight-bold text-warning"><%= @post.errors.messages[:stationname][0] %></span>
+          <% end %>
+        </div>
+
+      </div>
+
+      <p class="float-left mt-1 mb-3">
+      (200字以内推奨)<br><span id="count">0</span>
+      </p>
+      <p class="text-right mt-1 mb-5">
+      <% if session[:provider] == 'twitter' && session[:oauth_token] && Auth.find_by(user_id: @current_user.id) %>
+        <span id="twitter_relation" style="position:relative; top:-10px;"><i class="fa fa-twitter-square fa-lg text-success" aria-hidden="true"></i> <small class="font-weight-bold text-success m-0">連携中</small></span>
+      <% else %>
+        <span id="twitter_relation"></span>
+      <% end %>
+      <%= button_tag :type => "submit", :class =>"btn btn-lg btn-blue700_rsd", data: { disable_with: "投稿中 <i class='fa fa-spinner fa-spin'></i>" } do %>
+      投稿する
+      <% end %>
+      </p>
+  <% end %>
+
+<% end %>
+
+</div>
+
+<div class="col-sm-3 p-0 d-md-block d-lg-block"></div>
+
+</div>
+
+<% end %>
+
+<script>
+document.getElementById("secondBox").style.display ="none";
+document.getElementById("3rdBox").style.display ="none";
+document.getElementById("4thBox").style.display ="none";
+document.getElementById('5thBox').style.display = "none";
+document.getElementById('twitter_relation').style.display = "none";
+
+function entryChange(){
+  if(document.getElementById('post_title')){
+    id = document.getElementById('post_title').value;
+    
+    if(id == '駅でチェックイン'){
+      document.getElementById('firstBox').style.display = "none";
+      document.getElementById('secondBox').style.display = "none";
+      document.getElementById('3rdBox').style.display = "none";
+      document.getElementById('4thBox').style.display = "none";
+      document.getElementById('5thBox').style.display = "";
+      document.getElementById('twitter_relation').style.display = "none";
+    }else{
+      if(id == '冒険の拠点を登録'){
+        document.getElementById('firstBox').style.display = "none";
+        document.getElementById('secondBox').style.display = "none";
+        document.getElementById('3rdBox').style.display = "";
+        document.getElementById('4thBox').style.display = "none";
+        document.getElementById('5thBox').style.display = "none";
+        document.getElementById('twitter_relation').style.display = "none";
+      }else{
+        if(id == '新規サブクエスト'){
+          document.getElementById('firstBox').style.display = "";
+          document.getElementById('secondBox').style.display = "none";
+          document.getElementById('3rdBox').style.display = "none";
+          document.getElementById('4thBox').style.display = "none";
+          document.getElementById('5thBox').style.display = "none";
+          document.getElementById('twitter_relation').style.display = "none";
+        }else{
+          if(id == '書籍や漫画を読んだ'){
+          document.getElementById('firstBox').style.display = "none";
+          document.getElementById('secondBox').style.display = "";
+          document.getElementById('3rdBox').style.display = "none";
+          document.getElementById('4thBox').style.display = "none";
+          document.getElementById('5thBox').style.display = "none";
+          document.getElementById('twitter_relation').style.display = "none";
+          }else{
+            if(id == 'ニュース'){
+            document.getElementById('firstBox').style.display = "none";
+            document.getElementById('secondBox').style.display = "none";
+            document.getElementById('3rdBox').style.display = "none";
+            document.getElementById('4thBox').style.display = "";
+            document.getElementById('5thBox').style.display = "none";
+            document.getElementById('twitter_relation').style.display = "none";
+            }else{
+            document.getElementById('firstBox').style.display = "none";
+            document.getElementById('secondBox').style.display = "none";
+            document.getElementById('3rdBox').style.display = "none";
+            document.getElementById('4thBox').style.display = "none";
+            document.getElementById('5thBox').style.display = "none";
+            if(id == '冒険中のつぶやき'){
+              document.getElementById('twitter_relation').style.display = "";
+            }else{
+              document.getElementById('twitter_relation').style.display = "none";
+            }
+            }
+          }
+        }
+      }
+    }
+  }
+}
+window.onload = entryChange;
+</script>
+
+<script>
+$('form').on('change', 'input[type="file"]', function(e) {
+  var file = e.target.files[0],
+      reader = new FileReader(),
+      $preview = $(".preview");
+      t = this;
+
+  if(file.type.indexOf("image") < 0){
+    return false;
+  }
+
+  reader.onload = (function(file) {
+    return function(e) {
+      $preview.empty();
+      $preview.append($('<img>').attr({
+                src: e.target.result,
+                width: "150px",
+                class: "preview",
+                title: file.name
+            }));
+    };
+  })(file);
+
+  reader.readAsDataURL(file);
+});
+</script>

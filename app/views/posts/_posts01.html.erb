@@ -1,0 +1,402 @@
+<% bunkatsu = post.post_uid.split("@") %>
+
+<%# 
+<% bokensha = "https://" + bunkatsu.last + "/@" + bunkatsu[0] %>
+
+<% if post.title == "ニュース" %>
+<% @user = User.where(uid: post.post_uid).order(created_at: :desc).first %>
+
+<tr>
+    <td class="px-0">
+        <div class="card text-white bg-white mt-2 mb-1" style="max-width: 18rem;">
+            <% if post.newsimage.present? %>
+                <%= link_to(post.newsurl, :target => '_blank', :rel => 'noopener noreferrer') do %>
+                <div class="trim news">
+                <%= image_tag(post.newsimage, :class => "card-img-top", :onerror => "this.src='/assets/ogpimage.png'") %>
+                <small class="news-badge">ニュース</small>
+                </div>
+                <% end %>
+            <% else %>
+                <%= link_to(post.newsurl, :target => '_blank', :rel => 'noopener noreferrer') do %>
+                <div class="trim news">
+                <%= image_tag('/assets/ogpimage.png', :class => "card-img-top") %>
+                <small class="news-badge">ニュース</small>
+                </div>
+                <% end %>
+            <% end %>
+            <%= link_to(post.newsurl, class: 'bg-secondary px-2 pt-1 pb-1', target: '_blank', rel: 'noopener noreferrer') do %>
+                <small class="font-weight-bold text-white mt-1" style="word-break: break-all;">
+                    <%= truncate(post.newstitle, omission: '...', length: 46) %>
+                </small>
+            <% end %>
+            <p class="card-text font-weight-bold text-secondary mt-2 mb-1 px-2" style="word-break: break-all;">
+                <% URI.extract(post.body).uniq.each {|url| post.body.gsub!(url, '')} %>
+                <%= post.body %>
+                <% if session[:uid] == "townsguild@another-guild.com" %>
+                <%= link_to sanitize('<span class="oi oi-pencil small text-primary" title="マスター編集" aria-hidden="true"></span>'),
+                    post_path(post),
+                    :class => 'font-weight-bold' %>
+                <% end %>
+            </p>
+            <p class="px-2 mb-2">
+            <small style="float: right;" class="text-secondary">
+            <% if @user.display_name.present? %>
+            <span class="oi oi-person" title="投稿者" aria-hidden="true"></span> <%= link_to @user.display_name, user_path(@user) %> Lv.<%= @user.level %>
+            <% else %>
+            <span class="oi oi-person" title="投稿者" aria-hidden="true"></span> <%= link_to "@" + bunkatsu[0], user_path(@user) %> Lv.<%= @user.level %>
+            <% end %>
+            <% if post.mstdn_status.present? %>
+                <span class="oi oi-clock my-1" title="<%= post.updated_at.strftime('%-m月%-d日 %-H:%M') %>" aria-hidden="true"> 
+                 <a href="<%= post.mstdn_status %>" target="_blank"><span data-livestamp="<%= post.updated_at.strftime('%Y-%m-%d %H:%M:%S') %>"></span></a>
+                </span>
+            <% else %>
+                <span class="oi oi-clock my-1" title="<%= post.updated_at.strftime('%-m月%-d日 %-H:%M') %>" aria-hidden="true"> 
+                 <span data-livestamp="<%= post.updated_at.strftime('%Y-%m-%d %H:%M:%S') %>"></span>
+                </span>
+            <% end %>
+            </small>
+            </p>
+        </div>
+    </td>
+</tr>
+
+<% elsif post.title == "書籍や漫画を読んだ" %>
+<% @user = User.where(uid: post.post_uid).order(created_at: :desc).first %>
+
+    <% if post.bookcover.present? %>
+
+    <tr>
+        <td class="balloon px-0">
+            <div class="faceicon">
+                <%= image_tag(post.bookcover) %>
+            </div>
+            <div class="chatting">
+            <div class="says">
+            <p class="font-weight-bold text-secondary d-inline-block" style="opacity: 0.87; word-break: break-all;">
+                <%= post.booktitle %>
+            </p>
+            <small class="text-secondary">
+                <br><%= post.bookauthor %><br>
+                <%= post.bookpublisher %><br>
+            </small>
+            <div class="obi font-weight-bold bg-success">
+            読みました！
+            </div>
+            <p class="font-weight-bold text-secondary d-inline-block" style="opacity: 0.87; word-break: break-all;">
+                <% URI.extract(post.body).uniq.each {|url| post.body.gsub!(url, '')} %>
+                <%= post.body %>
+                <% if session[:uid] == "townsguild@another-guild.com" %>
+                <%= link_to sanitize('<span class="oi oi-pencil small text-primary" title="マスター編集" aria-hidden="true"></span>'),
+                    post_path(post),
+                    :class => 'font-weight-bold' %>
+                <% end %>
+            </p>
+            <br>
+            <small style="float: right;" class="mt-2 text-secondary">
+            <% if @user.display_name.present? %>
+            <span class="oi oi-person" title="投稿者" aria-hidden="true"></span> <%= link_to @user.display_name, user_path(@user) %> Lv.<%= @user.level %>
+            <% else %>
+            <span class="oi oi-person" title="投稿者" aria-hidden="true"></span> <%= link_to "@" + bunkatsu[0], user_path(@user) %> Lv.<%= @user.level %>
+            <% end %>
+            <% if post.mstdn_status.present? %>
+                <span class="oi oi-clock my-1" title="<%= post.updated_at.strftime('%-m月%-d日 %-H:%M') %>" aria-hidden="true"> 
+                 <a href="<%= post.mstdn_status %>" target="_blank"><span data-livestamp="<%= post.updated_at.strftime('%Y-%m-%d %H:%M:%S') %>"></span></a>
+                </span>
+            <% else %>
+                <span class="oi oi-clock my-1" title="<%= post.updated_at.strftime('%-m月%-d日 %-H:%M') %>" aria-hidden="true"> 
+                 <span data-livestamp="<%= post.updated_at.strftime('%Y-%m-%d %H:%M:%S') %>"></span>
+                </span>
+            <% end %>
+            </small>
+            </div>
+            </div>
+        </td>
+    </tr>
+
+    <% else %>
+
+    <tr>
+        <td class="balloon px-0">
+            <div class="faceicon">
+                <img src="/assets/nobookcover.jpg">
+            </div>
+            <div class="chatting">
+            <div class="says">
+            <p class="font-weight-bold text-secondary d-inline-block" style="opacity: 0.87;">
+                <%= post.booktitle %>
+            </p>
+            <small class="text-secondary">
+                <br><%= post.bookauthor %><br>
+                <%= post.bookpublisher %><br>
+            </small>
+            <div class="obi font-weight-bold bg-success">
+            読みました！
+            </div>
+            <p class="font-weight-bold text-secondary d-inline-block" style="opacity: 0.87; word-break: break-all;">
+                <% URI.extract(post.body).uniq.each {|url| post.body.gsub!(url, '')} %>
+                <%= post.body %>
+                <% if session[:uid] == "townsguild@another-guild.com" %>
+                <%= link_to sanitize('<span class="oi oi-pencil small text-primary" title="マスター編集" aria-hidden="true"></span>'),
+                    post_path(post),
+                    :class => 'font-weight-bold' %>
+                <% end %>
+            </p>
+            <br>
+            <small style="float: right;" class="mt-2 text-secondary">
+            <% if @user.display_name.present? %>
+            <span class="oi oi-person" title="投稿者" aria-hidden="true"></span> <%= link_to @user.display_name, user_path(@user) %> Lv.<%= @user.level %>
+            <% else %>
+            <span class="oi oi-person" title="投稿者" aria-hidden="true"></span> <%= link_to "@" + bunkatsu[0], user_path(@user) %> Lv.<%= @user.level %>
+            <% end %>
+            <% if post.mstdn_status.present? %>
+                <span class="oi oi-clock my-1" title="<%= post.updated_at.strftime('%-m月%-d日 %-H:%M') %>" aria-hidden="true"> 
+                 <a href="<%= post.mstdn_status %>" target="_blank"><span data-livestamp="<%= post.updated_at.strftime('%Y-%m-%d %H:%M:%S') %>"></span></a>
+                </span>
+            <% else %>
+                <span class="oi oi-clock my-1" title="<%= post.updated_at.strftime('%-m月%-d日 %-H:%M') %>" aria-hidden="true"> 
+                 <span data-livestamp="<%= post.updated_at.strftime('%Y-%m-%d %H:%M:%S') %>"></span>
+                </span>
+            <% end %>
+            </small>
+            </div>
+            </div>
+        </td>
+    </tr>
+
+    <% end %>
+
+<% elsif post.title == "新規サブクエスト" %>
+
+<tr>
+    <td class="px-0">
+        <% if Comment.find_by(post_id: post.id, user_uid: session[:uid]) %>
+        <div class="card text-white text-center bg-success my-1 tilt" style="max-width: 18rem;">
+            <% if post.image.attached? %>
+                <%= link_to post_path(post) do %>
+                <div class="trim"><%= image_tag post.image.variant(resize: "288x288", auto_orient: true, strip: true, quality: 60), :class => "card-img-top" %></div>
+                <% end %>
+            <% end %>
+            <%= link_to(post_path(post), class: 'card-body bg-success d-inline-block') do %>
+            <%# <%= button_to(post_path(post), {method: "get", class: "card-body btn btn-success btn-block p-0", style: "height:100px;", data: { disable_with: "読み込み中 <i class='fa fa-spinner fa-spin'></i>" }}) do %>
+            <h5 class="card-title text-white d-inline-block wf-nicomoji"><span class="oi oi-task" title="サブクエスト[クリア済]" aria-hidden="true"></span> サブクエ クリア✨</h5><br>
+            <p class="card-text font-weight-bold text-white d-inline-block text-truncate my-0" style="max-width: 220px; opacity: 0.87;">
+                <%= post.body %>
+            </p>
+            <% if post.scenario_start.present? %>
+                <div class="mark bg-transparent p-1">
+                <i class="fa fa-calendar" title="トップ掲載期間指定のサブクエスト" aria-hidden="true"></i>
+                </div>
+            <% end %>
+            <% end %>
+        </div>
+        <% else %>
+            <div class="card text-white text-center bg-danger my-1 tilt" style="max-width: 18rem;">
+            <% if post.image.attached? %>
+                <%= link_to post_path(post) do %>
+                <div class="trim"><%= image_tag post.image.variant(resize: "288x288", auto_orient: true, strip: true, quality: 60), :class => "card-img-top" %></div>
+                <% end %>
+            <% end %>
+            <%= link_to(post_path(post), class: 'card-body bg-danger d-inline-block') do %>
+            <h5 class="card-title text-white d-inline-block wf-nicomoji"><span class="oi oi-task" title="サブクエスト" aria-hidden="true"></span> サブクエスト ⚔</h5><br>
+            <p class="card-text font-weight-bold text-white d-inline-block text-truncate my-0" style="max-width: 220px; opacity: 0.87;">
+                <%= post.body %>
+            </p>
+            <% if post.scenario_start.present? %>
+                <div class="mark bg-transparent p-1">
+                <i class="fa fa-calendar" title="トップ掲載期間指定のサブクエスト" aria-hidden="true"></i>
+                </div>
+            <% end %>
+            <% end %>
+            </div>
+        <% end %>
+    </td>
+</tr>
+
+<% elsif post.title == "公式のつぶやき" %>
+
+<tr>
+    <td class="px-0">
+        <div class="box26">
+            <span class="box-title"><span class="oi oi-wifi text-primary" title="読んでね" aria-hidden="true"></span> 公式のつぶやき</span>
+            <p><%= post.body %>
+            <% if session[:uid] == "townsguild@another-guild.com" %>
+            <%= link_to sanitize('<span class="oi oi-pencil small text-primary" title="マスター編集" aria-hidden="true"></span>'),
+                post_path(post),
+                :class => 'font-weight-bold' %>
+            <% end %>
+            <br>
+            <span style="font-size: 0.8em; float: right;" class="mt-2 text-secondary">
+            <% if post.mstdn_status.present? %>
+                <span class="oi oi-clock my-1" title="<%= post.updated_at.strftime('%-m月%-d日 %-H:%M') %>" aria-hidden="true"> 
+                 <a href="<%= post.mstdn_status %>" target="_blank"><span data-livestamp="<%= post.updated_at.strftime('%Y-%m-%d %H:%M:%S') %>"></span></a>
+                </span>
+            <% else %>
+                <span class="oi oi-clock my-1" title="<%= post.updated_at.strftime('%-m月%-d日 %-H:%M') %>" aria-hidden="true"> 
+                 <span data-livestamp="<%= post.updated_at.strftime('%Y-%m-%d %H:%M:%S') %>"></span>
+                </span>
+            <% end %>
+            </span>
+            </p>
+        </div>
+    </td>
+</tr>
+
+<% elsif post.title == "冒険の拠点を登録" %>
+
+<% elsif post.title == "駅でチェックイン" %>
+<% @user = User.where(uid: post.post_uid).order(created_at: :desc).first %>
+
+    <% if @user.avatar %>
+
+    <tr>
+        <td class="balloon77 px-0">
+            <div class="faceicon">
+                <%= image_tag @user.avatar, :onerror => "this.src='/assets/missing.png'" %>
+            </div>
+            <div class="chatting">
+            <div class="says">
+            <small class="oi oi-compass mb-2" title="駅" aria-hidden="true"> <%= link_to post.stationname, "https://maps.google.co.jp/maps?q=#{post.stationname}", target: "_blank" %></small>
+            <br>
+            <p class="font-weight-bold text-secondary d-inline-block" style="opacity: 0.87; word-break: break-all;">
+                <% URI.extract(post.body).uniq.each {|url| post.body.gsub!(url, '')} %>
+                <%= post.body %>
+                <% if session[:uid] == "townsguild@another-guild.com" %>
+                <%= link_to sanitize('<span class="oi oi-pencil small text-primary" title="マスター編集" aria-hidden="true"></span>'),
+                    post_path(post),
+                    :class => 'font-weight-bold' %>
+                <% end %>
+            </p>
+            <small style="float: right;" class="mt-2 text-secondary">
+            <% if @user.display_name.present? %>
+            <span class="oi oi-person" title="投稿者" aria-hidden="true"></span> <%= link_to @user.display_name, user_path(@user) %> Lv.<%= @user.level %>
+            <% else %>
+            <span class="oi oi-person" title="投稿者" aria-hidden="true"></span> <%= link_to "@" + bunkatsu[0], user_path(@user) %> Lv.<%= @user.level %>
+            <% end %>
+            <% if post.mstdn_status.present? %>
+                <span class="oi oi-clock my-1" title="<%= post.updated_at.strftime('%-m月%-d日 %-H:%M') %>" aria-hidden="true"> 
+                 <a href="<%= post.mstdn_status %>" target="_blank"><span data-livestamp="<%= post.updated_at.strftime('%Y-%m-%d %H:%M:%S') %>"></span></a>
+                </span>
+            <% else %>
+                <span class="oi oi-clock my-1" title="<%= post.updated_at.strftime('%-m月%-d日 %-H:%M') %>" aria-hidden="true"> 
+                 <span data-livestamp="<%= post.updated_at.strftime('%Y-%m-%d %H:%M:%S') %>"></span>
+                </span>
+            <% end %>
+            </small>
+            </div>
+            </div>
+        </td>
+    </tr>
+
+    <% else %>
+
+    <tr>
+        <td class="balloon">
+            <small class="oi oi-compass mb-2" title="駅" aria-hidden="true"> <%= link_to post.stationname, "https://maps.google.co.jp/maps?q=#{post.stationname}", target: "_blank" %></small>
+            <p class="font-weight-bold text-secondary d-inline-block" style="opacity: 0.87; word-break: break-all;">
+                <% URI.extract(post.body).uniq.each {|url| post.body.gsub!(url, '')} %>
+                <%= post.body %>
+                <% if session[:uid] == "townsguild@another-guild.com" %>
+                <%= link_to sanitize('<span class="oi oi-pencil small text-primary" title="マスター編集" aria-hidden="true"></span>'),
+                    post_path(post),
+                    :class => 'font-weight-bold' %>
+                <% end %>
+            </p>
+            <small style="float: right;" class="mt-2 text-secondary">
+            <% if @user.display_name.present? %>
+            <span class="oi oi-person" title="投稿者" aria-hidden="true"></span> <%= link_to @user.display_name, user_path(@user) %> Lv.<%= @user.level %>
+            <% else %>
+            <span class="oi oi-person" title="投稿者" aria-hidden="true"></span> <%= link_to "@" + bunkatsu[0], user_path(@user) %> Lv.<%= @user.level %>
+            <% end %>
+            <% if post.mstdn_status.present? %>
+                <span class="oi oi-clock my-1" title="<%= post.updated_at.strftime('%-m月%-d日 %-H:%M') %>" aria-hidden="true"> 
+                 <a href="<%= post.mstdn_status %>" target="_blank"><span data-livestamp="<%= post.updated_at.strftime('%Y-%m-%d %H:%M:%S') %>"></span></a>
+                </span>
+            <% else %>
+                <span class="oi oi-clock my-1" title="<%= post.updated_at.strftime('%-m月%-d日 %-H:%M') %>" aria-hidden="true"> 
+                 <span data-livestamp="<%= post.updated_at.strftime('%Y-%m-%d %H:%M:%S') %>"></span>
+                </span>
+            <% end %>
+            </small>
+            </p>
+        </td>
+    </tr>
+
+    <% end %>
+
+<% else %>
+<% @user = User.where(uid: post.post_uid).order(created_at: :desc).first %>
+
+    <% if @user.avatar %>
+
+    <tr>
+        <td class="balloon77 px-0">
+            <div class="faceicon">
+                <%= image_tag @user.avatar, :onerror => "this.src='/assets/missing.png'" %>
+            </div>
+            <div class="chatting">
+            <div class="says">
+            <p class="font-weight-bold text-secondary d-inline-block" style="opacity: 0.87; word-break: break-all;">
+            <% URI.extract(post.body).uniq.each {|url| post.body.gsub!(url, '')} %>
+            <%= post.body %>
+                <% if session[:uid] == "townsguild@another-guild.com" %>
+                <%= link_to sanitize('<span class="oi oi-pencil small text-primary" title="マスター編集" aria-hidden="true"></span>'),
+                    post_path(post),
+                    :class => 'font-weight-bold' %>
+                <% end %>
+            </p>
+            <small style="float: right;" class="mt-2 text-secondary">
+            <% if @user.display_name.present? %>
+            <span class="oi oi-person" title="投稿者" aria-hidden="true"></span> <%= link_to @user.display_name, user_path(@user) %> Lv.<%= @user.level %>
+            <% else %>
+            <span class="oi oi-person" title="投稿者" aria-hidden="true"></span> <%= link_to "@" + bunkatsu[0], user_path(@user) %> Lv.<%= @user.level %>
+            <% end %>
+            <% if post.mstdn_status.present? %>
+                <span class="oi oi-clock my-1" title="<%= post.updated_at.strftime('%-m月%-d日 %-H:%M') %>" aria-hidden="true"> 
+                 <a href="<%= post.mstdn_status %>" target="_blank"><span data-livestamp="<%= post.updated_at.strftime('%Y-%m-%d %H:%M:%S') %>"></span></a>
+                </span>
+            <% else %>
+                <span class="oi oi-clock my-1" title="<%= post.updated_at.strftime('%-m月%-d日 %-H:%M') %>" aria-hidden="true"> 
+                 <span data-livestamp="<%= post.updated_at.strftime('%Y-%m-%d %H:%M:%S') %>"></span>
+                </span>
+            <% end %>
+            </small>
+            </div>
+            </div>
+        </td>
+    </tr>
+
+    <% else %>
+
+    <tr>
+        <td class="balloon">
+            <p class="font-weight-bold text-secondary d-inline-block" style="opacity: 0.87; word-break: break-all;">
+                <% URI.extract(post.body).uniq.each {|url| post.body.gsub!(url, '')} %>
+                <%= post.body %>
+                <% if session[:uid] == "townsguild@another-guild.com" %>
+                <%= link_to sanitize('<span class="oi oi-pencil small text-primary" title="マスター編集" aria-hidden="true"></span>'),
+                    post_path(post),
+                    :class => 'font-weight-bold' %>
+                <% end %>
+            </p>
+            <small style="float: right;" class="mt-2 text-secondary">
+            <% if @user.display_name.present? %>
+            <span class="oi oi-person" title="投稿者" aria-hidden="true"></span> <%= link_to @user.display_name, user_path(@user) %> Lv.<%= @user.level %>
+            <% else %>
+            <span class="oi oi-person" title="投稿者" aria-hidden="true"></span> <%= link_to "@" + bunkatsu[0], user_path(@user) %> Lv.<%= @user.level %>
+            <% end %>
+            <% if post.mstdn_status.present? %>
+                <span class="oi oi-clock my-1" title="<%= post.updated_at.strftime('%-m月%-d日 %-H:%M') %>" aria-hidden="true"> 
+                 <a href="<%= post.mstdn_status %>" target="_blank"><span data-livestamp="<%= post.updated_at.strftime('%Y-%m-%d %H:%M:%S') %>"></span></a>
+                </span>
+            <% else %>
+                <span class="oi oi-clock my-1" title="<%= post.updated_at.strftime('%-m月%-d日 %-H:%M') %>" aria-hidden="true"> 
+                 <span data-livestamp="<%= post.updated_at.strftime('%Y-%m-%d %H:%M:%S') %>"></span>
+                </span>
+            <% end %>
+            </small>
+        </td>
+    </tr>
+
+    <% end %>
+
+<% end %>

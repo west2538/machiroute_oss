@@ -1,0 +1,10 @@
+<div class="card">
+    <h5 class="card-header"><span class="oi oi-camera-slr text-info" title="メディア" aria-hidden="true"></span> 写真で探す</h5>
+    <div class="card-body">
+        <p class="card-text">未クリアのサブクエ写真をピックアップ！フィーリングで選んでサブクエストに挑戦しよう!!</p>
+    </div>
+</div>
+
+<div class="card-columns mt-3">
+    <%= render partial: 'gallery', collection: @post, as: :post %>
+</div>

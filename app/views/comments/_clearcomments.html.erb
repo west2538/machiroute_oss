@@ -1,0 +1,41 @@
+<% user = User.where(uid: comment.user_uid).order(created_at: :desc).first %>
+
+<% if comment.user_uid.present? %>
+  <% c_bunkatsu = comment.user_uid.split("@") %>
+
+  <p class="list-unstyled px-3" style="word-break: break-all;">
+      <% if comment.user_uid == session[:uid] %>
+          <% URI.extract(comment.body).uniq.each {|url| comment.body.gsub!(url, '')} %>
+          <span class="oi oi-person text-success" title="クリアコメント" aria-hidden="true"></span> <%= comment.body %>
+          <%# <br><span><a href="https://twitter.com/share?ref_src=twsrc%5Etfw" class="twitter-share-button" data-text="<%= comment.body + "\n\n#サブクエストをクリア\nみんなもクリアしよう！\n┏┿──────────\n╂┘" + simpletext + "\n ─────────┿┛\n"" data-url="https://machiroute.herokuapp.com/" data-lang="ja" data-show-count="false">Tweet</a></span> %>
+      <% elsif comment.body.present? %>
+      <% URI.extract(comment.body).uniq.each {|url| comment.body.gsub!(url, '')} %>
+      <span class="oi oi-person text-warning" title="クリアコメント" aria-hidden="true"></span> <%= comment.body %>
+      <% end %>
+      <% if comment.image.attached? %>
+          <br><%= image_tag comment.image.variant(resize: "240x300", auto_orient: true, strip: true), :class => "mt-1", :style => "max-width: 240px;" %>
+      <% end %>
+      <% if session[:uid] == "townsguild@another-guild.com" %>
+          <% unless comment.id.nil? %>
+          <%= link_to sanitize('<span class="oi oi-trash small text-danger" title="マスター削除" aria-hidden="true"></span>'),
+          post_comment_path(post, comment), 
+          method: :delete, 
+          class: 'command', 
+          data: { confirm: '本当に削除しますか？' } %>
+          <% end %>
+      <% end %>
+      <br>
+      <small class="mt-1 text-secondary">
+      <% if user.display_name.present? %>
+      <%= link_to user.display_name, user_path(user) %> Lv.<%= user.level %>
+      <% else %>
+      <%= link_to "@" + c_bunkatsu[0], user_path(user) %> Lv.<%= user.level %>
+      <% end %>
+      <% if comment.mstdn_status.present? %>
+      <span class="oi oi-clock my-1" title="<%= comment.updated_at.strftime('%-m月%-d日 %-H:%M') %>" aria-hidden="true"></span> <a href="<%= comment.mstdn_status %>" target="_blank"><span data-livestamp="<%= comment.updated_at.strftime('%Y-%m-%d %H:%M:%S') %>"></span></a>
+      <% else %>
+      <span class="oi oi-clock my-1" title="<%= comment.updated_at.strftime('%-m月%-d日 %-H:%M') %>" aria-hidden="true"></span> <span data-livestamp="<%= comment.updated_at.strftime('%Y-%m-%d %H:%M:%S') %>"></span>
+      <% end %>
+      </small>
+  </p>
+<% end %>

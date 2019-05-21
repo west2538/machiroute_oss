@@ -1,0 +1,2 @@
+$("#likes_ajax").replaceWith("<%= escape_javascript(render partial: 'saves', locals: { post: @post, current_user: @current_user }, id: 'likes_ajax') %>");
+$("#newclearcommentinput_ajax").replaceWith("<%= escape_javascript(render partial: 'comments/newclearcommentinput', locals: { post: @post, current_user: @current_user }, id: 'newclearcommentinput_ajax') %>");

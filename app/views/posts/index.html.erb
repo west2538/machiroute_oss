@@ -1,0 +1,829 @@
+<% if session[:uid] && @current_user && @current_user.avatar %>
+
+<% session_bunkatsu = session[:uid].split("@") %>
+
+<div class="row mx-auto mt-2" style="max-width:950px;">
+
+    <div class="col-md-1 d-none d-md-block d-lg-none"></div>
+
+    <div class="col-md-5 col-lg-4 d-none d-md-block clearfix">
+
+        <div class="mr-2 float-right" style="width:300px;">
+
+            <div class="comment-bg2" style="background:#fff; position:fixed; top:64px; width:280px;">
+            <table class="table table-borderless m-0">
+                <tr style="border; 1px; solid #ddd;">
+                    <% if @current_user.avatar.present? %>
+                    <span class="useravatar"><%= image_tag @current_user.avatar, :onerror => "this.src='/assets/missing.png'" %></span>
+                    <% else %>
+                    <span class="useravatar"><%= image_tag '/assets/missing.png' %></span>
+                    <% end %>
+                    <% if @current_user.display_name.present? %>
+                        <span class="text-success mt-3 mb-0" title="ログイン中の冒険者" aria-hidden="true"> 
+                        <%= link_to @current_user.display_name, user_path(@current_user) %>
+                        </span>
+                    <% else %>
+                        <span class="oi oi-person text-success ml-3 mt-3 mb-0" title="ログイン中の冒険者" aria-hidden="true"> 
+                        <%= link_to sanitize('') + '@' + session_bunkatsu[0], user_path(@current_user) %>
+                        </span>
+                    <% end %>
+                </tr>
+                <thead>
+                <tr class="text-center">
+                    <th scope="col" style="width: 100px; text-align:left;" class="py-0">Lv.</th>
+                    <th scope="col" style="width: 100px;" class="py-0">HP</th>
+                    <th scope="col" style="width: 100px;" class="text-nowrap py-0">クリア/MaChiKa</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr class="text-nowrap text-center">
+                    <td class="py-0">
+                    <% if @current_user.level >= 200 %>
+                        <span class="shogo" title="伝説の勇者">🏰</span>
+                        <span class="level_count text-danger"><%= @current_user.level %></span>
+                    <% elsif @current_user.level >= 100 %>
+                        <span class="shogo" title="キング">🏆</span>
+                        <span class="level_count text-success"><%= @current_user.level %></span>
+                    <% elsif @current_user.level >= 50 %>
+                        <span class="shogo" title="ナイト">🏅</span>
+                        <span class="level_count text-success"><%= @current_user.level %></span>
+                    <% elsif @current_user.level >= 10 %>
+                        <span class="shogo" title="称号付き冒険者">🥇</span>
+                        <span class="level_count text-primary"><%= @current_user.level %></span>
+                    <% else %>
+                        <span class="shogo" title="かけだしの冒険者">🔰</span>
+                        <span class="level_count"><%= @current_user.level %></span>
+                    <% end %>
+                    </td>
+                    <td class="py-0">
+                    <span class="status_number"><%= @current_user.hp %></span>
+                    </td>
+                    <td class="py-0">
+                    <span class="status_number"><%= @user_clears_count %></span> <span class="font-weight-bold">件</span>
+                    <% if @current_user.machika_token %>
+                        <a href="https://note.mu/west2538/n/n35103c6e7fd7" target="_blank"><span class="oi oi-globe text-black" title="まちの価値＝MaChiKa" aria-hidden="true"></a> <span class="status_number"><%= @current_user.machika_token %></span>
+                    <% elsif %>
+                    <span class="oi oi-warning text-danger" title="再ログイン" aria-hidden="true"></span>
+                    <%= link_to "再ログイン",
+                        signout_path,
+                        method: :delete %>
+                    <% end %>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+
+            <% metervalue = @current_user.exp % 100 %>
+            <% if metervalue == 0 %>
+                <% metervalue = 5 %>
+            <% end %>
+            <table class="ml-3 mt-1 mb-2">
+                <tr>
+                    <td>
+                        <div>
+                            <small class="font-weight-bold">EXP</small> <meter value="<%= metervalue %>" min="0" max="100" low="30" high="90" style="width: 220px;">--</meter>
+                        </div>
+                    </td>
+                </tr>
+            </table>
+
+            </div>
+
+            <div class="comment-bg2 mt-1" style="background:#fff; position:fixed; top:214px; width:280px;">
+
+                <table class="table table-borderless m-0">
+                    <tr>
+                    <td class="text-nowrap my-auto">
+                        <span class="oi oi-flag text-danger ml-2" aria-hidden="true"></span>
+                        <span class="font-weight-bold"> おすすめ</span>
+                    </td>
+                    <td class="bg-info my-3 text-center" style="border-radius: 0 10px 0 0;">
+                        <div class="btn-group">
+                            <%= link_to('map') do %>
+                            <span class="oi oi-map-marker text-white"></span>
+                            <span class="font-weight-bold text-white">マップ</span>
+                            <% end %>
+                            <%= link_to('gallery') do %>
+                            <span class="oi oi-camera-slr text-white ml-2"></span>
+                            <span class="font-weight-bold text-white">写 真</span>
+                            <% end %>
+                        </div>
+                    </td>
+                    </tr>
+                </table>
+
+                <table class="table table-borderless mb-0">
+                    <tr>
+                    <td class="text-left pt-2 pb-0 pr-0" style="width: 240px;">
+                    <% @ranks.each.with_index(1) do |rank, i| %>
+                    <p class="mb-0 d-inline-block text-truncate" style="max-width: 240px;">
+                        <% @post = Post.find(rank) %>
+                        <% if Comment.find_by(post_id: @post.id, user_uid: session[:uid]) %>
+                        <span class="oi oi-task text-success" title="クリア" aria-hidden="true"></span> 
+                        <% else %>
+                        <span class="oi oi-task text-danger" title="未クリア" aria-hidden="true"></span> 
+                        <% end %>
+                        <%= link_to @post.body,
+                        post_path(@post),
+                        :class => 'font-weight-bold text-truncate' %>
+                    </p>
+                    <% end %>
+                    </td>
+                    </tr>
+                </table>
+
+                <div class="m-0 p-0 d-lg-none">
+
+                    <table class="table table-borderless mb-0">
+                        <tr>
+                        <td class="text-left pt-3 pb-1">
+                        <p class="pr-1 pt-0 pb-0 m-0">
+                            <span class="oi oi-bar-chart text-warning"></span> <span class="font-weight-bold">みんなのソーシャルアップデート値</span>
+                        </p>
+                        </td>
+                        </tr>
+                    </table>
+
+                    <table class="table table-borderless mb-0">
+                        <thead>
+                        <tr class="text-center">
+                            <th scope="col" class="py-0">冒険者</th>
+                            <th scope="col" class="py-0">クリア</th>
+                            <th scope="col" class="py-0">レベル</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr id="socialparam1" class="text-center">
+                            <td class="py-0">
+                            <span class="status_number"><%= @boukensha_count %></span> <span class="font-weight-bold">名</span>
+                            </td>
+                            <td class="py-0">
+                            <span class="status_number"><%= @clears_count %></span> <span class="font-weight-bold">件</span>
+                            </td>
+                            <td class="py-0">
+                            <span class="font-weight-bold">平均Lv.</span><span class="status_number"><%= @level_average %></span>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+
+                    <table class="ml-3 mt-0 mb-3">
+                        <tr><td>
+                        <small class="font-weight-bold">めざせ1万件!</small> <meter value="<%= @clears_count %>" min="0" max="10000" low="5000" high="9000" style="width: 170px;">--</meter>
+                        </td></tr>
+                    </table>
+
+                    <div class="ac-container2">
+                        <input id="ac-2" name="accordion-2" type="checkbox" />
+                        <label for="ac-2">みんなのログイン履歴 </label>
+                        <div class="ac-small2 pt-0 px-2">
+                        <p class="my-1" style="text-align: center; font-weight: bold;">～ 魔法陣より召喚されし冒険者たち ～</p>
+                        <span id="users-list1" class="logbox">
+                        <%= render partial: 'online_users', collection: @online_users, as: :member %>
+                        </span>
+                        </div>
+                    </div>
+
+                </div>
+
+                <table class="table table-borderless mb-3">
+                    <thead>
+                    <tr>
+                        <th><span class="oi oi-timer text-info" title="履歴" aria-hidden="true"></span> 最近アクセスしたサブクエスト</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr>
+                        <td class="text-left pt-0 pb-0" style="width: 240px;">
+                            <% posts = [] %>
+                            <% posts = cookies[:recently_viewed_posts].split(",") unless cookies[:recently_viewed_posts].nil? %>
+                            <% posts.last(5).reverse_each do |id| %>
+                                <% if Post.exists?(id: id) %>
+                                    <% post = Post.find(id) %>
+                                    <div>
+                                    <p class="mb-0 d-inline-block text-truncate" style="max-width: 240px;">
+                                    <% if Comment.find_by(post_id: post.id, user_uid: session[:uid]) %>
+                                    <span class="oi oi-task text-success" title="クリア" aria-hidden="true"></span> 
+                                    <% else %>
+                                    <span class="oi oi-task text-danger" title="未クリア" aria-hidden="true"></span> 
+                                    <% end %>
+                                    <%= link_to post.body,
+                                    post_path(post),
+                                    :class => 'font-weight-bold' %>
+                                    </p>
+                                    </div>
+                                <% end %>
+                            <% end %>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+
+            </div>
+
+        </div>
+    </div>
+
+    <div class="col-md-5 col-lg-4 mx-auto p-0 pt-1" style="width:290px;">
+
+        <div style="width:289px;">
+            <ul id="tab" class="nav nav-tabs mb-2 sticky-top" style="position: fixed; top: 64px; background:#E0DDDD; border-radius:5px 5px 0px 0px; opacity: 0.87;">
+                <li class="nav-item">
+                    <a href="#tab01" class="nav-link font-weight-bold" data-toggle="tab">みんな <span class="oi oi-people text-warning" title="みんなの投稿" aria-hidden="true"></span></a>
+                </li>
+                <li class="nav-item">
+                    <a href="#tab02" class="nav-link font-weight-bold" data-toggle="tab">あなた <span class="oi oi-person text-success" title="あなたの投稿" aria-hidden="true"></span></a>
+                </li>
+                <li class="nav-item">
+                    <a href="#tab03" class="nav-link font-weight-bold" data-toggle="tab">せーぶ <span class="oi oi-task text-danger mr-1" title="せーぶした投稿" aria-hidden="true"></span></a>
+                </li>
+            </ul>
+        </div>
+
+        <div id="tabContents" class="tab-content">
+
+            <div id="tab01" class="tab-pane active">
+
+                <div class="d-none d-md-block d-lg-block d-xl-block">
+
+                    <div id="modal-main">
+                        <% if @current_user.avatar.present? %>
+                        <table class="table table-borderless ml-3">
+                        <tr>
+                            <td class="balloon01 px-0">
+                                <div class="faceicon">
+                                    <%= image_tag @current_user.avatar, :onerror => "this.src='/assets/missing.png'" %>
+                                </div>
+                                <div class="chatting">
+                                <div class="says01">
+                                <p class="says01 font-weight-bold text-secondary d-inline-block" style="opacity: 0.87;">
+                                    <%= form_with model: Post.new, local: true, id: :commentSubmit do |f| %>
+                                    <div class="input-group">
+                                        <input type="hidden" name="post[title]" value="冒険中のつぶやき">
+                                        <%= f.text_field :body,
+                                        :class => 'form-control',
+                                        :style => 'width: 340px;',
+                                        :placeholder => '冒険中なにしてる？',
+                                        :autocomplete => 'off',
+                                        :id => 'modalinput' %>
+                                    <label class="input-group-btn m-0">
+                                        <%= button_tag :type => "submit", data: { disable_with: "<i class='fa fa-spinner fa-spin'></i>" }, :class =>"btn btn-success" do %>
+                                        <span class="oi oi-chat" title="つぶやく" aria-hidden="true"></span>
+                                        <% end %>
+                                    </label>
+                                    </div>
+                                    <% end %>
+                                </p>
+                                <small style="float: right;" class="mt-2 mb-3">
+                                <% if session[:provider] == 'twitter' && session[:oauth_token] && @twitter_auth %>
+                                    <span style="position:relative; top:-1px; left:-5px;"><i class="fa fa-twitter-square fa-lg text-success" aria-hidden="true"></i> <span class="font-weight-bold text-success">連携中</span></span>
+                                <% end %>
+                                <% if @current_user.display_name.present? %>
+                                <span class="oi oi-person" title="投稿者" aria-hidden="true"></span> <%= link_to @current_user.display_name, user_path(@current_user) %> Lv.<%= @current_user.level %>
+                                <% else %>
+                                <span class="oi oi-person" title="投稿者" aria-hidden="true"></span> <%= link_to "@" + session_bunkatsu[0], user_path(@current_user) %> Lv.<%= @current_user.level %>
+                                <% end %>
+                                </small>
+                                </div>
+                                </div>
+                            </td>
+                        </tr>
+                        </table>
+                        <% end %>
+                    </div>
+            
+                    <div id="contents" style="width: 288px;">
+                        <% if @current_user.avatar.present? %>
+                        <a id="modal-open">
+                        <table class="table table-borderless mb-0">
+                        <tr>
+                            <td class="balloon01 px-0 pb-0">
+                                <div class="faceicon">
+                                    <%= image_tag @current_user.avatar, :onerror => "this.src='/assets/missing.png'" %>
+                                </div>
+                                <div class="chatting">
+                                <div class="says01 pt-3">
+                                <fieldset disabled>
+                                    <div class="input-group">
+                                    <input type="text" class="form-control" placeholder="冒険中なにしてる">
+                                    <label class="input-group-btn m-0">
+                                    <button class="btn btn-success">
+                                    <span class="oi oi-chat" title="つぶやく" aria-hidden="true"></span>
+                                    </button>
+                                    </label>
+                                    </div>
+                                </fieldset>
+                                <small style="float: right;" class="mt-2 mb-2 text-primary">
+                                冒険中のつぶやきを書く
+                                </small>
+                                </div>
+                                </div>
+                            </td>
+                        </tr>
+                        </table>
+                        </a>
+                        <% end %>    
+                    </div>
+
+                </div>
+
+                <div class="d-md-none" style="width: 288px;">
+
+                    <div class="comment-bg" style="width: 288px; background:#fff;">
+
+                        <table class="table m-0">
+                            <tr>
+                            <td class="text-nowrap my-3 text-center">
+                                <span class="oi oi-flag text-danger"></span>
+                                <span class="font-weight-bold p-0">おすすめ</span>
+                            </td>
+                            <td class="bg-info my-3 text-center">
+                                <div class="btn-group">
+                                    <%= link_to('map') do %>
+                                    <span class="oi oi-map-marker text-white"></span>
+                                    <span class="font-weight-bold text-white">マップ</span>
+                                    <% end %>
+                                    <%= link_to('gallery') do %>
+                                    <span class="oi oi-camera-slr text-white ml-3"></span>
+                                    <span class="font-weight-bold text-white">写 真</span>
+                                    <% end %>
+                                </div>
+                            </td>
+                            </tr>
+                        </table>
+
+                        <table class="table table-borderless mb-0">
+
+                            <tr>
+                            <td class="text-left pt-2 pb-0" style="width: 240px;">
+                            <% @ranks.each.with_index(1) do |rank, i| %>
+                            <p class="pl-2 pr-1 mb-0 d-inline-block text-truncate" style="max-width: 250px;">
+                                <% @post = Post.find(rank) %>
+                                <% if Comment.find_by(post_id: @post.id, user_uid: session[:uid]) %>
+                                <span class="oi oi-task text-success" title="クリア" aria-hidden="true"></span> 
+                                <% else %>
+                                <span class="oi oi-task text-danger" title="未クリア" aria-hidden="true"></span> 
+                                <% end %>
+                                <%= link_to @post.body,
+                                post_path(@post),
+                                :class => 'font-weight-bold' %>
+                            </p>
+                            <% end %>
+                            </td>
+                            </tr>
+
+                        </table>
+
+                        <table class="table table-borderless mb-0">
+                            <tr>
+                            <td class="text-left pb-1">
+                            <p class="pl-2 pr-1 py-0 m-0">
+                                <span class="oi oi-bar-chart text-warning"></span> <span class="font-weight-bold">みんなのソーシャルアップデート値</span>
+                            </p>
+                            </td>
+                            </tr>
+                        </table>
+
+                        <table class="table table-borderless mb-0">
+
+                            <thead>
+                            <tr class="text-center">
+                                <th scope="col" class="py-0">冒険者</th>
+                                <th scope="col" class="py-0">クリア</th>
+                                <th scope="col" class="py-0">レベル</th>
+                            </tr>
+                            </thead>
+
+                            <tbody>
+                            <tr id="socialparam2" class="text-center">
+                                <td class="py-0">
+                                <span class="status_number"><%= @boukensha_count %></span> <span class="font-weight-bold">名</span>
+                                </td>
+                                <td class="py-0">
+                                <span class="status_number"><%= @clears_count %></span> <span class="font-weight-bold">件</span>
+                                </td>
+                                <td class="py-0">
+                                <span class="font-weight-bold">平均Lv.</span><span class="status_number"><%= @level_average %></span>
+                                </td>
+                            </tr>
+                            </tbody>
+
+                        </table>
+
+                        <table class="ml-3 mt-0 mb-3">
+                            <tr><td>
+                            <small class="font-weight-bold">めざせ1万件!</small> <meter value="<%= @clears_count %>" min="0" max="10000" low="5000" high="9000" style="width: 184px;">--</meter>
+                            </td></tr>
+                        </table>
+
+                        <div class="ac-container">
+                            <input id="ac-1" name="accordion-1" type="checkbox" />
+                            <label for="ac-1">みんなのログイン履歴 </label>
+                            <div class="ac-small pt-0 px-2">
+                                <p class="my-1" style="text-align: center; font-weight: bold;">～ 魔法陣より召喚されし冒険者たち ～</p>
+                                <span id="users-list2" class="logbox">
+                                <%= render partial: 'online_users', collection: @online_users, as: :member %>
+                                </span>
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <%= form_with model: Post.new, local: true, id: :commentSubmit, class: 'my-3' do |f| %>
+                        <input type="hidden" name="post[title]" value="冒険中のつぶやき">
+                    <div class="input-group">
+                        <span class="useravatar3"><%= image_tag @current_user.avatar, :onerror => "this.src='/assets/missing.png'" %></span>
+                        <%= f.text_area :body,
+                        :class => 'form-control',
+                        :placeholder => '冒険中なにしてる？',
+                        :autocomplete => 'off',
+                        :id => 'targetbox' %>
+                        <label class="input-group-btn m-0">
+                            <%= button_tag :type => "submit", data: { disable_with: "<i class='fa fa-spinner fa-spin'></i>" }, :class =>"btn btn-success" do %>
+                            <span class="oi oi-chat" title="つぶやく" aria-hidden="true"></span>
+                            <% end %>
+                        </label>
+                        <% if session[:provider] == 'twitter' && session[:oauth_token] && @twitter_auth %>
+                            <small style="position:absolute; top:34px; left:250px;"><i class="fa fa-twitter-square fa text-success" aria-hidden="true"></i><small class="font-weight-bold text-success m-0">連携中</small></small>
+                        <% end %>
+                    </div>
+                    <% end %>
+                    <script>
+                    function gotfocus() {
+                    this.style.height = "6em";
+                    }
+                    function lostfocus() {
+                    if( this.value.length == 0 ) {
+                        this.style.height = "3em";
+                    }
+                    }
+                    document.getElementById("targetbox").onfocus = gotfocus;
+                    document.getElementById("targetbox").onblur = lostfocus;
+                    </script>
+                
+                </div>
+
+                    <div class="d-inline-block" style="width: 288px;">
+                        <table class="table table-borderless">
+                        <tbody>
+                        <%= render partial: 'special_posts', collection: @special_posts, as: :post %>
+                        </tbody>
+                        <tr id="posts" style="height:1px;">
+                        </tr>
+                        <tbody id="items01">
+                        <%= render partial: 'posts01', collection: @posts01, as: :post %>
+                        </tbody>
+                        <tr>
+                        <td class="px-0">
+                            <%= link_to_next_page @posts01, 'つづきを見る', remote: true, id: 'more_link01', class: 'btn btn-info btn-block', params: { type: :posts01 }, data: { disable_with: "読み込み中 <i class='fa fa-spinner fa-spin'></i>" } %>
+                        </td>
+                        </tr>
+                        </table>
+                    </div>
+
+            </div>
+
+            <div id="tab02" class="tab-pane">
+
+                <div class="d-md-none" style="width: 288px;">
+
+                <div class="comment-bg" style="width: 288px; background:#fff;">
+
+                <table class="table table-borderless m-0">
+                    <tr style="border; 1px; solid #ddd;">
+                    <span class="useravatar2">
+                    <%= image_tag @current_user.avatar, :onerror => "this.src='/assets/missing.png'" %></span>
+                    <% if @current_user.display_name.present? %>
+                        <span class="ml-1 mt-3 mb-0" title="ログイン中の冒険者" aria-hidden="true"> 
+                        <%= link_to @current_user.display_name,
+                        user_path(@current_user) %>
+                        </span>
+                    <% else %>
+                        <span class="ml-1 mt-3 mb-0" title="ログイン中の冒険者" aria-hidden="true"> 
+                        <%= link_to sanitize('') + '@' + session_bunkatsu[0],
+                        user_path(@current_user) %>
+                        </span>
+                    <% end %>
+                    </tr>
+                    <thead>
+                    <tr class="text-center">
+                        <th scope="col" style="width: 100px; text-align:left;" class="py-0">Lv.</th>
+                        <th scope="col" style="width: 100px;" class="py-0">HP</th>
+                        <th scope="col" style="width: 100px;" class="text-nowrap py-0">クリア/MaChiKa</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr class="text-nowrap text-center">
+                        <td class="py-0">
+                        <% if @current_user.level >= 200 %>
+                            <span class="shogo2" title="伝説の勇者">🏰</span>
+                            <span class="level_count2 text-danger"><%= @current_user.level %></span>
+                        <% elsif @current_user.level >= 100 %>
+                            <span class="shogo2" title="キング">🏆</span>
+                            <span class="level_count2 text-success"><%= @current_user.level %></span>
+                        <% elsif @current_user.level >= 50 %>
+                            <span class="shogo2" title="ナイト">🏅</span>
+                            <span class="level_count2 text-success"><%= @current_user.level %></span>
+                        <% elsif @current_user.level >= 10 %>
+                            <span class="shogo2" title="称号付き冒険者">🥇</span>
+                            <span class="level_count2 text-primary"><%= @current_user.level %></span>
+                        <% else %>
+                            <span class="shogo2" title="かけだしの冒険者">🔰</span>
+                            <span class="level_count2"><%= @current_user.level %></span>
+                        <% end %>
+                        </td>
+                        <td class="py-0">
+                        <span class="status_number"><%= @current_user.hp %></span>
+                        </td>
+                        <td class="py-0">
+                        <span class="status_number"><%= @user_clears_count %></span> <span class="font-weight-bold">件</span>
+                        <% if @current_user.machika_token %>
+                            <a href="https://note.mu/west2538/n/n35103c6e7fd7" target="_blank"><span class="oi oi-globe text-black" title="まちの価値＝MaChiKa" aria-hidden="true"></a> <span class="status_number"><%= @current_user.machika_token %></span>
+                        <% else %>
+                            <span class="oi oi-warning text-danger" title="再ログイン" aria-hidden="true"></span>
+                            <%= link_to "再ログイン",
+                                signout_path,
+                                method: :delete %>
+                        <% end %>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+
+                <% metervalue = @current_user.exp % 100 %>
+                <% if metervalue == 0 %>
+                    <% metervalue = 5 %>
+                <% end %>
+                <table class="ml-3 mt-2 mb-2">
+                    <tr>
+                        <td>
+                            <div>
+                            <small class="font-weight-bold">EXP</small> <meter value="<%= metervalue %>" min="0" max="100" low="30" high="90" style="width: 220px;">--</meter>
+                            </div>
+                        </td>
+                    </tr>
+                </table>
+
+                <table class="table table-borderless mb-3 ml-2">
+                    <thead>
+                    <tr>
+                        <th><span class="oi oi-timer text-info" title="履歴" aria-hidden="true"></span> 最近アクセスしたサブクエスト</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr>
+                    <td class="text-left pt-0 pb-0" style="width: 240px;">
+                        <% posts = [] %>
+                        <% posts = cookies[:recently_viewed_posts].split(",") unless cookies[:recently_viewed_posts].nil? %>
+                        <% posts.last(5).reverse_each do |id| %>
+                            <% if Post.exists?(id: id) %>
+                                <% post = Post.find(id) %>
+                                <div>
+                                <p class="mb-0 d-inline-block text-truncate" style="max-width: 240px;">
+                                <% if Comment.find_by(post_id: post.id, user_uid: session[:uid]) %>
+                                <span class="oi oi-task text-success" title="クリア" aria-hidden="true"></span> 
+                                <% else %>
+                                <span class="oi oi-task text-danger" title="未クリア" aria-hidden="true"></span> 
+                                <% end %>
+                                <%= link_to post.body,
+                                post_path(post),
+                                :class => 'font-weight-bold' %>
+                                </p>
+                                </div>
+                            <% end %>
+                        <% end %>
+                    </td>
+                    </tr>
+                    </tbody>
+                </table>
+
+                </div>
+
+                </div>
+
+                <div class="d-inline-block" style="width: 288px;">
+
+                    <table class="table table-borderless">
+                        <tbody id="items02">
+                        <%= render partial: 'posts02', collection: @posts02, as: :post %>
+                        </tbody>
+                        <tr>
+                        <td class="px-0">
+                            <%= link_to_next_page @posts02, 'つづきを見る', remote: true, id: 'more_link02', class: 'btn btn-info btn-block', params: { type: :posts02 }, data: { disable_with: "読み込み中 <i class='fa fa-spinner fa-spin'></i>" } %>
+                        </td>
+                        </tr>
+                    </table>
+
+                </div>
+
+            </div>
+
+            <div id="tab03" class="tab-pane" style="width: 288px;">
+
+                <div class="col-md-1 m-0 p-0 d-lg-none">
+                    <div class="comment-bg" style="width: 288px;">
+                        <table class="table table-borderless">
+                            <tr class="bg-info my-3 text-center">
+                            <td>
+                                <%= link_to('unclear') do %>
+                                <span class="oi oi-magnifying-glass text-white"></span>
+                                <span class="font-weight-bold text-white">せーぶ済みの未クリアを探す</span>
+                                <% end %>
+                            </td>
+                            </tr>
+                            <tr>
+                            <td class="pb-0">
+                                <%= render 'tags1' %>
+                            </td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+
+                <table class="table table-borderless">
+                    <tbody id="items03">
+                    <%= render partial: 'posts03', collection: @posts03, as: :post %>
+                    </tbody>
+                    <tr>
+                    <td class="px-0">
+                        <%= link_to_next_page @posts03, 'つづきを見る', remote: true, id: 'more_link03', class: 'btn btn-info btn-block', params: { type: :posts03 }, data: { disable_with: "読み込み中 <i class='fa fa-spinner fa-spin'></i>" } %>
+                    </td>
+                    </tr>
+                </table>
+            </div>
+
+        </div>
+
+    </div>
+
+    <div class="col-lg-4 d-none d-lg-block">
+
+        <div class="comment-bg2" style="background:#fff; position:fixed; top:64px; width:288px;">
+
+            <% unless browser.device.mobile? %>
+            <div class="magic-square mx-auto" style="position:absolute; top:280px; left:68px;">
+            <div class="magic-square-content">
+                <div class="magic-square-content__inner">
+                    <p class="magic-square-content__txt--top">ま</p>
+                    <p class="magic-square-content__txt--top-right">ち</p>
+                    <p class="magic-square-content__txt--right">か</p>
+                    <p class="magic-square-content__txt--bottom-right">ど</p>
+                    <p class="magic-square-content__txt--bottom">ル</p>
+                    <p class="magic-square-content__txt--bottom-left">ー</p>
+                    <p class="magic-square-content__txt--left">ト</p>
+                    <p class="magic-square-content__txt--top-left">！</p>
+                </div>
+            </div>
+            </div>
+            <% end %>
+
+            <table class="table table-borderless mb-0">
+                <tr>
+                <td class="text-center pt-3">
+                    <span class="oi oi-bar-chart text-warning"></span> <span class="font-weight-bold">みんなのソーシャルアップデート値</span>
+                </td>
+                </tr>
+            </table>
+            <table class="table table-borderless mb-0">
+                <thead>
+                <tr class="text-center">
+                    <th scope="col" class="py-0">冒険者</th>
+                    <th scope="col" class="py-0">クリア</th>
+                    <th scope="col" class="py-0">レベル</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr id="socialparam3" class="text-center">
+                    <td class="pt-0 pb-1">
+                    <span class="status_number"><%= @boukensha_count %></span> <span class="font-weight-bold">名</span>
+                    </td>
+                    <td class="pt-0 pb-1">
+                    <span class="status_number"><%= @clears_count %></span> <span class="font-weight-bold">件</span>
+                    </td>
+                    <td class="pt-0 pb-1">
+                    <span class="font-weight-bold">平均Lv.</span><span class="status_number"><%= @level_average %></span>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+            <table class="ml-3 mt-0 mb-3">
+            <tr><td>
+            <small class="font-weight-bold">めざせ1万件!</small> <meter value="<%= @clears_count %>" min="0" max="10000" low="5000" high="9000" style="width: 184px;">--</meter>
+            </td></tr>
+            </table>
+
+        </div>
+
+        <div class="comment-bg2" style="background:#fff; position:fixed; top:214px; width:288px;">
+
+            <table class="table table-borderless m-0">
+                <tr>
+                <td class="text-nowrap my-auto">
+                    <span class="oi oi-paperclip text-info ml-2" aria-hidden="true"></span>
+                    <span class="font-weight-bold"> タグ</span>
+                </td>
+                <td class="bg-info my-3 text-center" style="border-radius: 0 10px 0 0;">
+                    <div class="btn-group">
+                        <%= link_to('unclear') do %>
+                        <span class="oi oi-magnifying-glass text-white"></span> <span class="font-weight-bold text-white">せーぶ済みの未クリア</span>
+                        <% end %>
+                    </div>
+                </td>
+                </tr>
+            </table>
+            <table class="table table-borderless">
+                <tr>
+                <td class="pb-0">
+                    <%= render 'tags2' %>
+                </td>
+                </tr>
+            </table>
+
+        </div>
+
+        <div style="position:fixed; top:420px; width:288px; opacity: 0.87;">
+            <p class="logins-list"><small>みんなのログイン履歴</small><span>魔法陣より召喚されし冒険者たち</span><br></p>
+            <div id="users-list3" class="text-right logbox">
+            <%= render partial: 'online_users', collection: @online_users, as: :member %>
+            </div>
+        </div>
+
+    </div>
+
+    <div class="col-md-1 d-none d-md-block d-lg-none"></div>
+
+</div>
+
+<script>
+$(document).on("turbolinks:load", function() {
+ 
+    if($.cookie("openTag")){
+        // 一旦すべての active を外す
+        $('a[data-toggle="tab"]').parent().removeClass('active');
+        $('a[href="#' + $.cookie("openTag") +'"]').click();
+    }
+ 
+    $('a[data-toggle="tab"]').on('show.bs.tab', function (e) {
+        var tabName = e.target.href;
+        var items = tabName.split("#");
+        // クッキーに選択されたタブを記憶
+        $.cookie("openTag",items[1], { expires: 1800 });
+    });
+});
+</script>
+
+<script>
+$(document).on("turbolinks:load", function() {
+  if (!navigator.vendor.indexOf("Apple")==0 && /\sSafari\//.test(navigator.userAgent)) {
+    return;
+  }
+
+  var formHandler = function (e) {
+    var rails = $.rails;
+    var form = $(this),
+      remote = form.data('remote') !== undefined,
+      blankRequiredInputs,
+      nonBlankFileInputs;
+
+    if (!rails.allowAction(form)) return rails.stopEverything(e);
+
+    // skip other logic when required values are missing or file upload is present
+    if (form.attr('novalidate') == undefined) {
+      blankRequiredInputs = rails.blankInputs(form, rails.requiredInputSelector);
+      if (blankRequiredInputs && rails.fire(form, 'ajax:aborted:required', [blankRequiredInputs])) {
+        return rails.stopEverything(e);
+      }
+    }
+
+    if (remote) {
+      nonBlankFileInputs = rails.nonBlankInputs(form, rails.fileInputSelector);
+      if (nonBlankFileInputs) {
+        // slight timeout so that the submit button gets properly serialized
+        // (make it easy for event handler to serialize form without disabled values)
+        setTimeout(function(){ rails.disableFormElements(form); }, 13);
+        var aborted = rails.fire(form, 'ajax:aborted:file', [nonBlankFileInputs]);
+
+        // re-enable form elements if event bindings return false (canceling normal form submission)
+        if (!aborted) { setTimeout(function(){ rails.enableFormElements(form); }, 13); }
+
+        return aborted;
+      }
+
+      rails.handleRemote(form);
+      return false;
+
+    } else {
+      if (!e.isTrigger) {
+        e.preventDefault();
+        rails.disableFormElements(form);
+        setTimeout(function(){ form.trigger('submit'); }, 13);
+      }
+    }
+  };
+
+  $(document).undelegate('form', 'submit.rails');
+  $(document).delegate('form', 'submit.rails', formHandler);
+});
+</script>
+
+<% end %>
