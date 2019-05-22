@@ -42,3 +42,4 @@ yarn-debug.log*
 server.crt
 server.csr
 server.key
+/config/credentials.yml.enc
