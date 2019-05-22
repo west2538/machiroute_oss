@@ -111,7 +111,7 @@ https://note.mu/west2538/n/nea30c9e3936f <br>
 <b>◆ 開発環境</b><br>
 ・DELL XPS 15 9560(SSD 512GB/RAM16GB)<br>
 ・VM VirtualBox 6.0.8<br>
-・Host OS: Windows 10 Home ビルド 17763<br>
+・Host OS: Windows 10 Home バージョン 1903<br>
 ・Guest OS: CentOS Linux release 7.6.1810 (Core)<br>
 ・Ruby 2.6.3<br>
 ・Rails 5.2.3<br>
