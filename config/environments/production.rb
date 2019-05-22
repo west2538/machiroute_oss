@@ -4,19 +4,7 @@ Rails.application.configure do
   # Settings specified here will take precedence over those in config/application.rb.
 
   # for session store.
-  # config.session_store_servers = ENV["REDISTOGO_URL"]
   config.session_store_servers = ENV['REDIS_URL']
-
-  config.cache_store = :redis_cache_store, { url: ENV['REDIS_URL'] }
-
-  # config.cache_store = :redis_store, {
-  #   host: ENV["REDISTOGO_URL"],
-  #   port: 11543,
-  #   db: 1,
-  #   namespace: "machicache"
-  # }, {
-  #   expires_in: 90.minutes
-  # }
 
   # Code is not reloaded between requests.
   config.cache_classes = true
@@ -83,6 +71,7 @@ Rails.application.configure do
 
   # Use a different cache store in production.
   # config.cache_store = :mem_cache_store
+  config.cache_store = :redis_cache_store, { url: ENV['REDIS_URL'] }
 
   # Use a real queuing backend for Active Job (and separate queues per environment)
   # config.active_job.queue_adapter     = :resque
