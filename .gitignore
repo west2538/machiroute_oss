@@ -27,6 +27,7 @@
 .byebug_history
 
 haruby.code-workspace
+machiroutevision.json
 
 # Ignore master key for decrypting credentials and more.
 /config/master.key
