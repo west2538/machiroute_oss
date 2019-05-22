@@ -37,4 +37,5 @@ yarn-debug.log*
 .env.production
 /.vscode
 server.crt
+server.csr
 server.key
