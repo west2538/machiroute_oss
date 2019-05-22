@@ -35,7 +35,6 @@ gem 'rack-attack'
 gem 'google-cloud-vision', '~> 0.32.2'
 gem 'google-protobuf', '~> 3.7.1'
 gem 'momentjs-rails'
-gem 'sqreen'
 gem 'webpush', '~> 0.3.6'
 gem 'redis', '~> 4.1'
 gem 'sidekiq'
@@ -112,4 +111,5 @@ group :production do
   # Use Redis adapter to run Action Cable in production
   gem 'heroku-deflater', '~> 0.6.3'
   # gem 'newrelic_rpm'
+  gem 'sqreen'
 end
