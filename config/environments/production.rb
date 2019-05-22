@@ -7,7 +7,6 @@ Rails.application.configure do
   # config.session_store_servers = ENV["REDISTOGO_URL"]
   config.session_store_servers = ENV['REDIS_URL']
 
-  # config.cache_store = :redis_cache_store, {url: "redis://redistogo:4fa304e2a4317ce766a550933884ed03@cod.redistogo.com:11543/1"}
   config.cache_store = :redis_cache_store, { url: ENV['REDIS_URL'] }
 
   # config.cache_store = :redis_store, {
