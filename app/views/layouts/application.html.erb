@@ -170,7 +170,7 @@ Your route changes the world.
                 <input type="hidden" name="locale" value="ja">
                 <input type="text" name="username" class="form-control mb-1 pl-2" style="width:100%;" placeholder="ユーザー名(英数字&空白なし)">
                 <input type="email" name="email" class="form-control mb-1 pl-2" placeholder="メールアドレス">
-                <input type="password" name="password" class="form-control mb-1 pl-2" placeholder="パスワード">
+                <input type="password" name="password" class="form-control mb-1 pl-2" placeholder="パスワード(8文字以上)">
                 <%= button_tag :type => "submit", data: { disable_with: "<i class='fa fa-spinner fa-spin'></i> 登録中..." }, :class =>"btn btn-primary btn-block" do %>
                 <span class="oi oi-account-login" title="登録する" aria-hidden="true"> 登録</span>
                 <% end %>
