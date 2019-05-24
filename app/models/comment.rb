@@ -4,7 +4,7 @@ class Comment < ApplicationRecord
   has_many :notifications
   has_one_attached :image
 
-  validates :image, file_size: { in: 10.kilobytes..10.megabytes },
+  validates :image, file_size: { in: 5.kilobytes..10.megabytes },
     file_content_type: { allow: ['image/jpg','image/jpeg', 'image/png', 'image/gif'], message: '写真をアップロードできませんでした' }, on: :create, if: :image_attached?
 
   after_commit :commentmstdn_self, on: [:create, :update]

@@ -49,6 +49,7 @@ class UsersController < ApplicationController
             output_path = Rails.root.join('public', uploaded_file.original_filename)
             img = MiniMagick::Image.read(uploaded_file)
             img.resize "300x300"
+            img.quality "60"
             img.write output_path
             image_file = File.open(output_path)
 

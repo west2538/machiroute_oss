@@ -8,7 +8,7 @@ class User < ApplicationRecord
   after_update_commit :watchonline_self
 
   has_one_attached :image
-  validates :image, file_size: { in: 10.kilobytes..10.megabytes },
+  validates :image, file_size: { in: 1.kilobytes..5.megabytes },
   file_content_type: { allow: ['image/jpg','image/jpeg', 'image/png', 'image/gif'], message: '写真をアップロードできませんでした' }, on: :update, if: :image_attached?
 
 
