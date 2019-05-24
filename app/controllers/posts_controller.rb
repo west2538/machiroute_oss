@@ -97,7 +97,8 @@ class PostsController < ApplicationController
             uploaded_file = post_params[:image]
             output_path = Rails.root.join('public', uploaded_file.original_filename)
             img = MiniMagick::Image.read(uploaded_file)
-            img.resize "700x700"
+            img.resize "738x600"
+            img.quality "60"
             img.write output_path
             image_file = File.open(output_path)
 
@@ -120,10 +121,12 @@ class PostsController < ApplicationController
                     return
                 end
             end
-            File.delete(output_path)
         end
 
         @post = Post.new(post_params)
+        if post_params[:image] != nil
+            post_params[:image] = image_file
+        end
         @post.post_uid = session[:uid]
         if @post.title == "ニュース"
             begin
@@ -202,6 +205,9 @@ class PostsController < ApplicationController
             else
                 render 'new'
                 return
+            end
+            if post_params[:image] != nil
+                File.delete(output_path)
             end
             if @post.title == "復活の呪文でHP回復"
                 @current_user.hp = @current_user.hp + 100

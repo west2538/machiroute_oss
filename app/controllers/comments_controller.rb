@@ -9,7 +9,7 @@ def create
         uploaded_file = comment_params[:image]
         output_path = Rails.root.join('public', uploaded_file.original_filename)
         img = MiniMagick::Image.read(uploaded_file)
-        img.resize "700x700"
+        img.resize "240x300"
         img.write output_path
         image_file = File.open(output_path)
 
