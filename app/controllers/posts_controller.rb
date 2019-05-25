@@ -108,14 +108,17 @@ class PostsController < ApplicationController
             response.responses.each do |res|
             safe_search = res.safe_search_annotation
                 if safe_search.adult.to_s == "VERY_LIKELY" || safe_search.adult.to_s == "LIKELY"
+                    File.delete(output_path)
                     flash[:error] = "不適切な画像と判断されました powered by Google Cloud Vision"
                     redirect_to root_path
                     return
                 elsif safe_search.violence.to_s == 'VERY_LIKELY' || safe_search.violence.to_s == 'LIKELY'
+                    File.delete(output_path)
                     flash[:error] = "不適切な画像と判断されました powered by Google Cloud Vision"
                     redirect_to root_path
                     return
                 elsif safe_search.medical.to_s == 'VERY_LIKELY' || safe_search.medical.to_s == 'LIKELY'
+                    File.delete(output_path)
                     flash[:error] = "不適切な画像と判断されました powered by Google Cloud Vision"
                     redirect_to root_path
                     return
