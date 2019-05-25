@@ -93,44 +93,44 @@ class PostsController < ApplicationController
 
     def create
 
-        if post_params[:image] != nil
-            uploaded_file = post_params[:image]
-            output_path = Rails.root.join('public', uploaded_file.original_filename)
-            img = MiniMagick::Image.read(uploaded_file)
-            img.resize "738x600"
-            img.quality "60"
-            img.write output_path
-            image_file = File.open(output_path)
+        # if post_params[:image] != nil
+        #     uploaded_file = post_params[:image]
+        #     output_path = Rails.root.join('public', uploaded_file.original_filename)
+        #     img = MiniMagick::Image.read(uploaded_file)
+        #     img.resize "738x600"
+        #     img.quality "60"
+        #     img.write output_path
+        #     image_file = File.open(output_path)
 
-            require "google/cloud/vision"
-            image_annotator = Google::Cloud::Vision::ImageAnnotator.new
-            response = image_annotator.safe_search_detection image: image_file
-            response.responses.each do |res|
-            safe_search = res.safe_search_annotation
-                if safe_search.adult.to_s == "VERY_LIKELY" || safe_search.adult.to_s == "LIKELY"
-                    File.delete(output_path)
-                    flash[:error] = "不適切な画像と判断されました powered by Google Cloud Vision"
-                    redirect_to root_path
-                    return
-                elsif safe_search.violence.to_s == 'VERY_LIKELY' || safe_search.violence.to_s == 'LIKELY'
-                    File.delete(output_path)
-                    flash[:error] = "不適切な画像と判断されました powered by Google Cloud Vision"
-                    redirect_to root_path
-                    return
-                elsif safe_search.medical.to_s == 'VERY_LIKELY' || safe_search.medical.to_s == 'LIKELY'
-                    File.delete(output_path)
-                    flash[:error] = "不適切な画像と判断されました powered by Google Cloud Vision"
-                    redirect_to root_path
-                    return
-                end
-            end
-        end
+        #     require "google/cloud/vision"
+        #     image_annotator = Google::Cloud::Vision::ImageAnnotator.new
+        #     response = image_annotator.safe_search_detection image: image_file
+        #     response.responses.each do |res|
+        #     safe_search = res.safe_search_annotation
+        #         if safe_search.adult.to_s == "VERY_LIKELY" || safe_search.adult.to_s == "LIKELY"
+        #             File.delete(output_path)
+        #             flash[:error] = "不適切な画像と判断されました powered by Google Cloud Vision"
+        #             redirect_to root_path
+        #             return
+        #         elsif safe_search.violence.to_s == 'VERY_LIKELY' || safe_search.violence.to_s == 'LIKELY'
+        #             File.delete(output_path)
+        #             flash[:error] = "不適切な画像と判断されました powered by Google Cloud Vision"
+        #             redirect_to root_path
+        #             return
+        #         elsif safe_search.medical.to_s == 'VERY_LIKELY' || safe_search.medical.to_s == 'LIKELY'
+        #             File.delete(output_path)
+        #             flash[:error] = "不適切な画像と判断されました powered by Google Cloud Vision"
+        #             redirect_to root_path
+        #             return
+        #         end
+        #     end
+        # end
 
         @post = Post.new(post_params)
-        if post_params[:image] != nil
-            post_params[:image] = image_file
-            @post.image = post_params[:image]
-        end
+        # if post_params[:image] != nil
+        #     post_params[:image] = image_file
+        #     @post.image = post_params[:image]
+        # end
         @post.post_uid = session[:uid]
         if @post.title == "ニュース"
             begin
@@ -210,9 +210,9 @@ class PostsController < ApplicationController
                 render 'new'
                 return
             end
-            if post_params[:image] != nil
-                File.delete(output_path)
-            end
+            # if post_params[:image] != nil
+            #     File.delete(output_path)
+            # end
             if @post.title == "復活の呪文でHP回復"
                 @current_user.hp = @current_user.hp + 100
                 @current_user.exp = @current_user.exp - 90
@@ -280,34 +280,34 @@ class PostsController < ApplicationController
 
     def update
 
-        if post_params[:image] != nil
-            uploaded_file = post_params[:image]
-            output_path = Rails.root.join('public', uploaded_file.original_filename)
-            img = MiniMagick::Image.read(uploaded_file)
-            img.resize "700x700"
-            img.write output_path
-            image_file = File.open(output_path)
+        # if post_params[:image] != nil
+        #     uploaded_file = post_params[:image]
+        #     output_path = Rails.root.join('public', uploaded_file.original_filename)
+        #     img = MiniMagick::Image.read(uploaded_file)
+        #     img.resize "700x700"
+        #     img.write output_path
+        #     image_file = File.open(output_path)
 
-            image_annotator = Google::Cloud::Vision::ImageAnnotator.new
-            response = image_annotator.safe_search_detection image: image_file
-            response.responses.each do |res|
-            safe_search = res.safe_search_annotation
-                if safe_search.adult.to_s == "VERY_LIKELY" || safe_search.adult.to_s == "LIKELY"
-                    flash[:error] = "不適切な画像と判断されました powered by Google Cloud Vision"
-                    redirect_to root_path
-                    return
-                elsif safe_search.violence.to_s == 'VERY_LIKELY' || safe_search.violence.to_s == 'LIKELY'
-                    flash[:error] = "不適切な画像と判断されました powered by Google Cloud Vision"
-                    redirect_to root_path
-                    return
-                elsif safe_search.medical.to_s == 'VERY_LIKELY' || safe_search.medical.to_s == 'LIKELY'
-                    flash[:error] = "不適切な画像と判断されました powered by Google Cloud Vision"
-                    redirect_to root_path
-                    return
-                end
-            end
-            File.delete(output_path)
-        end
+        #     image_annotator = Google::Cloud::Vision::ImageAnnotator.new
+        #     response = image_annotator.safe_search_detection image: image_file
+        #     response.responses.each do |res|
+        #     safe_search = res.safe_search_annotation
+        #         if safe_search.adult.to_s == "VERY_LIKELY" || safe_search.adult.to_s == "LIKELY"
+        #             flash[:error] = "不適切な画像と判断されました powered by Google Cloud Vision"
+        #             redirect_to root_path
+        #             return
+        #         elsif safe_search.violence.to_s == 'VERY_LIKELY' || safe_search.violence.to_s == 'LIKELY'
+        #             flash[:error] = "不適切な画像と判断されました powered by Google Cloud Vision"
+        #             redirect_to root_path
+        #             return
+        #         elsif safe_search.medical.to_s == 'VERY_LIKELY' || safe_search.medical.to_s == 'LIKELY'
+        #             flash[:error] = "不適切な画像と判断されました powered by Google Cloud Vision"
+        #             redirect_to root_path
+        #             return
+        #         end
+        #     end
+        #     File.delete(output_path)
+        # end
 
         @post = Post.find(params[:id])
         if @post.title == "新規サブクエスト"
