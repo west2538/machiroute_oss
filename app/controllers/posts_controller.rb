@@ -126,6 +126,7 @@ class PostsController < ApplicationController
         @post = Post.new(post_params)
         if post_params[:image] != nil
             post_params[:image] = image_file
+            @post.image = post_params[:image]
         end
         @post.post_uid = session[:uid]
         if @post.title == "ニュース"
