@@ -2,7 +2,7 @@
 <% if post.title == "新規サブクエスト" && session[:uid] %>
     <% if Comment.find_by(post_id: post.id, user_uid: session[:uid]) %>
     <% elsif Like.find_by(user_id: current_user.id, post_id: post.id) %>
-        <%= form_with model: [post, post.comments.build] do |f| %>
+        <%= form_with model: [post, post.comments.build], multipart: true do |f| %>
             <div class="input-group pl-3 pr-3 mb-1">
                 <%= f.text_area :body,
                 :class => 'form-control',
@@ -13,7 +13,7 @@
                 <label class="input-group-btn m-0">
                     <span class="btn btn-secondary" style="border: solid 1px #fff;">
                         <span class="oi oi-camera-slr text-white" title="写真" aria-hidden="true"></span>
-                            <%= f.file_field :image, class: 'uploadFile', style: 'display:none' %>  
+                            <%= f.file_field :image, direct_upload: true, class: 'uploadFile', style: 'display:none' %>  
                     </span>
                 </label>
             </div>
@@ -27,3 +27,30 @@
     <% end %>
 <% end %>
 </div>
+
+<script>
+$('form').on('change', 'input[type="file"]', function(e) {
+  var file = e.target.files[0],
+      reader = new FileReader(),
+      $preview = $(".preview");
+      t = this;
+
+  if(file.type.indexOf("image") < 0){
+    return false;
+  }
+
+  reader.onload = (function(file) {
+    return function(e) {
+      $preview.empty();
+      $preview.append($('<img>').attr({
+                src: e.target.result,
+                width: "150px",
+                class: "preview",
+                title: file.name
+            }));
+    };
+  })(file);
+
+  reader.readAsDataURL(file);
+});
+</script>
