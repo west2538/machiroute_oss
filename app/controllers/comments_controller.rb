@@ -95,11 +95,7 @@ end
 
 private
     def comment_params
-        if params[:comment][:image].present?
-            params.require(:comment).permit(:body, :user_uid, :image)
-        else
-            params.require(:comment).permit(:body, :user_uid)
-        end
+        params.require(:comment).permit(:body, :user_uid, :image)
     end
 
 private
