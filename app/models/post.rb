@@ -26,8 +26,8 @@ class Post < ApplicationRecord
     validates :placename, presence: { message: 'Googleマップに登録されている住所もしくはスポット名を入力してください' }, if: :guild_select?
     validates :newsurl, format: { with: /\A#{URI::regexp(%w(http https))}\z/, message: '正しいURLをペーストしてください' }, if: :news_select?
     validates :stationname, presence: { message: '最寄りの駅が指定されていません' }, if: :station_select?
-    validates :image, file_size: { in: 1.kilobytes..5.megabytes },
-    file_content_type: { allow: ['image/jpg','image/jpeg', 'image/png', 'image/gif'], message: '写真をアップロードできませんでした' }, on: :create, if: :image_attached?
+    # validates :image, file_size: { in: 1.kilobytes..10.megabytes },
+    # file_content_type: { allow: ['image/jpg','image/jpeg', 'image/png', 'image/gif'], message: '写真をアップロードできませんでした' }, on: :create, if: :image_attached?
 
     geocoded_by :placename
     after_validation :geocode, if: :placename_changed?
@@ -55,9 +55,9 @@ class Post < ApplicationRecord
         title == "駅でチェックイン"
     end
 
-    def image_attached?
-        image.attached?
-    end
+    # def image_attached?
+    #     image.attached?
+    # end
 
     def watchmstdn_self
         res = self.previous_changes
