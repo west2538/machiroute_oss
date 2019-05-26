@@ -4,7 +4,7 @@
 
 <div class="col-sm-6 p-0">
     
-<%= form_with model: @post, id: :commentSubmit, local: true do |f| %>
+<%= form_with model: @post, multipart: true, id: :commentSubmit do |f| %>
   <%= f.text_area :body,
   :class => 'mb-2 form-control',
   :placeholder => '内容をお書きください',
@@ -34,11 +34,11 @@
       <label class="input-group-btn">
           <span class="btn btn-secondary mt-1 mb-1 p-2" style="border: solid 1px #fff;">
               <span class="oi oi-camera-slr text-white" title="写真" aria-hidden="true"></span> よければ写真もどうぞ
-                  <%= f.file_field :image, class: 'uploadFile', style: 'display:none' %>  
+                  <%= f.file_field :image, direct_upload: true, class: 'uploadFile', style: 'display:none' %>  
           </span>
       </label>
+    </div>
     <div class="preview mb-3" style="border-radius: 8px;"></div> 
-  </div>
   </div>
 
   <div class="bg-secondary p-2" style="border-radius: 0px; opacity: 0.9;">
