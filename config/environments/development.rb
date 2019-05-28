@@ -1,7 +1,7 @@
 Rails.application.configure do
   # Settings specified here will take precedence over those in config/application.rb.
 
-  config.web_console.whitelisted_ips = '192.168.1.14'
+  config.web_console.whitelisted_ips = '192.168.14.1'
 
   config.web_socket_server_url = 'ws://192.168.14.2:3000/cable'
   config.action_cable.allowed_request_origins = ['https://192.168.14.2:3001', 'http://192.168.14.2:3000']
