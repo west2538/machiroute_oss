@@ -1,4 +1,4 @@
-<% unless Comment.find_by(post_id: post.id, user_uid: session[:uid]) %>
+<% unless post.comments.find_by(user_uid: session[:uid]) %>
 <% if post.title == '新規サブクエスト' && post.image.attached? %>
     <div class="card text-white bg-danger tilt">
         <%= link_to post_path(post) do %>

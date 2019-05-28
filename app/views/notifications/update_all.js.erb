@@ -1,0 +1,1 @@
+$("#notification_dropdown").replaceWith("<%= escape_javascript(render partial: 'notification_dropdown', locals: {notifications: @current_user.notifications}) %>");

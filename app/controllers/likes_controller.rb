@@ -12,19 +12,15 @@ class LikesController < ApplicationController
         if @current_user.hp >= ((@current_user.level * 2) + 68)
             @current_user.hp = ((@current_user.level * 2) + 68)
         end
-        if @current_user.machika_token
-            @current_user.machika_token = @current_user.machika_token - 1
-            if @current_user.machika_token < 0
-                @current_user.machika_token = 0
-                flash.now[:notice] = "せーぶ完了！HP+10💌あなたのMaChiKaが0なので支援できません"
-            elsif
-                flash.now[:notice] = "せーぶ完了！HP+10💌MaChiKaをサブクエスト投稿者に+1支援"
-                @post = Post.find_by(id: params[:post_id])
-                @user = User.where(uid: @post.post_uid).order(created_at: :desc).first
-                if @user.machika_token
-                    @user.machika_token = @user.machika_token + 1
-                end
-            end
+        @current_user.machika_token = @current_user.machika_token - 1
+        if @current_user.machika_token < 0
+            @current_user.machika_token = 0
+            flash.now[:notice] = "せーぶ完了！HP+10💌あなたのMaChiKaが0なので支援できません"
+        elsif
+            flash.now[:notice] = "せーぶ完了！HP+10💌MaChiKaをサブクエスト投稿者に+1支援"
+            @post = Post.find_by(id: params[:post_id])
+            @user = User.where(uid: @post.post_uid).order(created_at: :desc).first
+            @user.machika_token = @user.machika_token + 1
         end
         @current_user.save
         @user.save
@@ -37,17 +33,13 @@ class LikesController < ApplicationController
         @like.destroy
         flash.now[:notice] = "せーぶ解除！HP-10"
         @current_user.hp = @current_user.hp - 10
-        if @current_user.machika_token
-            @current_user.machika_token = @current_user.machika_token + 1
-            flash.now[:notice] = "せーぶ解除！HP-10💌MaChiKaがあなたに+1戻りました"
-            @post = Post.find_by(id: params[:post_id])
-            @user = User.where(uid: @post.post_uid).order(created_at: :desc).first
-            if @user.machika_token
-                @user.machika_token = @user.machika_token - 1
-                if @user.machika_token < 0
-                    @user.machika_token = 0
-                end
-            end
+        @current_user.machika_token = @current_user.machika_token + 1
+        flash.now[:notice] = "せーぶ解除！HP-10💌MaChiKaがあなたに+1戻りました"
+        @post = Post.find_by(id: params[:post_id])
+        @user = User.where(uid: @post.post_uid).order(created_at: :desc).first
+        @user.machika_token = @user.machika_token - 1
+        if @user.machika_token < 0
+            @user.machika_token = 0
         end
         @current_user.save
         @user.save

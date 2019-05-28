@@ -1,12 +1,12 @@
-<div class="dropdown dropleft ml-auto mr-1">
-  <% if @current_user.notifications.where(read: false).count > 0 %>
+<div id="notification_dropdown" class="dropdown dropleft ml-auto mr-1">
+  <% if notifications.where(read: false).count > 0 %>
   <button class="btn btn-sm btn-default btn-success dropdown-toggle" type="button" data-toggle="dropdown" id='dropdownMenu1' aria-haspopup="true" aria-expanded="true">
   <span class="oi oi-bell" title="通知" aria-hidden="true"></span>
-  <span class="badge badge-notify"><%= @current_user.notifications.where(read: false).count %></span>
+  <span class="badge badge-notify"><%= notifications.where(read: false).count %></span>
   </button>
   <div class="dropdown-menu list-group-flush py-0" aria-labelledby="dropdownMenu1" id="mstdn_notification">
-     <li class="dropdown-header text-center font-weight-bold"><a href="/notifications/update_all">すべて既読にする</a></li>
-     <%= render @current_user.notifications.where(read: false).order('created_at DESC').first(3) %>
+     <li class="dropdown-header text-center font-weight-bold"><%= link_to 'すべて既読にする', '/notifications/update_all', remote: true %></li>
+     <%= render notifications.where(read: false).order('created_at DESC').first(3) %>
   </div>
   <% else %>
   <button class="btn btn-sm btn-secondary dropdown-toggle" type="button" data-toggle="dropdown" id='dropdownMenu1' aria-haspopup="true" aria-expanded="true">

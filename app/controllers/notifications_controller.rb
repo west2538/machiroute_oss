@@ -1,4 +1,7 @@
 class NotificationsController < ApplicationController
+
+  before_action :current_user
+
   def link_through
     @notification = Notification.find(params[:id])
     @notification.update read: true
@@ -10,10 +13,12 @@ class NotificationsController < ApplicationController
   end
 
   def update_all
-    user = User.find_by(uid: session[:uid])
-    @notification = Notification.where(user_id: user.id)
+    @notification = Notification.where(user_id: @current_user.id)
     @notification.update_all read: true
-    redirect_to root_path
+    respond_to do |format|
+      format.js { @current_user }
+    end
+    # redirect_to root_path
   end
 
 end

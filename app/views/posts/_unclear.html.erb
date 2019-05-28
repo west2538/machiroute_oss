@@ -1,4 +1,4 @@
-<% unless Comment.find_by(post_id: post.id, user_uid: session[:uid]) %>
+<% unless post.comments.find_by(post_id: post.id, user_uid: session[:uid]) %>
     <div class="card text-white bg-danger tilt">
         <% if post.image.attached? %>
             <%= link_to post_path(post) do %>
