@@ -30,7 +30,7 @@
                 <% marker1.lat post.latitude %>
                 <% marker1.lng post.longitude %>
 
-                <% if Comment.find_by(post_id: post.id, user_uid: session[:uid]) %>
+                <% if post.comments.find_by(user_uid: session[:uid]) %>
 
                 <% marker1.picture({
                     :url => "https://maps.google.co.jp/mapfiles/ms/icons/green-dot.png",
@@ -87,7 +87,7 @@
 
             <% @hash4 = Gmaps4rails.build_markers(@post) do |post, marker2| %>
 
-                <% if post.title == '新規サブクエスト' && Comment.find_by(post_id: post.id, user_uid: session[:uid]) %>
+                <% if post.title == '新規サブクエスト' && post.comments.find_by(user_uid: session[:uid]) %>
 
                 <% marker2.lat post.latitude %>
                 <% marker2.lng post.longitude %>
@@ -129,7 +129,7 @@
 
                 <% if post.title == '新規サブクエスト' %>
                 
-                    <% unless Comment.find_by(post_id: post.id, user_uid: session[:uid]) %>
+                    <% unless post.comments.find_by(user_uid: session[:uid]) %>
 
                     <% marker3.lat post.latitude %>
                     <% marker3.lng post.longitude %>

@@ -37,7 +37,7 @@ class PostsController < ApplicationController
     
     def show
         @post = Post.includes([:likes, :comments]).find(params[:id])
-        @comment = Comment.where(post_id: params[:id]).order(created_at: :desc)
+        @comment = @post.comments.reorder(created_at: :desc)
 
         @og_title = @post.body.truncate(17)
 

@@ -72,7 +72,7 @@ $(function(){
                 <%= image_tag @imgurl, :class => "card-img-top mx-auto" %>
             <% end %>
             <div class="card-body">
-            <% if Comment.find_by(post_id: @post.id, user_uid: session[:uid]) %>
+            <% if @comment.find_by(user_uid: session[:uid]) %>
             <h5 class="card-title mb-4 wf-nicomoji"><span class="oi oi-task text-success" title="クリア" aria-hidden="true"></span> サブクエスト クリア✨</h5>
             <% else %>
             <h5 class="card-title mb-4 wf-nicomoji"><span class="oi oi-task text-danger" title="クリア" aria-hidden="true"></span> サブクエスト</h5>

@@ -1,7 +1,5 @@
 <div id="newclearcomment_ajax">
 
-<% if Comment.find_by(post_id: post.id) %>
-
 <% if comment.user_uid.present? %>
 
   <% user = User.where(uid: comment.user_uid).order(created_at: :desc).first %>
@@ -42,8 +40,6 @@
       <% end %>
       </small>
   </p>
-
-<% end %>
 
 <% end %>
 
