@@ -2,11 +2,11 @@
 
 <% if session[:uid] && current_user %>
 
-    <% if Like.find_by(user_id: current_user.id, post_id: post.id) %>
+    <% if post.likes.find_by(user_id: current_user.id) %>
         <%= button_to("/likes/#{post.id}/destroy", {method: "post", remote: true, class: "btn btn-secondary btn-block", style: "height:100px;", data: { disable_with: "せーぶ解除中 <i class='fa fa-spinner fa-spin'></i>" }}) do %>
         <div class="bg-secondary p-2 text-center"><h5 class="oi oi-task text-white font-weight-bold d-inline-block mt-2" title="せーぶ" aria-hidden="true">
         <%= post.saves_count %> せーぶ済み </h5><br>
-        <% if Comment.find_by(post_id: post.id, user_uid: session[:uid]) %>
+        <% if post.comments.find_by(user_uid: session[:uid]) %>
         <small class="text-white d-inline-block mx-auto" style="font-size: 0.9em;"> 世界がアップデートされました✨</small>
         <% else %>
         <small class="text-white d-inline-block mx-auto" style="font-size: 0.9em;"> ↓クリアコメント投稿でクリア！</small>
@@ -18,7 +18,7 @@
         <%= button_to("/likes/#{post.id}/create", {method: "post", remote: true, class: "btn btn-info btn-block", style: "height:100px;", data: { disable_with: "せーぶ処理中 <i class='fa fa-spinner fa-spin'></i>" }}) do %>
         <div class="bg-info p-2 text-center"><h5 class="oi oi-task text-white font-weight-bold d-inline-block mt-2" title="せーぶする" aria-hidden="true">
         <%= post.saves_count %> せーぶする </h5><br>
-        <% if Comment.find_by(post_id: post.id, user_uid: session[:uid]) %>
+        <% if post.comments.find_by(user_uid: session[:uid]) %>
         <small class="text-white d-inline-block mx-auto" style="font-size: 0.9em;"> 世界がアップデートされました✨</small>
         <% else %>
         <small class="text-white d-inline-block mx-auto" style="font-size: 0.9em;"> せーぶしてクリアコメントを投稿！</small>
