@@ -125,12 +125,17 @@ $(function(){
                     <% mapuri = URI.encode(mapstr) %>
                 </p>
                 <% if Qroute.find_by(post_id: @post.id) %>
-                    <p class="sqobi mb-2 px-2 py-1 font-weight-bold bg-success"><span class="oi oi-map-marker" title="場所" aria-hidden="true"></span> 周辺の攻略スポット</p>
+                    <p class="sqobi mb-3 px-2 py-1 font-weight-bold bg-success"><span class="oi oi-map-marker" title="場所" aria-hidden="true"></span> 周辺の攻略スポット</p>
                     <% j = 0 %>
                     <% @post.qroutes.each do |qroute| %>
                     <p>
                     <% j = j + 1 %>
-                    <span class="font-weight-bold text-info"><%= j %>. <%= qroute.qplacename %></span><br><%= qroute.qdescription %>
+                    <span class="font-weight-bold text-success">
+                        <span class="maru maru_size maru_color">
+                            <span class="maru_moji"><%= j %></span>
+                        </span> <%= qroute.qplacename %>
+                    </span>
+                    <br><%= qroute.qdescription %>
                     </p>
                     <% end %>
                 <% end %>
