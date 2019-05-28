@@ -1,5 +1,3 @@
-<% bunkatsu = @current_user.uid.split("@") %>
-
 <% if post.title == "ニュース" %>
 
 <tr>
@@ -42,6 +40,7 @@
             <% if @current_user.display_name.present? %>
             <span class="oi oi-person" title="投稿者" aria-hidden="true"></span> <%= link_to @current_user.display_name, user_path(@current_user) %> Lv.<%= @current_user.level %>
             <% else %>
+            <% bunkatsu = @current_user.uid.split("@") %>
             <span class="oi oi-person" title="投稿者" aria-hidden="true"></span> <%= link_to "@" + bunkatsu[0], user_path(@current_user) %> Lv.<%= @current_user.level %>
             <% end %>
             <% if post.mstdn_status.present? %>
@@ -94,6 +93,7 @@
             <% if @current_user.display_name.present? %>
             <span class="oi oi-person" title="投稿者" aria-hidden="true"></span> <%= link_to @current_user.display_name, user_path(@current_user) %> Lv.<%= @current_user.level %>
             <% else %>
+            <% bunkatsu = @current_user.uid.split("@") %>
             <span class="oi oi-person" title="投稿者" aria-hidden="true"></span> <%= link_to "@" + bunkatsu[0], user_path(@current_user) %> Lv.<%= @current_user.level %>
             <% end %>
             <% if post.mstdn_status.present? %>
@@ -144,6 +144,7 @@
             <% if @current_user.display_name.present? %>
             <span class="oi oi-person" title="投稿者" aria-hidden="true"></span> <%= link_to @current_user.display_name, user_path(@current_user) %> Lv.<%= @current_user.level %>
             <% else %>
+            <% bunkatsu = @current_user.uid.split("@") %>
             <span class="oi oi-person" title="投稿者" aria-hidden="true"></span> <%= link_to "@" + bunkatsu[0], user_path(@current_user) %> Lv.<%= @current_user.level %>
             <% end %>
             <% if post.mstdn_status.present? %>
@@ -266,6 +267,7 @@
             <% if @current_user.display_name.present? %>
             <span class="oi oi-person" title="投稿者" aria-hidden="true"></span> <%= link_to @current_user.display_name, user_path(@current_user) %> Lv.<%= @current_user.level %>
             <% else %>
+            <% bunkatsu = @current_user.uid.split("@") %>
             <span class="oi oi-person" title="投稿者" aria-hidden="true"></span> <%= link_to "@" + bunkatsu[0], user_path(@current_user) %> Lv.<%= @current_user.level %>
             <% end %>
             <% if post.mstdn_status.present? %>
@@ -302,6 +304,7 @@
             <% if @current_user.display_name.present? %>
             <span class="oi oi-person" title="投稿者" aria-hidden="true"></span> <%= link_to @current_user.display_name, user_path(@current_user) %> Lv.<%= @current_user.level %>
             <% else %>
+            <% bunkatsu = @current_user.uid.split("@") %>
             <span class="oi oi-person" title="投稿者" aria-hidden="true"></span> <%= link_to "@" + bunkatsu[0], user_path(@current_user) %> Lv.<%= @current_user.level %>
             <% end %>
             <% if post.mstdn_status.present? %>
@@ -343,6 +346,7 @@
             <% if @current_user.display_name.present? %>
             <span class="oi oi-person" title="投稿者" aria-hidden="true"></span> <%= link_to @current_user.display_name, user_path(@current_user) %> Lv.<%= @current_user.level %>
             <% else %>
+            <% bunkatsu = @current_user.uid.split("@") %>
             <span class="oi oi-person" title="投稿者" aria-hidden="true"></span> <%= link_to "@" + bunkatsu[0], user_path(@current_user) %> Lv.<%= @current_user.level %>
             <% end %>
             <% if post.mstdn_status.present? %>
@@ -377,6 +381,7 @@
             <% if @current_user.display_name.present? %>
             <span class="oi oi-person" title="投稿者" aria-hidden="true"></span> <%= link_to @current_user.display_name, user_path(@current_user) %> Lv.<%= @current_user.level %>
             <% else %>
+            <% bunkatsu = @current_user.uid.split("@") %>
             <span class="oi oi-person" title="投稿者" aria-hidden="true"></span> <%= link_to "@" + bunkatsu[0], user_path(@current_user) %> Lv.<%= @current_user.level %>
             <% end %>
             <% if post.mstdn_status.present? %>
