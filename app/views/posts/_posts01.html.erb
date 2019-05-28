@@ -1,8 +1,3 @@
-<% bunkatsu = post.post_uid.split("@") %>
-
-<%# 
-<% bokensha = "https://" + bunkatsu.last + "/@" + bunkatsu[0] %>
-
 <% if post.title == "ニュース" %>
 <% @user = User.where(uid: post.post_uid).order(created_at: :desc).first %>
 
@@ -43,6 +38,7 @@
             <% if @user.display_name.present? %>
             <span class="oi oi-person" title="投稿者" aria-hidden="true"></span> <%= link_to @user.display_name, user_path(@user) %> Lv.<%= @user.level %>
             <% else %>
+            <% bunkatsu = post.post_uid.split("@") %>
             <span class="oi oi-person" title="投稿者" aria-hidden="true"></span> <%= link_to "@" + bunkatsu[0], user_path(@user) %> Lv.<%= @user.level %>
             <% end %>
             <% if post.mstdn_status.present? %>
@@ -96,6 +92,7 @@
             <% if @user.display_name.present? %>
             <span class="oi oi-person" title="投稿者" aria-hidden="true"></span> <%= link_to @user.display_name, user_path(@user) %> Lv.<%= @user.level %>
             <% else %>
+            <% bunkatsu = post.post_uid.split("@") %>
             <span class="oi oi-person" title="投稿者" aria-hidden="true"></span> <%= link_to "@" + bunkatsu[0], user_path(@user) %> Lv.<%= @user.level %>
             <% end %>
             <% if post.mstdn_status.present? %>
@@ -146,6 +143,7 @@
             <% if @user.display_name.present? %>
             <span class="oi oi-person" title="投稿者" aria-hidden="true"></span> <%= link_to @user.display_name, user_path(@user) %> Lv.<%= @user.level %>
             <% else %>
+            <% bunkatsu = post.post_uid.split("@") %>
             <span class="oi oi-person" title="投稿者" aria-hidden="true"></span> <%= link_to "@" + bunkatsu[0], user_path(@user) %> Lv.<%= @user.level %>
             <% end %>
             <% if post.mstdn_status.present? %>
@@ -270,6 +268,7 @@
             <% if @user.display_name.present? %>
             <span class="oi oi-person" title="投稿者" aria-hidden="true"></span> <%= link_to @user.display_name, user_path(@user) %> Lv.<%= @user.level %>
             <% else %>
+            <% bunkatsu = post.post_uid.split("@") %>
             <span class="oi oi-person" title="投稿者" aria-hidden="true"></span> <%= link_to "@" + bunkatsu[0], user_path(@user) %> Lv.<%= @user.level %>
             <% end %>
             <% if post.mstdn_status.present? %>
@@ -305,6 +304,7 @@
             <% if @user.display_name.present? %>
             <span class="oi oi-person" title="投稿者" aria-hidden="true"></span> <%= link_to @user.display_name, user_path(@user) %> Lv.<%= @user.level %>
             <% else %>
+            <% bunkatsu = post.post_uid.split("@") %>
             <span class="oi oi-person" title="投稿者" aria-hidden="true"></span> <%= link_to "@" + bunkatsu[0], user_path(@user) %> Lv.<%= @user.level %>
             <% end %>
             <% if post.mstdn_status.present? %>
@@ -348,6 +348,7 @@
             <% if @user.display_name.present? %>
             <span class="oi oi-person" title="投稿者" aria-hidden="true"></span> <%= link_to @user.display_name, user_path(@user) %> Lv.<%= @user.level %>
             <% else %>
+            <% bunkatsu = post.post_uid.split("@") %>
             <span class="oi oi-person" title="投稿者" aria-hidden="true"></span> <%= link_to "@" + bunkatsu[0], user_path(@user) %> Lv.<%= @user.level %>
             <% end %>
             <% if post.mstdn_status.present? %>
@@ -382,6 +383,7 @@
             <% if @user.display_name.present? %>
             <span class="oi oi-person" title="投稿者" aria-hidden="true"></span> <%= link_to @user.display_name, user_path(@user) %> Lv.<%= @user.level %>
             <% else %>
+            <% bunkatsu = post.post_uid.split("@") %>
             <span class="oi oi-person" title="投稿者" aria-hidden="true"></span> <%= link_to "@" + bunkatsu[0], user_path(@user) %> Lv.<%= @user.level %>
             <% end %>
             <% if post.mstdn_status.present? %>
