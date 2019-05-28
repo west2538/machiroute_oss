@@ -4,38 +4,6 @@ class CommentsController < ApplicationController
     after_action :notifications, only: [:create]
 
 def create
-
-    # if comment_params[:image] != nil
-    #     uploaded_file = comment_params[:image]
-    #     output_path = Rails.root.join('public', uploaded_file.original_filename)
-    #     img = MiniMagick::Image.read(uploaded_file)
-    #     img.resize "240x300"
-    #     img.write output_path
-    #     image_file = File.open(output_path)
-
-    #     image_annotator = Google::Cloud::Vision::ImageAnnotator.new
-    #     response = image_annotator.safe_search_detection image: image_file
-    #     response.responses.each do |res|
-    #     safe_search = res.safe_search_annotation
-    #         if safe_search.adult.to_s == "VERY_LIKELY" || safe_search.adult.to_s == "LIKELY"
-    #             File.delete(output_path)
-    #             flash[:error] = "不適切な画像と判断されました powered by Google Cloud Vision"
-    #             redirect_to root_path
-    #             return
-    #         elsif safe_search.violence.to_s == 'VERY_LIKELY' || safe_search.violence.to_s == 'LIKELY'
-    #             File.delete(output_path)
-    #             flash[:error] = "不適切な画像と判断されました powered by Google Cloud Vision"
-    #             redirect_to root_path
-    #             return
-    #         elsif safe_search.medical.to_s == 'VERY_LIKELY' || safe_search.medical.to_s == 'LIKELY'
-    #             File.delete(output_path)
-    #             flash[:error] = "不適切な画像と判断されました powered by Google Cloud Vision"
-    #             redirect_to root_path
-    #             return
-    #         end
-    #     end
-    #     File.delete(output_path)
-    # end
     
     params[:comment][:user_uid] = session[:uid]
     questbody = params[:comment][:body]
