@@ -9,5 +9,5 @@ test:
 
 production:
   adapter: redis
-  url: <%= ENV['REDIS_URL'] %>
+  url: redis://h:p4a9da922de13785bbc8726216a72635515af95a1f46686858df79a6910c50bfb@ec2-34-206-59-95.compute-1.amazonaws.com:29469
   channel_prefix: myblog_production
