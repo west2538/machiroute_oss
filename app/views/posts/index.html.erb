@@ -117,14 +117,14 @@
                     <td class="text-left pt-2 pb-0 pr-0" style="width: 240px;">
                     <% @ranks.each.with_index(1) do |rank, i| %>
                     <p class="mb-0 d-inline-block text-truncate" style="max-width: 240px;">
-                        <% @post = Post.find(rank) %>
-                        <% if Comment.find_by(post_id: @post.id, user_uid: session[:uid]) %>
+                        <% postrank = Post.find(rank) %>
+                        <% if postrank.comments.find_by(user_uid: session[:uid]) %>
                         <span class="oi oi-task text-success" title="クリア" aria-hidden="true"></span> 
                         <% else %>
                         <span class="oi oi-task text-danger" title="未クリア" aria-hidden="true"></span> 
                         <% end %>
-                        <%= link_to @post.body,
-                        post_path(@post),
+                        <%= link_to postrank.body,
+                        post_path(postrank),
                         :class => 'font-weight-bold text-truncate' %>
                     </p>
                     <% end %>
@@ -195,20 +195,20 @@
                     <tbody>
                     <tr>
                         <td class="text-left pt-0 pb-0" style="width: 240px;">
-                            <% posts = [] %>
-                            <% posts = cookies[:recently_viewed_posts].split(",") unless cookies[:recently_viewed_posts].nil? %>
-                            <% posts.last(5).reverse_each do |id| %>
+                            <% recent_posts = [] %>
+                            <% recent_posts = cookies[:recently_viewed_posts].split(",") unless cookies[:recently_viewed_posts].nil? %>
+                            <% recent_posts.last(5).reverse_each do |id| %>
                                 <% if Post.exists?(id: id) %>
-                                    <% post = Post.find(id) %>
+                                    <% recent_post = Post.find(id) %>
                                     <div>
                                     <p class="mb-0 d-inline-block text-truncate" style="max-width: 240px;">
-                                    <% if Comment.find_by(post_id: post.id, user_uid: session[:uid]) %>
+                                    <% if recent_post.comments.find_by(user_uid: session[:uid]) %>
                                     <span class="oi oi-task text-success" title="クリア" aria-hidden="true"></span> 
                                     <% else %>
                                     <span class="oi oi-task text-danger" title="未クリア" aria-hidden="true"></span> 
                                     <% end %>
-                                    <%= link_to post.body,
-                                    post_path(post),
+                                    <%= link_to recent_post.body,
+                                    post_path(recent_post),
                                     :class => 'font-weight-bold' %>
                                     </p>
                                     </div>
@@ -358,14 +358,14 @@
                             <td class="text-left pt-2 pb-0" style="width: 240px;">
                             <% @ranks.each.with_index(1) do |rank, i| %>
                             <p class="pl-2 pr-1 mb-0 d-inline-block text-truncate" style="max-width: 250px;">
-                                <% @post = Post.find(rank) %>
-                                <% if Comment.find_by(post_id: @post.id, user_uid: session[:uid]) %>
+                                <% postrank = Post.find(rank) %>
+                                <% if postrank.comments.find_by(user_uid: session[:uid]) %>
                                 <span class="oi oi-task text-success" title="クリア" aria-hidden="true"></span> 
                                 <% else %>
                                 <span class="oi oi-task text-danger" title="未クリア" aria-hidden="true"></span> 
                                 <% end %>
-                                <%= link_to @post.body,
-                                post_path(@post),
+                                <%= link_to postrank.body,
+                                post_path(postrank),
                                 :class => 'font-weight-bold' %>
                             </p>
                             <% end %>
@@ -573,20 +573,20 @@
                     <tbody>
                     <tr>
                     <td class="text-left pt-0 pb-0" style="width: 240px;">
-                        <% posts = [] %>
-                        <% posts = cookies[:recently_viewed_posts].split(",") unless cookies[:recently_viewed_posts].nil? %>
-                        <% posts.last(5).reverse_each do |id| %>
+                        <% recent_posts = [] %>
+                        <% recent_posts = cookies[:recently_viewed_posts].split(",") unless cookies[:recently_viewed_posts].nil? %>
+                        <% recent_posts.last(5).reverse_each do |id| %>
                             <% if Post.exists?(id: id) %>
-                                <% post = Post.find(id) %>
+                                <% recent_post = Post.find(id) %>
                                 <div>
                                 <p class="mb-0 d-inline-block text-truncate" style="max-width: 240px;">
-                                <% if Comment.find_by(post_id: post.id, user_uid: session[:uid]) %>
+                                <% if recent_post.comments.find_by(user_uid: session[:uid]) %>
                                 <span class="oi oi-task text-success" title="クリア" aria-hidden="true"></span> 
                                 <% else %>
                                 <span class="oi oi-task text-danger" title="未クリア" aria-hidden="true"></span> 
                                 <% end %>
-                                <%= link_to post.body,
-                                post_path(post),
+                                <%= link_to recent_post.body,
+                                post_path(recent_post),
                                 :class => 'font-weight-bold' %>
                                 </p>
                                 </div>
@@ -769,60 +769,6 @@ $(document).on("turbolinks:load", function() {
         // クッキーに選択されたタブを記憶
         $.cookie("openTag",items[1], { expires: 1800 });
     });
-});
-</script>
-
-<script>
-$(document).on("turbolinks:load", function() {
-  if (!navigator.vendor.indexOf("Apple")==0 && /\sSafari\//.test(navigator.userAgent)) {
-    return;
-  }
-
-  var formHandler = function (e) {
-    var rails = $.rails;
-    var form = $(this),
-      remote = form.data('remote') !== undefined,
-      blankRequiredInputs,
-      nonBlankFileInputs;
-
-    if (!rails.allowAction(form)) return rails.stopEverything(e);
-
-    // skip other logic when required values are missing or file upload is present
-    if (form.attr('novalidate') == undefined) {
-      blankRequiredInputs = rails.blankInputs(form, rails.requiredInputSelector);
-      if (blankRequiredInputs && rails.fire(form, 'ajax:aborted:required', [blankRequiredInputs])) {
-        return rails.stopEverything(e);
-      }
-    }
-
-    if (remote) {
-      nonBlankFileInputs = rails.nonBlankInputs(form, rails.fileInputSelector);
-      if (nonBlankFileInputs) {
-        // slight timeout so that the submit button gets properly serialized
-        // (make it easy for event handler to serialize form without disabled values)
-        setTimeout(function(){ rails.disableFormElements(form); }, 13);
-        var aborted = rails.fire(form, 'ajax:aborted:file', [nonBlankFileInputs]);
-
-        // re-enable form elements if event bindings return false (canceling normal form submission)
-        if (!aborted) { setTimeout(function(){ rails.enableFormElements(form); }, 13); }
-
-        return aborted;
-      }
-
-      rails.handleRemote(form);
-      return false;
-
-    } else {
-      if (!e.isTrigger) {
-        e.preventDefault();
-        rails.disableFormElements(form);
-        setTimeout(function(){ form.trigger('submit'); }, 13);
-      }
-    }
-  };
-
-  $(document).undelegate('form', 'submit.rails');
-  $(document).delegate('form', 'submit.rails', formHandler);
 });
 </script>
 
