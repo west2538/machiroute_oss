@@ -36,7 +36,7 @@ class PostsController < ApplicationController
     end
     
     def show
-        @post = Post.includes([:likes, :comments]).find(params[:id])
+        @post = Post.includes([:likes, :comments, :qroutes]).find(params[:id])
         @comment = @post.comments.reorder(created_at: :desc)
 
         @og_title = @post.body.truncate(17)
@@ -62,7 +62,7 @@ class PostsController < ApplicationController
                 marker.infowindow render_to_string(partial: "infowindow", locals: { post: post })
             end
         end
-        @qroute = Qroute.where(post_id: @post.id)
+        @qroute = @post.qroutes.where(post_id: @post.id)
         if @qroute.present?
             i = 0
             @hash2 = Gmaps4rails.build_markers(@qroute) do |qroute, marker|

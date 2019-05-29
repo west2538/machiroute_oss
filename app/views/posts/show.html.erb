@@ -99,7 +99,7 @@ $(function(){
                         handler.getMap().setZoom(13);
                     });
                     </script>
-                    <% if Qroute.find_by(post_id: @post.id) %>
+                    <% if @post.qroutes.find_by(post_id: @post.id) %>
                     <script>
                     handler = Gmaps.build('Google');
                     handler.buildMap({
@@ -124,7 +124,7 @@ $(function(){
                     <% end %>
                     <% mapuri = URI.encode(mapstr) %>
                 </p>
-                <% if Qroute.find_by(post_id: @post.id) %>
+                <% if @post.qroutes.find_by(post_id: @post.id) %>
                     <p class="sqobi mb-3 px-2 py-1 font-weight-bold bg-success"><span class="oi oi-map-marker" title="場所" aria-hidden="true"></span> 周辺の攻略スポット</p>
                     <% j = 0 %>
                     <% @post.qroutes.each do |qroute| %>
