@@ -3,7 +3,7 @@ class PostsController < ApplicationController
     before_action :current_user
 
     def index
-        if session[:uid] && @current_user
+        if session[:uid] && @current_user.display_name.present?
             @posts01 = Post.includes(:comments).where.not(title: '冒険の拠点を登録').page(params[:page]).per(20).order(updated_at: :desc)
             @posts02 = Post.includes(:comments).where.not(title: '冒険の拠点を登録').where(post_uid: session[:uid]).page(params[:page]).per(10).order(created_at: :desc)
             like_post_ids = Like.where(user_id: @current_user.id).order(created_at: :desc).pluck(:post_id)
@@ -24,6 +24,11 @@ class PostsController < ApplicationController
             @user_clears_count = Comment.where(user_uid: session[:uid]).count
             @level_average = User.average(:level).round
             @twitter_auth = Auth.find_by(user_id: @current_user.id)
+        else 
+            unless @current_user.display_name.present?
+                flash[:error] = "冒険者名を決めましょう！"
+                redirect_to edit_user_path(@current_user)
+            end
         end
 
         # これ以下はAjax通信の場合のみ通過
