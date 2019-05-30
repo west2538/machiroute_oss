@@ -9,7 +9,10 @@ class NotificationsController < ApplicationController
       redirect_to post_path @notification.post
       return
     end
-    redirect_to root_path
+    respond_to do |format|
+      format.js { @current_user }
+    end
+    # redirect_to root_path
   end
 
   def update_all
