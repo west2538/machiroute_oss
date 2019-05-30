@@ -24,7 +24,7 @@ class PostsController < ApplicationController
             @user_clears_count = Comment.where(user_uid: session[:uid]).count
             @level_average = User.average(:level).round
             @twitter_auth = Auth.find_by(user_id: @current_user.id)
-        else 
+        elsif session[:uid]
             unless @current_user.display_name.present?
                 flash[:error] = "冒険者名を決めましょう！"
                 redirect_to edit_user_path(@current_user)
