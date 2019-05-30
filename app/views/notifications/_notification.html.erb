@@ -16,7 +16,7 @@
 
 <% else %>
 
-    <%= link_to(link_through_path(notification), remote: true, class: 'list-group-item pb-0', style: 'width:210px;') do %>
+    <%= link_to(link_through_path(notification), class: 'list-group-item pb-0', style: 'width:210px;') do %>
     <div class="small clearfix">
         <p class="mb-0">
         <span class="font-weight-bold"><%= "あなたのサブクエストが" %><br><%= "#{notification.notified_type}" %><%= "されました！" %></span>
