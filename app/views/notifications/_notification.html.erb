@@ -8,7 +8,7 @@
         </a>
         </p>
         <p class="mt-2 mr-3" style="float:right;">
-        <%= link_to(link_through_path(notification)) do %>
+        <%= link_to(link_through_path(notification), remote: true) do %>
         既読にする - <span data-livestamp="<%= notification.updated_at.strftime('%Y-%m-%d %H:%M:%S') %>"></span>
         <% end %>
         </p>
@@ -16,7 +16,7 @@
 
 <% else %>
 
-    <%= link_to(link_through_path(notification), class: 'list-group-item pb-0', style: 'width:210px;') do %>
+    <%= link_to(link_through_path(notification), remote: true, class: 'list-group-item pb-0', style: 'width:210px;') do %>
     <div class="small clearfix">
         <p class="mb-0">
         <span class="font-weight-bold"><%= "あなたのサブクエストが" %><br><%= "#{notification.notified_type}" %><%= "されました！" %></span>
