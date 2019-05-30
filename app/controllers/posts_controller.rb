@@ -4,6 +4,18 @@ class PostsController < ApplicationController
 
     def index
         if session[:uid] && @current_user.display_name.present?
+            post_count = Post.where(post_uid: @current_user.uid).count
+            if post_count == 0
+                flash[:error] = "まずは投稿してみましょう！"
+                redirect_to new_post_path
+            else
+                last_post = Post.where(post_uid: @current_user.uid).last
+                sabun = (Date.today - last_post.created_at.to_datetime).to_i
+                if sabun >= 3
+                    flash[:error] = "しばらく冒険の投稿がないようです。何か投稿してみましょう！"
+                    redirect_to new_post_path
+                end
+            end
             @posts01 = Post.includes(:comments).where.not(title: '冒険の拠点を登録').page(params[:page]).per(20).order(updated_at: :desc)
             @posts02 = Post.includes(:comments).where.not(title: '冒険の拠点を登録').where(post_uid: session[:uid]).page(params[:page]).per(10).order(created_at: :desc)
             like_post_ids = Like.where(user_id: @current_user.id).order(created_at: :desc).pluck(:post_id)
