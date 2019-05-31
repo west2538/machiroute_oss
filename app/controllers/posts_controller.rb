@@ -8,12 +8,14 @@ class PostsController < ApplicationController
             if post_count == 0
                 flash[:error] = "まずは投稿してみましょう！"
                 redirect_to new_post_path
+                return
             else
                 last_post = Post.where(post_uid: @current_user.uid).last
                 sabun = (Date.today - last_post.created_at.to_datetime).to_i
                 if sabun >= 3
                     flash[:error] = "しばらく冒険の投稿がないようです。何か投稿してみましょう！"
                     redirect_to new_post_path
+                    return
                 end
             end
             @posts01 = Post.includes(:comments).where.not(title: '冒険の拠点を登録').page(params[:page]).per(20).order(updated_at: :desc)
@@ -40,6 +42,7 @@ class PostsController < ApplicationController
             unless @current_user.display_name.present?
                 flash[:error] = "冒険者名を決めましょう！"
                 redirect_to edit_user_path(@current_user)
+                return
             end
         end
 
