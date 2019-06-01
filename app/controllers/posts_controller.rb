@@ -190,48 +190,48 @@ class PostsController < ApplicationController
                 return
             end
             if @post.title == "復活の呪文でHP回復"
-                @current_user.hp = @current_user.hp + 100
-                @current_user.exp = @current_user.exp - 90
+                @current_user.hp += 100
+                @current_user.exp -= 90
                 if @current_user.exp <= 0
                     @current_user.exp = 0
                 end
                 flash[:notice] = "復活！経験値-90/HP+100"
             elsif @post.title == "書籍や漫画を読んだ"
-                @current_user.exp = @current_user.exp + 30
-                @current_user.hp = @current_user.hp - 10
+                @current_user.exp += 30
+                @current_user.hp -= 10
                 if @current_user.hp <= 0
                     @current_user.hp = 0
                 end
                 flash[:notice] = "投稿完了！経験値+30/HP-10"
             elsif @post.title == "駅でチェックイン"
-                @current_user.exp = @current_user.exp + 20
-                @current_user.hp = @current_user.hp - 10
+                @current_user.exp += 20
+                @current_user.hp -= 10
                 if @current_user.hp <= 0
                     @current_user.hp = 0
                 end
                 flash[:notice] = "投稿完了！経験値+20/HP-10"
             elsif @post.title == "ニュース"
-                @current_user.exp = @current_user.exp + 20
-                @current_user.hp = @current_user.hp - 10
+                @current_user.exp += 20
+                @current_user.hp -= 10
                 if @current_user.hp <= 0
                     @current_user.hp = 0
                 end
                 flash[:notice] = "投稿完了！経験値+20/HP-10"
             elsif @post.title == "新規サブクエスト"
-                @current_user.exp = @current_user.exp + 30
-                @current_user.hp = @current_user.hp - 10
+                @current_user.exp += 30
+                @current_user.hp -= 10
                 if @current_user.hp <= 0
                     @current_user.hp = 0
                 end
                 flash[:notice] = "投稿完了！経験値+30/HP-10"
             else
-            @current_user.exp = @current_user.exp + 10
-            @current_user.hp = @current_user.hp - 10
+            @current_user.exp += 10
+            @current_user.hp -= 10
             flash[:notice] = "投稿完了！経験値+10/HP-10"
             end
             if @current_user.exp >= (@current_user.level * 100)
                 flash[:notice] = "🎉レベルアップしたよ！✨"
-                @current_user.level = @current_user.level + 1
+                @current_user.level += 1
                 @current_user.hp = ((@current_user.level * 2) + 68)
             end
             if @current_user.hp <= 0
