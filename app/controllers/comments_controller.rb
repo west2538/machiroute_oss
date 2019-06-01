@@ -19,11 +19,11 @@ def create
         domain = domain_array.last
         MastodonCleartootJob.perform_later(domain,access_token,comment_status,@comment)
 
-        @current_user.exp = @current_user.exp + 30
-        @current_user.hp = @current_user.hp + 10
+        @current_user.exp += 30
+        @current_user.hp += 10
         if @current_user.exp >= (@current_user.level * 100)
             flash.now[:notice] = "🎉クリア＆レベルアップ✨"
-            @current_user.level = @current_user.level + 1
+            @current_user.level += 1
             @current_user.hp = ((@current_user.level * 2) + 68)
         else
             if @current_user.hp >= ((@current_user.level * 2) + 68)
@@ -31,11 +31,11 @@ def create
             end
             flash.now[:notice] = "クリア！経験値+30/HP+10"
         end
-        @current_user.machika_token = @current_user.machika_token + 1
+        @current_user.machika_token += 1
         @current_user.save
         flash.now[:notice] = flash.now[:notice] + "💌さらにMaChiKaがサブクエスト投稿者からあなたに+1贈呈されました"
         @user = User.where(uid: @post.post_uid).order(created_at: :desc).first
-        @user.machika_token = @user.machika_token - 1
+        @user.machika_token -= 1
         if @user.machika_token < 0
             @user.machika_token = 0
         end
