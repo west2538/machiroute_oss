@@ -26,10 +26,12 @@ class PostsController < ApplicationController
             @online_users = User.where.not(online_at: nil).limit(12).order(online_at: :desc)
 
             @special_posts = Post.includes(:comments).where.not(scenario_start: nil).where('scenario_start <= ?', Date.today).where('scenario_end >= ?', Date.today)
-            array_posts01 = @posts01.to_a
-            @special_posts = @special_posts.to_a
-            @special_posts.delete_if do |special_post|
-                array_posts01.include?(special_post)
+            if @special_posts.present?
+                array_posts01 = @posts01.to_a
+                @special_posts = @special_posts.to_a
+                @special_posts.delete_if do |special_post|
+                    array_posts01.include?(special_post)
+                end
             end
 
             @ranks = Comment.where('created_at > ?', Time.now - 7.days).group(:post_id).order(Arel.sql('count(post_id) desc')).limit(3).pluck(:post_id)
