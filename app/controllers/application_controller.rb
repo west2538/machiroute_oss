@@ -15,6 +15,31 @@ class ApplicationController < ActionController::Base
         @auth_user.id = @auth_user[:user_id]
         # @providers = Auth.where(user_id: @current_user.id).pluck(:provider)
       end
+
+      if controller_name == "posts" && action_name == "new"
+      else
+        if @current_user.display_name.present?
+          post_count = Post.where(post_uid: @current_user.uid).count
+          if post_count == 0
+            flash[:error] = "まずは投稿してみましょう！"
+            redirect_to new_post_path
+            return
+          else
+            last_post = Post.where(post_uid: @current_user.uid).last
+            sabun = (Date.today - last_post.created_at.to_datetime).to_i
+            if sabun >= 3
+              flash[:error] = "しばらく冒険の投稿がないようです。何か投稿してみましょう！"
+              redirect_to new_post_path
+              return
+            end
+          end
+        else
+          flash[:error] = "冒険者名を決めましょう！"
+          redirect_to edit_user_path(@current_user)
+          return
+        end
+      end
+
     end
   end
 
