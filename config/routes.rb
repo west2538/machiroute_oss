@@ -14,6 +14,8 @@ Rails.application.routes.draw do
 
   resources :devices, only: [:create]
 
+  get '.well-known/assetlinks' => "wellknown#assetlinks"
+
   get 'notifications/link_through'
   get 'notifications/update_all' => "notifications#update_all"
   get '500', to: 'errors#not_found'
