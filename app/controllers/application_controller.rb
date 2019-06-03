@@ -16,7 +16,7 @@ class ApplicationController < ActionController::Base
         # @providers = Auth.where(user_id: @current_user.id).pluck(:provider)
       end
 
-      unless controller_name == "posts" && action_name == "new" || controller_name == "posts" && action_name == "create"
+      unless controller_name == "posts" && action_name == "new" || controller_name == "posts" && action_name == "create" || controller_name == "users" && action_name == "edit" || controller_name == "users" && action_name == "update"
         if @current_user.display_name.present?
           post_count = Post.where(post_uid: @current_user.uid).count
           if post_count == 0
