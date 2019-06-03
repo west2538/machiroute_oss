@@ -282,6 +282,7 @@ class PostsController < ApplicationController
             @qtag = ActsAsTaggableOn::Tag.find(params[:tag])
             @post = Post.includes(:comments).page(params[:page]).per(10).tagged_with(@qtag)
         end
+        @og_title = @qtag.to_s.truncate(17)
     end
 
     def unclear
