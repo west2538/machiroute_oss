@@ -19,7 +19,7 @@
 //= require turbolinks
 //= require nested_form_fields
 //= require gmaps/google
-//= require toastr
+//= require toastr_rails
 //= require moment
 //= require moment/ja.js
 //= require_tree .
@@ -316,3 +316,21 @@ const messagerecieve = (e) => {
 sock.addEventListener('message', messagerecieve);
 
 });
+
+toastr.options = {
+  "closeButton": true,
+  "debug": false,
+  "newestOnTop": false,
+  "progressBar": true,
+  "positionClass": "toast-top-right",
+  "preventDuplicates": false,
+  "onclick": null,
+  "showDuration": "300",
+  "hideDuration": "1000",
+  "timeOut": "5000",
+  "extendedTimeOut": "1000",
+  "showEasing": "swing",
+  "hideEasing": "linear",
+  "showMethod": "show",
+  "hideMethod": "hide"
+}
