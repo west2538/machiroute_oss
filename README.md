@@ -102,7 +102,8 @@ https://play.google.com/store/apps/details?id=xyz.appmaker.tzozva
 https://note.mu/west2538/n/nea30c9e3936f  
 * ほかにも細かなおもしろ機能ありますよ  
   
-**◆ 稼働環境**  
+## 稼働環境  
+
 * Heroku Hobby Dynos(heroku-18) 
 * Ruby 2.6.3 
 * Rails 5.2.3 
@@ -110,7 +111,8 @@ https://note.mu/west2538/n/nea30c9e3936f
 * Redis 4.0.14 
 * Amazon S3
   
-**◆ 開発環境**  
+## 開発環境 
+
 * DELL XPS 15 9560(SSD 512GB/RAM16GB) 
 * VM VirtualBox 6.0.8 
 * Host OS: Windows 10 Home バージョン 1903 
@@ -122,13 +124,14 @@ https://note.mu/west2538/n/nea30c9e3936f
 * その他のツール一覧はこちらでも確認できます 
 https://devtalk.jp/products/5  
   
-**◆ パフォーマンス**  
+## パフォーマンス
+
 (2019年2月9日の時点)  
 * 平均レスポンス 173ms(0.173秒) 
 * New Relic Apdex score:0.96(Max 1.0) 
 * Google PageSpeedInsights モバイル:79 パソコン:97 
 * Pingdom Website Speed Test C78
   
-**💚 サポーター/寄付について** 
+## 💚 サポーター/寄付について 
 よかったら開発者およびユーザー（冒険者）のサポーターになってください！  
 https://lounge.dmm.com/detail/1397/
