@@ -90,44 +90,44 @@ https://play.google.com/store/apps/details?id=xyz.appmaker.tzozva
 いわゆるユーザー情報ページ。アイコンやプロフィール文のほか、スキルを最大4つまで登録可能。さらにグランドマスターに会えば特別な称号が与えられます  
   
 **◆ その他**  
-*みんなの平均レベルやクリア件数で「ソーシャルアップデート値」が上昇！  
-*背景イラストが季節によって変わります  
-*パソコンでもiPadでもスマホでも使えます(3形態のレイアウトへ自動切り替え)  
-*サーバーとの双方向通信によってタイムラインを自動更新  
-*サブクエストの閲覧履歴機能  
-*RSSフィード生成（IFTTT等との連携で新規サブクエストのメール通知などが可能）  
-*Google Cloud Visionの強力解析で不適切な画像をブロック  
-*PWA（Progressive Web App）として構築。スマホのホーム画面にアイコンを追加可能なほか、Webアプリなのにネイティブアプリ(Google PlayやApp Storeからダウンロードするアプリ)のようにフルスクリーン表示できます  
-*独自のAPIを提供しています  
+* みんなの平均レベルやクリア件数で「ソーシャルアップデート値」が上昇！  
+* 背景イラストが季節によって変わります  
+* パソコンでもiPadでもスマホでも使えます(3形態のレイアウトへ自動切り替え)  
+* サーバーとの双方向通信によってタイムラインを自動更新  
+* サブクエストの閲覧履歴機能  
+* RSSフィード生成（IFTTT等との連携で新規サブクエストのメール通知などが可能）  
+* Google Cloud Visionの強力解析で不適切な画像をブロック  
+* PWA（Progressive Web App）として構築。スマホのホーム画面にアイコンを追加可能なほか、Webアプリなのにネイティブアプリ(Google PlayやApp Storeからダウンロードするアプリ)のようにフルスクリーン表示できます  
+* 独自のAPIを提供しています  
 https://note.mu/west2538/n/nea30c9e3936f  
-*ほかにも細かなおもしろ機能ありますよ  
+* ほかにも細かなおもしろ機能ありますよ  
   
 **◆ 稼働環境**  
-*Heroku Hobby Dynos(heroku-18) 
-*Ruby 2.6.3 
-*Rails 5.2.3 
-*PostgreSQL 11.2 
-*Redis 4.0.14 
-*Amazon S3
+* Heroku Hobby Dynos(heroku-18) 
+* Ruby 2.6.3 
+* Rails 5.2.3 
+* PostgreSQL 11.2 
+* Redis 4.0.14 
+* Amazon S3
   
 **◆ 開発環境**  
-*DELL XPS 15 9560(SSD 512GB/RAM16GB) 
-*VM VirtualBox 6.0.8 
-*Host OS: Windows 10 Home バージョン 1903 
-*Guest OS: CentOS Linux release 7.6.1810 (Core) 
-*Ruby 2.6.3 
-*Rails 5.2.3 
-*Visual Studio Code 
-*WinSCP 
-*その他のツール一覧はこちらでも確認できます 
+* DELL XPS 15 9560(SSD 512GB/RAM16GB) 
+* VM VirtualBox 6.0.8 
+* Host OS: Windows 10 Home バージョン 1903 
+* Guest OS: CentOS Linux release 7.6.1810 (Core) 
+* Ruby 2.6.3 
+* Rails 5.2.3 
+* Visual Studio Code 
+* WinSCP 
+* その他のツール一覧はこちらでも確認できます 
 https://devtalk.jp/products/5  
   
 **◆ パフォーマンス**  
 (2019年2月9日の時点)  
-*平均レスポンス 173ms(0.173秒) 
-*New Relic Apdex score:0.96(Max 1.0) 
-*Google PageSpeedInsights モバイル:79 パソコン:97 
-*Pingdom Website Speed Test C78
+* 平均レスポンス 173ms(0.173秒) 
+* New Relic Apdex score:0.96(Max 1.0) 
+* Google PageSpeedInsights モバイル:79 パソコン:97 
+* Pingdom Website Speed Test C78
   
 **💚 サポーター/寄付について** 
 よかったら開発者およびユーザー（冒険者）のサポーターになってください！  
