@@ -121,6 +121,8 @@ https://play.google.com/store/apps/details?id=xyz.appmaker.tzozva
 * WinSCP 
 * その他のツール一覧はこちらでも確認できます  
 https://devtalk.jp/products/5  
+* 開発メモ on Qiita  
+https://qiita.com/west2538  
   
 ## パフォーマンス
 
