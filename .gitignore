@@ -47,3 +47,4 @@ server.key
 /.well-known/assetlinks.json
 dump.rdb
 temp-22545.rdb
+npm-debug.log
