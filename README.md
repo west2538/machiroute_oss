@@ -121,7 +121,7 @@ https://note.mu/west2538/n/nea30c9e3936f
 * Rails 5.2.3 
 * Visual Studio Code 
 * WinSCP 
-* その他のツール一覧はこちらでも確認できます 
+* その他のツール一覧はこちらでも確認できます  
 https://devtalk.jp/products/5  
   
 ## パフォーマンス
