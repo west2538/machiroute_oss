@@ -98,8 +98,6 @@ https://play.google.com/store/apps/details?id=xyz.appmaker.tzozva
 * RSSフィード生成（IFTTT等との連携で新規サブクエストのメール通知などが可能）  
 * Google Cloud Visionの強力解析で不適切な画像をブロック  
 * PWA（Progressive Web App）として構築。スマホのホーム画面にアイコンを追加可能なほか、Webアプリなのにネイティブアプリ(Google PlayやApp Storeからダウンロードするアプリ)のようにフルスクリーン表示できます  
-* 独自のAPIを提供しています  
-https://note.mu/west2538/n/nea30c9e3936f  
 * ほかにも細かなおもしろ機能ありますよ  
   
 ## 稼働環境  
@@ -132,6 +130,12 @@ https://devtalk.jp/products/5
 * Google PageSpeedInsights モバイル:79 パソコン:97 
 * Pingdom Website Speed Test C78
   
-## 💚 サポーター/寄付について 
+## サポーター/寄付について 
 よかったら開発者およびユーザー（冒険者）のサポーターになってください！  
 https://lounge.dmm.com/detail/1397/
+
+## API
+
+独自のAPIを提供しています  
+https://note.mu/west2538/n/nea30c9e3936f  
+https://machiroute.herokuapp.com/docs
