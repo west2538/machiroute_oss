@@ -46,3 +46,4 @@ server.key
 /db/migrate/20190522053609_add_twitter_screenname_to_user.rb
 /.well-known/assetlinks.json
 dump.rdb
+temp-22545.rdb
