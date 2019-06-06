@@ -28,7 +28,7 @@ class SessionsController < ApplicationController
         begin
           @new_user = client.create_account(params)
         rescue => e
-          flash[:error] = "登録できませんでした。ユーザー名またはメールアドレスはすでに存在します"
+          flash[:error] = "登録できませんでした。ユーザー名またはメールアドレスがすでに存在するか、もしくは入力内容に誤りがあります"
           redirect_to root_path
           return
         end
