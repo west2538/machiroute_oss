@@ -300,6 +300,22 @@ class PostsController < ApplicationController
         render json: posts.to_json
     end
 
+    def battery
+        if params[:battery] != nil
+            battery = params[:battery]
+            @current_user.hp += battery.to_i
+            if @current_user.hp >= ((@current_user.level * 2) + 68)
+                @current_user.hp = ((@current_user.level * 2) + 68)
+            end
+            @current_user.save
+            flash[:notice] = "HPが回復しました！"
+            redirect_to root_path
+        else
+            flash[:error] = "呪文が失敗しました！"
+            redirect_to root_path
+        end
+    end
+
     private
     def post_params
         params.require(:post).permit(

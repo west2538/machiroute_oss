@@ -48,6 +48,7 @@ Rails.application.routes.draw do
   get 'gallery' , as: 'gallery', to: 'posts#gallery'
   get 'form2' , as: 'form2', to: 'posts#form2'
   get 'form3' , as: 'form3', to: 'posts#form3'
+  get 'battery' , as: 'battery', to: 'posts#battery'
 
   get 'notifications/:id/link_through', to: 'notifications#link_through',
   as: :link_through
