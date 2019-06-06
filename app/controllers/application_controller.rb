@@ -4,6 +4,15 @@ class ApplicationController < ActionController::Base
   helper_method :vapid_public_key
   after_action :discard_flash_if_xhr
 
+  # 例外をキャッチ
+  rescue_from ActiveRecord::RecordNotFound, with: :render_404
+
+  def render_404(e = nil)
+    logger.info "Rendering 404 with exception: #{e.message}" if e
+    render file: Rails.root.join('public/404.html'), status: 404, layout: false, content_type: 'text/html'
+  end
+
+
   private
   def current_user
     if User.find_by(uid: session[:uid])
