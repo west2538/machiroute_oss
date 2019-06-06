@@ -1,7 +1,7 @@
 # まちかどルート
 
-サブクエストを作りクリアしあうことで  
-世界がちょっと明るくなる、リアルRPG系Webアプリ  
+**サブクエストを作りクリアしあうことで**  
+**世界がちょっと明るくなる、リアルRPG系Webアプリ**  
   
 PC / iPhone / iPad  
 https://machiroute.herokuapp.com/
