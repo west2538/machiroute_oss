@@ -2,11 +2,6 @@ require 'sidekiq/web'
 
 Rails.application.routes.draw do
 
-  # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
-
-  # Sidekiq::Web.use Rack::Auth::Basic do |username, password|
-  #   username == 'machiroute' && password == 'machiroute99'
-  # end
   mount Sidekiq::Web => '/sidekiq'
   mount API => '/'
   mount GrapeSwaggerRails::Engine => '/docs' if defined? GrapeSwaggerRails
