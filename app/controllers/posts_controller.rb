@@ -38,7 +38,7 @@ class PostsController < ApplicationController
     end
     
     def show
-        @post = Post.includes([:likes, :comments, :qroutes]).find(params[:id])
+        @post = Post.includes([:likes, :comments, :qroutes]).find!(params[:id])
         @comment = @post.comments.reorder(created_at: :desc)
 
         @og_title = @post.body.truncate(17)
@@ -90,7 +90,6 @@ class PostsController < ApplicationController
     end
 
     def create
-
         @post = Post.new(post_params)
         @post.post_uid = session[:uid]
         if @post.title == "ニュース"
@@ -237,7 +236,6 @@ class PostsController < ApplicationController
     end
 
     def update
-
         @post = Post.find(params[:id])
         if @post.title == "新規サブクエスト"
             @post.placename = params[:placename][0]
@@ -279,7 +277,7 @@ class PostsController < ApplicationController
             @qtag = params[:tagsearch]
             @post = Post.includes(:comments).page(params[:page]).per(10).tagged_with(@qtag)
         else
-            @qtag = ActsAsTaggableOn::Tag.find(params[:tag])
+            @qtag = ActsAsTaggableOn::Tag.find!(params[:tag])
             @post = Post.includes(:comments).page(params[:page]).per(10).tagged_with(@qtag)
         end
         @og_title = @qtag.to_s.truncate(17)
