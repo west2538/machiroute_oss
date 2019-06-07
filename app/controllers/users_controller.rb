@@ -7,7 +7,7 @@ class UsersController < ApplicationController
         @user_clears_count = Comment.where(user_uid: @user.uid).count
         @user_posts_count = Post.where(post_uid: @user.uid).count
         if @current_user.present?
-            if @user.uid == @current_user.uid && session[:provider] == 'twitter' && session[:oauth_token] && Auth.find_by(user_id: @current_user.id)
+            if @user.uid == @current_user.uid && session[:provider] == 'twitter' && session[:oauth_token] && @auth_user
                 unless @current_user.twitter_screenname.present?
                     client = Twitter::REST::Client.new do |config|
                         config.consumer_key        = ENV['TWITTER_CONSUMER_KEY']

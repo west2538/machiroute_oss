@@ -212,7 +212,7 @@ twitter: { title: og_title + ' | まちかどルート', description: 'リアル
           <div class="col-sm">
             <h5 class="card-title">Twitter 連携</h5>
             <p class="card-text" style="text-indent:10px;">
-            <% if session[:provider] == 'twitter' && session[:oauth_token] && Auth.find_by(user_id: @current_user.id) %>
+            <% if session[:provider] == 'twitter' && session[:oauth_token] && @auth_user %>
               <i class="fa fa-twitter-square fa-lg text-success" aria-hidden="true"></i> <small class="font-weight-bold text-success m-0">連携中 <a href="https://twitter.com/<%= @current_user.twitter_screenname %>" target="_blank">@<%= @current_user.twitter_screenname %></a></small>
               <br><%= link_to sanitize('<span class="oi oi-circle-x font-weight-bold text-danger small m-0" aria-hidden="true"> 連携を解除する</span>'), destroy_connection_path(:twitter), method: :delete, data:{confirm:"本当に解除しますか？"}, style: 'text-indent:20px;' %>
             <% else %>
