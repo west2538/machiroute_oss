@@ -15,7 +15,7 @@ class ApplicationController < ActionController::Base
 
   private
   def current_user
-    if User.find_by(uid: session[:uid])
+    if @current_user || User.find_by(uid: session[:uid])
       @current_user ||= User.where(uid: session[:uid]).order(created_at: :desc).first
       @current_user.id = @current_user[:id]
       cookies.encrypted[:user_id] = @current_user.id
