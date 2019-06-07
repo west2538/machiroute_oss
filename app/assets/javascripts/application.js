@@ -24,6 +24,8 @@
 //= require moment/ja.js
 //= require_tree .
 
+// Turbolinks 画面遷移時のプログレスバー
+
 $(function() {
     Turbolinks.setProgressBarDelay(100);
 });
@@ -41,6 +43,7 @@ function updateCount(str, id)
     }
   }
 
+// 投稿画面 ctrl + enter対応
 
 $(document).on("turbolinks:load", function() {
     $('#commentInput').keydown(function(e){
@@ -53,6 +56,7 @@ $(document).on("turbolinks:load", function() {
     });
 });
 
+// 投稿画面のセレクトボックス
 
 $(document).on("turbolinks:load", function() {
   $('select').change(function() {
@@ -87,6 +91,7 @@ $(document).on("turbolinks:load", function() {
   });
 });
 
+// 書籍検索
 
 $(document).on("turbolinks:load", function() {
     $(function() {
@@ -111,6 +116,7 @@ $(document).on("turbolinks:load", function() {
         });
     });
 
+// 駅でチェックイン
 
 $('#getStationInfo').click( function( e ) {
 var output = document.getElementById("result");
@@ -149,6 +155,7 @@ navigator.geolocation.getCurrentPosition(success, error);
 });
 });
 
+// disable-with iOS対応
 
 $(document).on("turbolinks:load", function() {
   if (!navigator.vendor.indexOf("Apple")==0 && /\sSafari\//.test(navigator.userAgent)) {
@@ -164,7 +171,6 @@ $(document).on("turbolinks:load", function() {
 
     if (!rails.allowAction(form)) return rails.stopEverything(e);
 
-    // skip other logic when required values are missing or file upload is present
     if (form.attr('novalidate') == undefined) {
       blankRequiredInputs = rails.blankInputs(form, rails.requiredInputSelector);
       if (blankRequiredInputs && rails.fire(form, 'ajax:aborted:required', [blankRequiredInputs])) {
@@ -175,12 +181,9 @@ $(document).on("turbolinks:load", function() {
     if (remote) {
       nonBlankFileInputs = rails.nonBlankInputs(form, rails.fileInputSelector);
       if (nonBlankFileInputs) {
-        // slight timeout so that the submit button gets properly serialized
-        // (make it easy for event handler to serialize form without disabled values)
         setTimeout(function(){ rails.disableFormElements(form); }, 13);
         var aborted = rails.fire(form, 'ajax:aborted:file', [nonBlankFileInputs]);
 
-        // re-enable form elements if event bindings return false (canceling normal form submission)
         if (!aborted) { setTimeout(function(){ rails.enableFormElements(form); }, 13); }
 
         return aborted;
@@ -202,6 +205,7 @@ $(document).on("turbolinks:load", function() {
   $(document).delegate('form', 'submit.rails', formHandler);
 });
 
+// 冒険中のつぶやき モーダルウィンドウ
 
 $(document).on("turbolinks:load", function() {
  
@@ -247,6 +251,7 @@ $(document).on("turbolinks:load", function() {
    });
 });
 
+// Web Share API
 
 $(document).on("turbolinks:load", function () {
   'use strict';
@@ -277,6 +282,7 @@ $(document).on("turbolinks:load", function () {
   });
 });
 
+// Mastodon WebSocketに接続してリアルタイム通知
 
 $(document).on("turbolinks:load", function () {
 
@@ -317,6 +323,8 @@ sock.addEventListener('message', messagerecieve);
 
 });
 
+// gem toastr_railsのオプション
+
 toastr.options = {
   "closeButton": true,
   "debug": false,
@@ -335,6 +343,8 @@ toastr.options = {
   "hideMethod": "hide"
 }
 
+// バッテリーホイミ機能
+
 navigator.getBattery().then(function(battery) {
    
   battery.onchargingchange = function(){
@@ -345,7 +355,6 @@ navigator.getBattery().then(function(battery) {
   }
  
   battery.onlevelchange = function(){
-    // document.getElementById('level').innerHTML = battery.level * 100;
     document.getElementById( "battery" ).value = battery.level * 100;
     document.getElementById( "battery_btn" ).disabled = "";
   }
