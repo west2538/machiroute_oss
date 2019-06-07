@@ -25,7 +25,6 @@ class PostsController < ApplicationController
             @clears_count = Comment.count
             @user_clears_count = Comment.where(user_uid: session[:uid]).count
             @level_average = User.average(:level).round
-            @twitter_auth = Auth.find_by(user_id: @current_user.id)
         end
 
         # これ以下はAjax通信の場合のみ通過

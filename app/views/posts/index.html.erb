@@ -275,7 +275,7 @@
                                     <% end %>
                                 </p>
                                 <small style="float: right;" class="mt-2 mb-3">
-                                <% if session[:provider] == 'twitter' && session[:oauth_token] && @twitter_auth %>
+                                <% if session[:provider] == 'twitter' && session[:oauth_token] && @auth_user %>
                                     <span style="position:relative; top:-1px; left:-5px;"><i class="fa fa-twitter-square fa-lg text-success" aria-hidden="true"></i> <span class="font-weight-bold text-success">連携中</span></span>
                                 <% end %>
                                 <% if @current_user.display_name.present? %>
@@ -443,7 +443,7 @@
                             <span class="oi oi-chat" title="つぶやく" aria-hidden="true"></span>
                             <% end %>
                         </label>
-                        <% if session[:provider] == 'twitter' && session[:oauth_token] && @twitter_auth %>
+                        <% if session[:provider] == 'twitter' && session[:oauth_token] && @auth_user %>
                             <small style="position:absolute; top:34px; left:250px;"><i class="fa fa-twitter-square fa text-success" aria-hidden="true"></i><small class="font-weight-bold text-success m-0">連携中</small></small>
                         <% end %>
                     </div>
