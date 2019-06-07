@@ -205,8 +205,7 @@ twitter: { title: og_title + ' | まちかどルート', description: 'リアル
           <hr>
         </div>
 
-        <% if @current_user.present? %>
-        <% if @user.id == @current_user.id %>
+        <% if @current_user.present? && @user.id == @current_user.id %>
 
         <div class="row">
           <div class="col-sm">
@@ -240,7 +239,6 @@ twitter: { title: og_title + ' | まちかどルート', description: 'リアル
           <hr>
         </div>
 
-        <% end %>
         <% end %>
 
         <div class="mt-5 mb-1 text-muted">
