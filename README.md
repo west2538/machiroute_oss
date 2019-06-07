@@ -9,7 +9,10 @@ https://machiroute.herokuapp.com/
 Android  
 https://play.google.com/store/apps/details?id=xyz.appmaker.tzozva
 
-![mockDrop_iPhone 6 in left hand](https://user-images.githubusercontent.com/28094903/59081093-57b94400-8927-11e9-835f-aa7d761e7713.jpg)
+<img src="https://user-images.githubusercontent.com/28094903/59081093-57b94400-8927-11e9-835f-aa7d761e7713.jpg" width="50%">
+
+<img src="https://user-images.githubusercontent.com/28094903/59081223-f04fc400-8927-11e9-8c2f-bcfc34f25458.jpg" width="50%">
+
 
 ## まちかどルートとは
 
