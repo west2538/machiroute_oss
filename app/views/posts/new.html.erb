@@ -236,7 +236,7 @@
       (200字以内推奨)<br><span id="count">0</span>
       </p>
       <p class="text-right mt-1 mb-5">
-      <% if session[:provider] == 'twitter' && session[:oauth_token] && Auth.find_by(user_id: @current_user.id) %>
+      <% if session[:provider] == 'twitter' && session[:oauth_token] && @auth_user %>
         <span id="twitter_relation" style="position:relative; top:-10px;"><i class="fa fa-twitter-square fa-lg text-success" aria-hidden="true"></i> <small class="font-weight-bold text-success m-0">連携中</small></span>
       <% else %>
         <span id="twitter_relation"></span>
@@ -446,7 +446,7 @@
       (200字以内推奨)<br><span id="count">0</span>
       </p>
       <p class="text-right mt-1 mb-5">
-      <% if session[:provider] == 'twitter' && session[:oauth_token] && Auth.find_by(user_id: @current_user.id) %>
+      <% if session[:provider] == 'twitter' && session[:oauth_token] && @auth_user %>
         <span id="twitter_relation" style="position:relative; top:-10px;"><i class="fa fa-twitter-square fa-lg text-success" aria-hidden="true"></i> <small class="font-weight-bold text-success m-0">連携中</small></span>
       <% else %>
         <span id="twitter_relation"></span>
