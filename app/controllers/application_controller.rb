@@ -17,11 +17,11 @@ class ApplicationController < ActionController::Base
   def current_user
     if @current_user || User.find_by(uid: session[:uid])
       @current_user ||= User.where(uid: session[:uid]).order(created_at: :desc).first
-      @current_user.id = @current_user[:id]
-      cookies.encrypted[:user_id] = @current_user.id
-      if Auth.find_by(user_id: @current_user.id)
+      @current_user.id ||= @current_user[:id]
+      cookies.encrypted[:user_id] ||= @current_user.id
+      if @auth_user || Auth.find_by(user_id: @current_user.id)
         @auth_user ||= Auth.where(user_id: @current_user.id).order(created_at: :desc).first
-        @auth_user.id = @auth_user[:user_id]
+        @auth_user.id ||= @auth_user[:user_id]
         # @providers = Auth.where(user_id: @current_user.id).pluck(:provider)
       end
 
