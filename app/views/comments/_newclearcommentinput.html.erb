@@ -1,6 +1,6 @@
 <div id="newclearcommentinput_ajax">
-<% if post.title == "新規サブクエスト" && session[:uid] %>
-    <% if post.comments.find_by(user_uid: session[:uid]) %>
+<% if post.title == "新規サブクエスト" && current_user %>
+    <% if post.comments.find_by(user_uid: current_user.uid) %>
     <% elsif post.likes.find_by(user_id: current_user.id, post_id: post.id) %>
         <%= form_with model: [post, post.comments.build], multipart: true do |f| %>
             <div class="input-group pl-3 pr-3 mb-1">

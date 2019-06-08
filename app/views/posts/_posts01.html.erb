@@ -27,7 +27,7 @@
             <p class="card-text font-weight-bold text-secondary mt-2 mb-1 px-2" style="word-break: break-all;">
                 <% URI.extract(post.body).uniq.each {|url| post.body.gsub!(url, '')} %>
                 <%= post.body %>
-                <% if session[:uid] == "townsguild@another-guild.com" %>
+                <% if @current_user.uid == "townsguild@another-guild.com" %>
                 <%= link_to sanitize('<span class="oi oi-pencil small text-primary" title="マスター編集" aria-hidden="true"></span>'),
                     post_path(post),
                     :class => 'font-weight-bold' %>
@@ -81,7 +81,7 @@
             <p class="font-weight-bold text-secondary d-inline-block" style="opacity: 0.87; word-break: break-all;">
                 <% URI.extract(post.body).uniq.each {|url| post.body.gsub!(url, '')} %>
                 <%= post.body %>
-                <% if session[:uid] == "townsguild@another-guild.com" %>
+                <% if @current_user.uid == "townsguild@another-guild.com" %>
                 <%= link_to sanitize('<span class="oi oi-pencil small text-primary" title="マスター編集" aria-hidden="true"></span>'),
                     post_path(post),
                     :class => 'font-weight-bold' %>
@@ -132,7 +132,7 @@
             <p class="font-weight-bold text-secondary d-inline-block" style="opacity: 0.87; word-break: break-all;">
                 <% URI.extract(post.body).uniq.each {|url| post.body.gsub!(url, '')} %>
                 <%= post.body %>
-                <% if session[:uid] == "townsguild@another-guild.com" %>
+                <% if @current_user.uid == "townsguild@another-guild.com" %>
                 <%= link_to sanitize('<span class="oi oi-pencil small text-primary" title="マスター編集" aria-hidden="true"></span>'),
                     post_path(post),
                     :class => 'font-weight-bold' %>
@@ -167,7 +167,7 @@
 
 <tr>
     <td class="px-0">
-        <% if post.comments.find_by(user_uid: session[:uid]) %>
+        <% if post.comments.find_by(user_uid: @current_user.uid) %>
         <div class="card text-white text-center bg-success my-1 tilt" style="max-width: 18rem;">
             <% if post.image.attached? %>
                 <%= link_to post_path(post) do %>
@@ -217,7 +217,7 @@
         <div class="box26">
             <span class="box-title"><span class="oi oi-wifi text-primary" title="読んでね" aria-hidden="true"></span> 公式のつぶやき</span>
             <p><%= post.body %>
-            <% if session[:uid] == "townsguild@another-guild.com" %>
+            <% if @current_user.uid == "townsguild@another-guild.com" %>
             <%= link_to sanitize('<span class="oi oi-pencil small text-primary" title="マスター編集" aria-hidden="true"></span>'),
                 post_path(post),
                 :class => 'font-weight-bold' %>
@@ -258,7 +258,7 @@
             <p class="font-weight-bold text-secondary d-inline-block" style="opacity: 0.87; word-break: break-all;">
                 <% URI.extract(post.body).uniq.each {|url| post.body.gsub!(url, '')} %>
                 <%= post.body %>
-                <% if session[:uid] == "townsguild@another-guild.com" %>
+                <% if @current_user.uid == "townsguild@another-guild.com" %>
                 <%= link_to sanitize('<span class="oi oi-pencil small text-primary" title="マスター編集" aria-hidden="true"></span>'),
                     post_path(post),
                     :class => 'font-weight-bold' %>
@@ -294,7 +294,7 @@
             <p class="font-weight-bold text-secondary d-inline-block" style="opacity: 0.87; word-break: break-all;">
                 <% URI.extract(post.body).uniq.each {|url| post.body.gsub!(url, '')} %>
                 <%= post.body %>
-                <% if session[:uid] == "townsguild@another-guild.com" %>
+                <% if @current_user.uid == "townsguild@another-guild.com" %>
                 <%= link_to sanitize('<span class="oi oi-pencil small text-primary" title="マスター編集" aria-hidden="true"></span>'),
                     post_path(post),
                     :class => 'font-weight-bold' %>
@@ -338,7 +338,7 @@
             <p class="font-weight-bold text-secondary d-inline-block" style="opacity: 0.87; word-break: break-all;">
             <% URI.extract(post.body).uniq.each {|url| post.body.gsub!(url, '')} %>
             <%= post.body %>
-                <% if session[:uid] == "townsguild@another-guild.com" %>
+                <% if @current_user.uid == "townsguild@another-guild.com" %>
                 <%= link_to sanitize('<span class="oi oi-pencil small text-primary" title="マスター編集" aria-hidden="true"></span>'),
                     post_path(post),
                     :class => 'font-weight-bold' %>
@@ -373,7 +373,7 @@
             <p class="font-weight-bold text-secondary d-inline-block" style="opacity: 0.87; word-break: break-all;">
                 <% URI.extract(post.body).uniq.each {|url| post.body.gsub!(url, '')} %>
                 <%= post.body %>
-                <% if session[:uid] == "townsguild@another-guild.com" %>
+                <% if @current_user.uid == "townsguild@another-guild.com" %>
                 <%= link_to sanitize('<span class="oi oi-pencil small text-primary" title="マスター編集" aria-hidden="true"></span>'),
                     post_path(post),
                     :class => 'font-weight-bold' %>

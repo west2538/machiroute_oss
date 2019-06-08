@@ -1,4 +1,4 @@
-<% if @user.uid == session[:uid] && @user.id == @current_user.id || session[:uid] == 'townsguild@another-guild.com' %>
+<% if @user.id == @current_user.id || @current_user.uid == 'townsguild@another-guild.com' %>
 
   <% session_bunkatsu = @user.uid.split("@") %>
   <% session_bokensha = "https://" + session_bunkatsu.last + "/@" + session_bunkatsu[0] %>
@@ -127,7 +127,7 @@
       <div class="row">
         <div class="col-sm">
           <h5 class="card-title">称号</h5>
-          <% if session[:uid] == 'townsguild@another-guild.com' %>
+          <% if @current_user.uid == 'townsguild@another-guild.com' %>
             <p class="card-title">
             <%= f.text_field :shogo,
             :class => 'mb-2 form-control',

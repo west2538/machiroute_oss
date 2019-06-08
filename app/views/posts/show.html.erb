@@ -1,4 +1,4 @@
-<% if @post.title == "新規サブクエスト" || session[:uid] == 'townsguild@another-guild.com' %>
+<% if @post.title == "新規サブクエスト" || @current_user.uid == 'townsguild@another-guild.com' %>
 
 <% if @imgurl.present? %>
     <% set_meta_tags title: @og_title, site: 'まちかどルート', og: { title: @og_title + ' | まちかどルート', type: 'article', description: 'リアルRPG！サブクエストを作って共有してクリアするアプリ', image: {_: @imgurl, width: @imgpixel[:width], height: @imgpixel[:height]} },
@@ -72,7 +72,7 @@ $(function(){
                 <%= image_tag @imgurl, :class => "card-img-top mx-auto" %>
             <% end %>
             <div class="card-body">
-            <% if @comment.find_by(user_uid: session[:uid]) %>
+            <% if @comment.find_by(user_uid: @current_user.uid) %>
             <h5 class="card-title mb-4 wf-nicomoji"><span class="oi oi-task text-success" title="クリア" aria-hidden="true"></span> サブクエスト クリア✨</h5>
             <% else %>
             <h5 class="card-title mb-4 wf-nicomoji"><span class="oi oi-task text-danger" title="クリア" aria-hidden="true"></span> サブクエスト</h5>
@@ -171,7 +171,7 @@ $(function(){
 
             </small>
             </p>
-            <% if session[:uid] == @post.post_uid || session[:uid] == "townsguild@another-guild.com" %>
+            <% if @current_user.uid == @post.post_uid || @current_user.uid == "townsguild@another-guild.com" %>
             <p>
             <%= link_to '編集',
             edit_post_path(@post),
@@ -209,7 +209,7 @@ $(function(){
             <%= render partial: 'comments/newclearcommentinput', locals: { post: @post, current_user: @current_user }, remote: true %>
             <div id="newclearcomment_ajax">
             </div>
-            <%= render partial: 'comments/clearcomments', collection: @comment, as: :comment, locals: { post: @post } %>
+            <%= render partial: 'comments/clearcomments', collection: @comment, as: :comment, locals: { post: @post, current_user: @current_user } %>
         </div>
         <% end %>
 

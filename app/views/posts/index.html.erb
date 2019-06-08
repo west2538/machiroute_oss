@@ -1,6 +1,6 @@
-<% if session[:uid] && @current_user && @current_user.avatar %>
+<% if @current_user %>
 
-<% session_bunkatsu = session[:uid].split("@") %>
+<% session_bunkatsu = @current_user.uid.split("@") %>
 
 <div class="row mx-auto mt-2" style="max-width:950px;">
 
@@ -118,7 +118,7 @@
                     <% @ranks.each.with_index(1) do |rank, i| %>
                     <p class="mb-0 d-inline-block text-truncate" style="max-width: 240px;">
                         <% postrank = Post.find(rank) %>
-                        <% if postrank.comments.find_by(user_uid: session[:uid]) %>
+                        <% if postrank.comments.find_by(user_uid: @current_user.uid) %>
                         <span class="oi oi-task text-success" title="クリア" aria-hidden="true"></span> 
                         <% else %>
                         <span class="oi oi-task text-danger" title="未クリア" aria-hidden="true"></span> 
@@ -202,7 +202,7 @@
                                     <% recent_post = Post.find(id) %>
                                     <div>
                                     <p class="mb-0 d-inline-block text-truncate" style="max-width: 240px;">
-                                    <% if recent_post.comments.find_by(user_uid: session[:uid]) %>
+                                    <% if recent_post.comments.find_by(user_uid: @current_user.uid) %>
                                     <span class="oi oi-task text-success" title="クリア" aria-hidden="true"></span> 
                                     <% else %>
                                     <span class="oi oi-task text-danger" title="未クリア" aria-hidden="true"></span> 
@@ -359,7 +359,7 @@
                             <% @ranks.each.with_index(1) do |rank, i| %>
                             <p class="pl-2 pr-1 mb-0 d-inline-block text-truncate" style="max-width: 250px;">
                                 <% postrank = Post.find(rank) %>
-                                <% if postrank.comments.find_by(user_uid: session[:uid]) %>
+                                <% if postrank.comments.find_by(user_uid: @current_user.uid) %>
                                 <span class="oi oi-task text-success" title="クリア" aria-hidden="true"></span> 
                                 <% else %>
                                 <span class="oi oi-task text-danger" title="未クリア" aria-hidden="true"></span> 
@@ -582,7 +582,7 @@
                                 <% recent_post = Post.find(id) %>
                                 <div>
                                 <p class="mb-0 d-inline-block text-truncate" style="max-width: 240px;">
-                                <% if recent_post.comments.find_by(user_uid: session[:uid]) %>
+                                <% if recent_post.comments.find_by(user_uid: @current_user.uid) %>
                                 <span class="oi oi-task text-success" title="クリア" aria-hidden="true"></span> 
                                 <% else %>
                                 <span class="oi oi-task text-danger" title="未クリア" aria-hidden="true"></span> 

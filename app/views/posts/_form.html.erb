@@ -145,7 +145,7 @@ $(function(){
       </p>
   <% end %>
 
-<% elsif session[:uid] == "townsguild@another-guild.com" %>
+<% elsif @current_user.uid == "townsguild@another-guild.com" %>
 
   <%= form_for @post, html: { id: 'commentSubmit'} do |f| %>
       <%= f.select :title,
@@ -223,7 +223,7 @@ $(function(){
       </p>
   <% end %>
 
-<% elsif session[:uid] %>
+<% elsif @current_user %>
 
   <%= form_for @post, html: { id: 'commentSubmit'} do |f| %>
       <%= f.select :title,

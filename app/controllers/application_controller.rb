@@ -1,6 +1,6 @@
 class ApplicationController < ActionController::Base
 
-  helper_method :current_user
+  helper_method :current_user, :logged_in?
   helper_method :vapid_public_key
   after_action :discard_flash_if_xhr
 
@@ -15,6 +15,7 @@ class ApplicationController < ActionController::Base
 
   private
   def current_user
+    return unless session[:uid]
     if @current_user ||= User.where(uid: session[:uid]).order(created_at: :desc).first
       @current_user.id ||= @current_user[:id]
       cookies.encrypted[:user_id] ||= @current_user.id
@@ -62,6 +63,10 @@ class ApplicationController < ActionController::Base
 
   def vapid_public_key
     @decoded_vapid_public_key ||= Base64.urlsafe_decode64(ENV['VAPID_PUBLIC_KEY']).bytes
+  end
+
+  def logged_in?
+    !!session[:uid]
   end
 
 end

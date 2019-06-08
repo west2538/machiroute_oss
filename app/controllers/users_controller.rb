@@ -24,7 +24,7 @@ class UsersController < ApplicationController
 
     def edit
         @user = User.find(params[:id])
-        @user_clears_count = Comment.where(user_uid: session[:uid]).count
+        @user_clears_count = Comment.where(user_uid: @current_user.uid).count
         @user.note = ApplicationController.helpers.strip_tags(@user.note)
         @user.fields1_value = ApplicationController.helpers.strip_tags(@user.fields1_value)
         @user.fields2_value = ApplicationController.helpers.strip_tags(@user.fields2_value)
@@ -36,7 +36,7 @@ class UsersController < ApplicationController
         @user = User.find(params[:id])
         @user_clears_count = Comment.where(user_uid: @user.uid).count
 
-        if session[:uid] == 'townsguild@another-guild.com'
+        if @current_user.uid == 'townsguild@another-guild.com'
             access_token = @user.token
         else
             access_token = session[:token]

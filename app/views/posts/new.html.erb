@@ -1,4 +1,4 @@
-<% if session[:uid] && @current_user %>
+<% if @current_user %>
 
 <div class="row mx-auto mt-2">
 
@@ -38,7 +38,7 @@
       </p>
   <% end %>
 
-<% elsif session[:uid] == "townsguild@another-guild.com" %>
+<% elsif @current_user.uid == "townsguild@another-guild.com" %>
 
   <%= form_with model: @post, multipart: true, id: :commentSubmit do |f| %>
       <%= f.select :title,

@@ -51,7 +51,7 @@ Your route changes the world.
 <meta name="msapplication-square310x310logo" content="/assets/mstile-310x310.png"/>
 <meta name="msapplication-TileColor" content="#FFFFFF"/>
 
-<% if session[:uid] && @current_user %>
+<% if @current_user %>
 <meta name="current_user" content="<%= @current_user.uid %>" />
 <meta name="current_token" content="<%= @current_user.token %>" />
 <% end %>
@@ -87,8 +87,8 @@ Your route changes the world.
         </li>
         <li class="nav-item dropdown mb-0">
           <div class="d-inline-block text-truncate" style="max-width: 240px;">
-          <% if session[:uid] && @current_user.level.present? %>
-            <% session_bunkatsu = session[:uid].split("@") %>
+          <% if @current_user %>
+            <% session_bunkatsu = @current_user.uid.split("@") %>
             <% if @current_user.display_name.present? %>
               <%= link_to sanitize('<span class="oi oi-person text-success" title="ログインしています" aria-hidden="true"></span>') + ' ' + @current_user.display_name,
               user_path(@current_user),
@@ -106,7 +106,7 @@ Your route changes the world.
           <% end %>
           </div>
         </li>
-        <% if session[:uid] && @current_user.instance_title %>
+        <% if @current_user %>
         <li class="nav-item mb-0">
           <a class="nav-link" href="https://<%= session_bunkatsu.last %>" target="_blank"><span class="oi oi-people text-warning" aria-hidden="true"></span> <%= @current_user.instance_title %></a>
         </li>
@@ -124,7 +124,7 @@ Your route changes the world.
       </ul>
     </div>
 
-    <% if session[:uid] && @current_user.level.present? %>
+    <% if @current_user %>
       <%= render partial: 'notifications/notification_dropdown', locals: {notifications: @current_user.notifications} %>
       <% if request.path == '/posts/new' || request.path_info.include?('edit') || request.path_info.include?('form2') || request.path_info.include?('form3') %>
         <span class="btn btn-sm btn-bluegrey200_ftg" style="width: 38px; height: 38px;"><span class="oi oi-pencil" aria-hidden="true"></span></span>
@@ -148,7 +148,7 @@ Your route changes the world.
 
 </div>
 
-<% if session[:uid] && @current_user && @current_user.avatar || controller.action_name == 'show' || controller.action_name == 'tag' %>
+<% if @current_user || controller.action_name == 'show' || controller.action_name == 'tag' %>
 
   <%= yield %>
 

@@ -4,8 +4,9 @@ class LikesController < ApplicationController
     # after_action :notifications, only: [:create]
 
     def create
+        @like = Like.new(user_id: @current_user.id, post_id: params[:post_id])
+        @like.save
         @post = Post.find(params[:post_id])
-        @like = Like.create(user_id: @current_user.id, post_id: params[:post_id])
         @current_user.hp += 10
         if @current_user.hp >= ((@current_user.level * 2) + 68)
             @current_user.hp = ((@current_user.level * 2) + 68)
@@ -25,9 +26,9 @@ class LikesController < ApplicationController
     end
 
     def destroy
-        @post = Post.find(params[:post_id])
         @like = Like.find_by(user_id: @current_user.id, post_id: params[:post_id])
         @like.destroy
+        @post = Post.find(params[:post_id])
         @current_user.hp -= 10
         if @current_user.hp < 0
             @current_user.hp = 0

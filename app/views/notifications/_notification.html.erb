@@ -1,6 +1,6 @@
 <% if notification.notified_type == 'mastodon' %>
 
-    <% session_bunkatsu = session[:uid].split("@") %>
+    <% session_bunkatsu = current_user.uid.split("@") %>
     <div class="small clearfix">
         <p class="mb-0">
         <a href="https://<%= session_bunkatsu.last %>" target="_blank" class="list-group-item pb-0" style="width:210px;">

@@ -3,9 +3,9 @@ class PostsController < ApplicationController
     before_action :current_user
 
     def index
-        if session[:uid] && @current_user.display_name.present?
+        if @current_user
             @posts01 = Post.includes(:comments).where.not(title: '冒険の拠点を登録').page(params[:page]).per(20).order(updated_at: :desc)
-            @posts02 = Post.includes(:comments).where.not(title: '冒険の拠点を登録').where(post_uid: session[:uid]).page(params[:page]).per(10).order(created_at: :desc)
+            @posts02 = Post.includes(:comments).where.not(title: '冒険の拠点を登録').where(post_uid: @current_user.uid).page(params[:page]).per(10).order(created_at: :desc)
             like_post_ids = Like.where(user_id: @current_user.id).order(created_at: :desc).pluck(:post_id)
             @posts03 = Post.includes(:comments).where(id: like_post_ids).page(params[:page]).per(3).order_as_specified(id: like_post_ids)
 
@@ -23,7 +23,7 @@ class PostsController < ApplicationController
             @ranks = Comment.where('created_at > ?', Time.now - 7.days).group(:post_id).order(Arel.sql('count(post_id) desc')).limit(3).pluck(:post_id)
             @boukensha_count = User.count
             @clears_count = Comment.count
-            @user_clears_count = Comment.where(user_uid: session[:uid]).count
+            @user_clears_count = Comment.where(user_uid: @current_user.uid).count
             @level_average = User.average(:level).round
         end
 
@@ -90,7 +90,7 @@ class PostsController < ApplicationController
 
     def create
         @post = Post.new(post_params)
-        @post.post_uid = session[:uid]
+        @post.post_uid = @current_user.uid
         if @post.title == "ニュース"
             begin
                 og = OpenGraph.new(@post.newsurl)
@@ -132,7 +132,7 @@ class PostsController < ApplicationController
             end
         end
 
-        if session[:uid] && @current_user
+        if @current_user
 
             if @post.save
                 unless @post.title == "新規サブクエスト"
@@ -283,7 +283,7 @@ class PostsController < ApplicationController
     end
 
     def unclear
-        if session[:uid] && @current_user
+        if @current_user
             like_post_ids = Like.where(user_id: @current_user.id).order(created_at: :desc).pluck(:post_id)
             @post = Post.includes(:comments).where(id: like_post_ids).order_as_specified(id: like_post_ids)
         end

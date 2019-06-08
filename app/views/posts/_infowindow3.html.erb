@@ -10,7 +10,7 @@
         <% if post.image.attached? %>
             <%= image_tag post.image.variant(resize: "200x200", strip: true) %>
         <% end %>
-        <% if session[:uid] == post.post_uid || session[:uid] == "townsguild@another-guild.com" %>
+        <% if @current_user.uid == post.post_uid || @current_user.uid == "townsguild@another-guild.com" %>
         <%= link_to sanitize('<span class="oi oi-pencil small text-primary" title="編集" aria-hidden="true"></span>'),
             edit_post_path(post),
             :class => 'font-weight-bold' %>

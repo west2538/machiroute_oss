@@ -1,6 +1,6 @@
 <tr>
     <td class="px-0">
-        <% if post.comments.find_by(user_uid: session[:uid]) %>
+        <% if post.comments.find_by(user_uid: @current_user.uid) %>
         <div class="card text-white text-center bg-success my-1 tilt" style="max-width: 18rem;">
             <% if post.image.attached? %>
                 <%= link_to post_path(post) do %>

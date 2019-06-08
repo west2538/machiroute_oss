@@ -31,7 +31,7 @@ twitter: { title: og_title + ' | まちかどルート', description: 'リアル
           <%= @user.note = auto_link(simple_format(@user.note, {}, wrapper_tag: "p"), :html => { :target => '_blank' }) do |text| %>
           <% truncate(text, :length => 32) %>
           <% end %>
-        <% elsif @user.uid == session[:uid] %>
+        <% elsif @user.uid == @current_user.uid %>
           <p>まちかどルートで再ログインするとMastodonの「表示名」と「プロフィール」が自動的に読み込まれます</p>
         <% end %>
         </div>
@@ -263,11 +263,11 @@ twitter: { title: og_title + ' | まちかどルート', description: 'リアル
   </div>
 
   <div class="card-footer text-muted text-right">
-    <% if @user.uid == session[:uid] && @user.id == @current_user.id || session[:uid] == 'townsguild@another-guild.com' %>
+    <% if @user.id == @current_user.id || @current_user.uid == 'townsguild@another-guild.com' %>
       <%= link_to 'ステータス編集',
       edit_user_path,
       :class => 'btn btn-primary mb-1' %>
-      <% if session[:uid] && @current_user.level.present? %>
+      <% if @current_user %>
       <%= link_to 'ログアウト',
       signout_path,
       method: :delete,
