@@ -1,4 +1,4 @@
-<% if @post.title == "新規サブクエスト" || @current_user.uid == 'townsguild@another-guild.com' %>
+<% if @post.title == "新規サブクエスト" || session[:uid] == 'townsguild@another-guild.com' %>
 
 <% if @imgurl.present? %>
     <% set_meta_tags title: @og_title, site: 'まちかどルート', og: { title: @og_title + ' | まちかどルート', type: 'article', description: 'リアルRPG！サブクエストを作って共有してクリアするアプリ', image: {_: @imgurl, width: @imgpixel[:width], height: @imgpixel[:height]} },
@@ -72,7 +72,7 @@ $(function(){
                 <%= image_tag @imgurl, :class => "card-img-top mx-auto" %>
             <% end %>
             <div class="card-body">
-            <% if @comment.find_by(user_uid: @current_user.uid) %>
+            <% if @comment.find_by(user_uid: session[:uid]) %>
             <h5 class="card-title mb-4 wf-nicomoji"><span class="oi oi-task text-success" title="クリア" aria-hidden="true"></span> サブクエスト クリア✨</h5>
             <% else %>
             <h5 class="card-title mb-4 wf-nicomoji"><span class="oi oi-task text-danger" title="クリア" aria-hidden="true"></span> サブクエスト</h5>
@@ -171,7 +171,7 @@ $(function(){
 
             </small>
             </p>
-            <% if @current_user.uid == @post.post_uid || @current_user.uid == "townsguild@another-guild.com" %>
+            <% if session[:uid] == @post.post_uid || session[:uid] == "townsguild@another-guild.com" %>
             <p>
             <%= link_to '編集',
             edit_post_path(@post),
@@ -199,17 +199,17 @@ $(function(){
                 <% end %>
             <% end %>
             </div>
-            <%= render partial: 'likes/saves', locals: { post: @post, current_user: @current_user }, remote: true %>
+            <%= render partial: 'likes/saves', locals: { post: @post }, remote: true %>
         </div>
         </div>
 
         <% if @post.title == "新規サブクエスト" %>
         <div class="comment-bg mt-3" style="opacity: 0.87;">
             <p class="p-2 mb-3 bg-success text-white font-weight-bold pt-0" style="opacity: 0.87;"><span class="oi oi-people text-warning" title="みんなの投稿" aria-hidden="true"></span> みんなのクリアコメント</p>
-            <%= render partial: 'comments/newclearcommentinput', locals: { post: @post, current_user: @current_user }, remote: true %>
+            <%= render partial: 'comments/newclearcommentinput', locals: { post: @post }, remote: true %>
             <div id="newclearcomment_ajax">
             </div>
-            <%= render partial: 'comments/clearcomments', collection: @comment, as: :comment, locals: { post: @post, current_user: @current_user } %>
+            <%= render partial: 'comments/clearcomments', collection: @comment, as: :comment, locals: { post: @post } %>
         </div>
         <% end %>
 

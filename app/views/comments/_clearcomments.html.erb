@@ -15,7 +15,7 @@
       <% if comment.image.attached? %>
           <br><%= image_tag comment.image.variant(resize: "240x300", auto_orient: true, strip: true, quality: 60), :class => "mt-1", :style => "max-width: 240px;" %>
       <% end %>
-      <% if current_user.uid == "townsguild@another-guild.com" %>
+      <% if session[:uid] == "townsguild@another-guild.com" %>
           <% unless comment.id.nil? %>
           <%= link_to sanitize('<span class="oi oi-trash small text-danger" title="マスター削除" aria-hidden="true"></span>'),
           post_comment_path(post, comment), 

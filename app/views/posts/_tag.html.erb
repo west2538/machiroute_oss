@@ -1,5 +1,5 @@
 <% if post.title == "新規サブクエスト" %>
-    <% if post.comments.find_by(user_uid: @current_user.uid) %>
+    <% if post.comments.find_by(user_uid: session[:uid]) %>
     <div class="card text-white bg-success tilt">
         <% if post.image.attached? %>
             <%= link_to post_path(post) do %>

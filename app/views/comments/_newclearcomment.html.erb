@@ -6,7 +6,7 @@
   <% c_bunkatsu = comment.user_uid.split("@") %>
 
   <p class="list-unstyled px-3" style="word-break: break-all;">
-      <% if comment.user_uid == current_user.uid %>
+      <% if comment.user_uid == session[:uid] %>
           <% URI.extract(comment.body).uniq.each {|url| comment.body.gsub!(url, '')} %>
           <span class="oi oi-person text-success" title="クリアコメント" aria-hidden="true"></span> <%= comment.body %>
           <%# <br><span><a href="https://twitter.com/share?ref_src=twsrc%5Etfw" class="twitter-share-button" data-text="<%= comment.body + "\n\n#サブクエストをクリア\nみんなもクリアしよう！\n┏┿──────────\n╂┘" + simpletext + "\n ─────────┿┛\n"" data-url="https://machiroute.herokuapp.com/" data-lang="ja" data-show-count="false">Tweet</a></span> %>
@@ -17,7 +17,7 @@
       <% if comment.image.attached? %>
           <br><%= image_tag comment.image.variant(resize: "240x300", auto_orient: true, strip: true), :class => "mt-1", :style => "max-width: 240px;" %>
       <% end %>
-      <% if current_user.uid == "townsguild@another-guild.com" %>
+      <% if session[:uid] == "townsguild@another-guild.com" %>
           <% unless comment.id.nil? %>
           <%= link_to sanitize('<span class="oi oi-trash small text-danger" title="マスター削除" aria-hidden="true"></span>'),
           post_comment_path(post, comment), 
