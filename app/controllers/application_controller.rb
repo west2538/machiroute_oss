@@ -46,8 +46,8 @@ class ApplicationController < ActionController::Base
             redirect_to edit_user_path(@current_user)
             return
           else
-            flash[:notice] = "登録したメールアドレスにメールが届きます。確認のうえ、まちかどルートにログインしてください"
-            redirect_to root_path
+            flash[:notice] = "登録したメールアドレスにメールが届きますので確認してください"
+            redirect_to edit_user_path(@current_user)
             return
           end
         end
