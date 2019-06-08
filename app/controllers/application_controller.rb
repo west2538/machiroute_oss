@@ -41,9 +41,15 @@ class ApplicationController < ActionController::Base
             end
           end
         else
-          flash[:error] = "冒険者名を決めましょう！"
-          redirect_to edit_user_path(@current_user)
-          return
+          if @current_user.instance_title.present?
+            flash[:error] = "冒険者名を決めましょう！"
+            redirect_to edit_user_path(@current_user)
+            return
+          else
+            flash[:notice] = "登録したメールアドレスにメールが届きます。確認のうえ、まちかどルートにログインしてください"
+            redirect_to root_path
+            return
+          end
         end
       end
 
