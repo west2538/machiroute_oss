@@ -16,7 +16,7 @@ class LikesController < ApplicationController
             flash.now[:notice] = "せーぶ完了！HP+10💌あなたのMaChiKaが0なので支援できません"
         else
             flash.now[:notice] = "せーぶ完了！HP+10💌MaChiKaをサブクエスト投稿者に+1支援"
-            @user = User.find(@like.user_id)
+            @user = User.where(uid: @post.post_uid).order(created_at: :desc).first
             @user.machika_token += 1
             @user.save
             @current_user.save
@@ -34,7 +34,7 @@ class LikesController < ApplicationController
         end
         @current_user.machika_token += 1
         flash.now[:notice] = "せーぶ解除！HP-10💌MaChiKaがあなたに+1戻りました"
-        @user = User.find(@like.user_id)
+        @user = User.where(uid: @post.post_uid).order(created_at: :desc).first
         @user.machika_token -= 1
         if @user.machika_token < 0
             @user.machika_token = 0
