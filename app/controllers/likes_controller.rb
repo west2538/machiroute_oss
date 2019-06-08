@@ -4,8 +4,7 @@ class LikesController < ApplicationController
     # after_action :notifications, only: [:create]
 
     def create
-        @like = Like.new(user_id: @current_user.id, post_id: params[:post_id])
-        @like.save
+        @like = Like.create(user_id: @current_user.id, post_id: params[:post_id])
         @post = Post.find(params[:post_id])
         @current_user.hp += 10
         if @current_user.hp >= ((@current_user.level * 2) + 68)
