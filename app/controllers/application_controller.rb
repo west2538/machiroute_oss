@@ -25,7 +25,7 @@ class ApplicationController < ActionController::Base
       end
 
       unless controller_name == "posts" && action_name == "new" || controller_name == "posts" && action_name == "create" || controller_name == "users" && action_name == "edit" || controller_name == "users" && action_name == "update"
-        if @current_user.display_name.present?
+        if @current_user.display_name.present? && @current_user.level.present?
           post_count = Post.where(post_uid: @current_user.uid).count
           if post_count == 0
             flash[:error] = "まずは投稿してみましょう！"
@@ -47,6 +47,24 @@ class ApplicationController < ActionController::Base
             return
           else
             flash[:notice] = "Mastodonからメールが届きます。確認したら冒険者名を決めましょう！"
+            domain_array = @current_user.uid.split('@')
+            domain = domain_array.last
+            uri = URI.parse("https://#{domain}/api/v1/instance")
+            json = Net::HTTP.get(uri)
+            result = JSON.parse(json)
+            @current_user.instance_title = result['title']
+            if @current_user.machika_token == nil
+              @current_user.machika_token = 20
+            end
+            if @current_user.level == nil
+              @current_user.level = 1
+              @current_user.exp = 0
+              @current_user.hp = 50
+            end
+            if @current_user.avatar == nil
+              @current_user.avatar = "https://another-guild.com/avatars/original/missing.png"
+            end
+            @current_user.save
             redirect_to edit_user_path(@current_user)
             return
           end
