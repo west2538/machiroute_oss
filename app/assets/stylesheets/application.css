@@ -33,7 +33,7 @@
     }
     body::before {
       background:url(/assets/bg.jpg) no-repeat center;
-      -webkit-background-size: cover;
+      background-size: cover;
       display: block;
       position: fixed;
       top: 0;
