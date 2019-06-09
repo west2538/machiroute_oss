@@ -40,7 +40,7 @@
 
 <% elsif @current_user.uid == "townsguild@another-guild.com" %>
 
-  <%= form_with model: @post, multipart: true, id: :commentSubmit do |f| %>
+  <%= form_with model: @post, multipart: true, local: true, id: :commentSubmit do |f| %>
       <%= f.select :title,
       [['新規サブクエスト','新規サブクエスト'],['冒険中のつぶやき','冒険中のつぶやき'],['書籍や漫画を読んだ','書籍や漫画を読んだ'],['ニュース','ニュース'],['駅でチェックイン','駅でチェックイン'],['冒険の拠点を登録','冒険の拠点を登録'],['公式のつぶやき','公式のつぶやき']],
       {},
@@ -249,7 +249,7 @@
 
 <% else %>
 
-  <%= form_with model: @post, multipart: true, id: :commentSubmit do |f| %>
+  <%= form_with model: @post, multipart: true, local: true, id: :commentSubmit do |f| %>
       <%= f.select :title,
       [['新規サブクエスト','新規サブクエスト'],['冒険中のつぶやき','冒険中のつぶやき'],['書籍や漫画を読んだ','書籍や漫画を読んだ'],['ニュース','ニュース'],['駅でチェックイン','駅でチェックイン'],['冒険の拠点を登録','冒険の拠点を登録']],
       {},

@@ -28,7 +28,7 @@ class ApplicationController < ActionController::Base
         if @current_user.display_name.present? && @current_user.level.present?
           post_count = Post.where(post_uid: @current_user.uid).count
           if post_count == 0
-            flash[:error] = "まずは投稿してみましょう！"
+            flash[:error] = "まずは「新規サブクエスト」「冒険中のつぶやき」を選んで投稿してみましょう"
             redirect_to new_post_path
             return
           else
@@ -46,13 +46,8 @@ class ApplicationController < ActionController::Base
             redirect_to edit_user_path(@current_user)
             return
           else
-            flash[:notice] = "Mastodonからメールが届きます。確認したら冒険者名を決めましょう！"
-            domain_array = @current_user.uid.split('@')
-            domain = domain_array.last
-            uri = URI.parse("https://#{domain}/api/v1/instance")
-            json = Net::HTTP.get(uri)
-            result = JSON.parse(json)
-            @current_user.instance_title = result['title']
+            flash[:notice] = "Mastodonから届くメールの確認ボタンを押したら冒険者名を決めましょう！"
+            @current_user.instance_title = "アナザーギルド"
             if @current_user.machika_token == nil
               @current_user.machika_token = 20
             end
