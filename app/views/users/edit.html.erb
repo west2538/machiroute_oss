@@ -26,9 +26,6 @@
           <span class="font-weight-bold text-warning"><%= @user.errors.messages[:image][0] %></span>
           <% end %>
           <div class="mb-2">
-          <% unless @current_user.instance_title.present? %>
-            <p class="font-weight-bold text-danger">Mastodonから届くメールの確認ボタンを押したら冒険者名を決めましょう！</p>
-          <% end %>
           <p class="card-text">
           冒険者名<br>
             <%= f.text_field :display_name,

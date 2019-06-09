@@ -81,11 +81,17 @@ class UsersController < ApplicationController
                 "note": user_params[:note],
                 "avatar": output_path
             }
-            client = Mastodon::REST::Client.new(base_url: "https://#{domain}", bearer_token: access_token)
-            result = client.update_credentials(user_array)
-            @user.avatar = result.avatar
-            @user.save
-            File.delete(output_path)
+            begin
+                client = Mastodon::REST::Client.new(base_url: "https://#{domain}", bearer_token: access_token)
+                result = client.update_credentials(user_array)
+                @user.avatar = result.avatar
+                @user.save
+                File.delete(output_path)
+            rescue => e
+                flash.now[:error] = "エラー発生。Mastodonから届くメールの確認ボタンを押していないor入力内容に誤りがあります" 
+                render 'edit'
+                return
+            end
         else
             user_array = 
             {
@@ -111,8 +117,14 @@ class UsersController < ApplicationController
                 #     } 
                 # ]
             }
-            client = Mastodon::REST::Client.new(base_url: "https://#{domain}", bearer_token: access_token)
-            client.update_credentials(user_array)
+            begin
+                client = Mastodon::REST::Client.new(base_url: "https://#{domain}", bearer_token: access_token)
+                client.update_credentials(user_array)
+            rescue => e
+                flash.now[:error] = "エラー発生。Mastodonから届くメールの確認ボタンを押していないor入力内容に誤りがあります" 
+                render 'edit'
+                return
+            end
         end
 
         if @user.update(user_params)
