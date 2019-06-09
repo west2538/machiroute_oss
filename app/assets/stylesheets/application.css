@@ -32,7 +32,7 @@
       background:none;
     }
     body::before {
-      background:url(/assets/bg.jpg) repeat center center;
+      background:url(/assets/bg.jpg) no-repeat center;
       background-size: cover;
       display: block;
       position: fixed;
