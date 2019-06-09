@@ -206,7 +206,7 @@ $(function(){
         <% if @post.title == "新規サブクエスト" %>
         <div class="comment-bg mt-3" style="opacity: 0.87;">
             <p class="p-2 mb-3 bg-success text-white font-weight-bold pt-0" style="opacity: 0.87;"><span class="oi oi-people text-warning" title="みんなの投稿" aria-hidden="true"></span> みんなのクリアコメント</p>
-            <%= render partial: 'comments/newclearcommentinput', locals: { post: @post }, remote: true %>
+            <%= render partial: 'comments/newclearcommentinput', locals: { post: @post, current_user: @current_user }, remote: true %>
             <div id="newclearcomment_ajax">
             </div>
             <%= render partial: 'comments/clearcomments', collection: @comment, as: :comment, locals: { post: @post } %>
