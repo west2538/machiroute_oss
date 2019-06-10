@@ -223,7 +223,7 @@ class PostsController < ApplicationController
         end
         if @post.title == "冒険の拠点を登録"
             flash.now[:notice] = "冒険の拠点を登録しました！"
-            render 'map'
+            redirect_to map_path
             return
         end
         redirect_to @current_user
@@ -239,11 +239,15 @@ class PostsController < ApplicationController
         if @post.title == "新規サブクエスト"
             @post.placename = params[:placename][0]
         elsif @post.title == "冒険の拠点を登録"
-            @post.placename = params[:placename][1]
+            @post.placename = params[:placename][0]
         end
         if @post.update(post_params)
             flash[:notice] = "編集しました！"
-            redirect_to post_path(@post)
+            if @post.title == "冒険の拠点を登録"
+                redirect_to map_path
+            else
+                redirect_to post_path(@post)
+            end
         else
             render 'edit'
         end
