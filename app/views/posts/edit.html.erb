@@ -87,6 +87,7 @@
 
   <% end %>
 
+  <div id="error_messages" class="font-weight-bold text-danger mt-3"></div>
   <p class="float-left mt-1 mb-3">
   (200字以内推奨)<br><span id="count">0</span>
   </p>
@@ -128,4 +129,10 @@ $('form').on('change', 'input[type="file"]', function(e) {
 
   reader.readAsDataURL(file);
 });
+</script>
+
+<script>
+ $( function() {
+   $("form[data-remote='true']").remoteValidation();
+ });
 </script>

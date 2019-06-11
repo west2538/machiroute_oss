@@ -115,60 +115,61 @@ class PostsController < ApplicationController
         if @post.title == "新規サブクエスト" && @post.scenario_start.present?
             sabun = (@post.scenario_start - Date.today).to_i
             unless sabun >= 1
-                flash.now[:error] = "開始日は明日以降で！"
-                render 'new'
+                respond_to do |format|
+                    format.html { render action: "new" }
+                    format.json { render json: {:errors=>["開始日は明日以降で！"]}, status: 422 }
+                end
                 return
             end
             sabun = (@post.scenario_end - @post.scenario_start).to_i
             unless sabun <= 10
-                flash.now[:error] = "期間は最長10日間まで！"
-                render 'new'
+                respond_to do |format|
+                    format.html { render action: "new" }
+                    format.json { render json: {:errors=>["期間は最長10日間まで！"]}, status: 422 }
+                end
                 return
             end
             unless sabun >= 0
-                flash.now[:error] = "終了日は開始日以降で！"
-                render 'new'
+                respond_to do |format|
+                    format.html { render action: "new" }
+                    format.json { render json: {:errors=>["終了日は開始日以降で！"]}, status: 422 }
+                end
                 return
             end
         end
 
-        if @current_user
-
-            if @post.save
-                unless @post.title == "新規サブクエスト"
-                    if @post.title == "駅でチェックイン" || @post.title == "チェックイン"
-                        body_status = @post.body + "\n┏┿────────────\n╂┘ at " +  @post.stationname + "\n ─────────────┿┛\n#" + @post.title
-                    elsif @post.title == "ニュース"
-                        body_status = @post.body + "\n\n#" + @post.title + "\n┏┿────────────\n╂┘ " + @post.newstitle.to_s + "\n ─────────────┿┛\n" + @post.newsurl
-                    elsif @post.title == "書籍や漫画を読んだ"
-                        if @post.bookcover.present?
-                            body_status = @post.body + "\n\n#" + @post.title + "\n┏┿────────────\n╂┘ " + @post.booktitle + "\n" + @post.bookauthor + "\n" + @post.bookpublisher + "\n ─────────────┿┛\n" + @post.bookcover
-                        else
-                            body_status = @post.body + "\n\n#" + @post.title + "\n┏┿────────────\n╂┘ " + @post.booktitle + "\n" + @post.bookauthor + "\n" + @post.bookpublisher + "\n ─────────────┿┛\n"
-                        end
-                    elsif @post.title == "冒険の拠点を登録"
-                        mapstr = "https://maps.google.com/maps?q=" + @post.latitude.to_s + "," + @post.longitude.to_s + "+" + @post.placename
-                        mapuri = URI.encode(mapstr)
-                        body_status = "#冒険の拠点が登録されました\n┏┿────────────\n╂┘ " + @post.placename + "\n ─────────────┿┛\n" + @post.body + "\n" + mapuri
-                    elsif session[:provider] == 'twitter' && session[:oauth_token] && @post.title == "冒険中のつぶやき"
-                        if Auth.find_by(user_id: @current_user.id)
-                            body_status = @post.body
-                            access_token = session[:oauth_token]
-                            access_token_secret = session[:oauth_token_secret] 
-                            PostTweetJob.perform_later(body_status,access_token,access_token_secret)
-                        end
+        if @post.save
+            unless @post.title == "新規サブクエスト"
+                if @post.title == "駅でチェックイン" || @post.title == "チェックイン"
+                    body_status = @post.body + "\n┏┿────────────\n╂┘ at " +  @post.stationname + "\n ─────────────┿┛\n#" + @post.title
+                elsif @post.title == "ニュース"
+                    body_status = @post.body + "\n\n#" + @post.title + "\n┏┿────────────\n╂┘ " + @post.newstitle.to_s + "\n ─────────────┿┛\n" + @post.newsurl
+                elsif @post.title == "書籍や漫画を読んだ"
+                    if @post.bookcover.present?
+                        body_status = @post.body + "\n\n#" + @post.title + "\n┏┿────────────\n╂┘ " + @post.booktitle + "\n" + @post.bookauthor + "\n" + @post.bookpublisher + "\n ─────────────┿┛\n" + @post.bookcover
                     else
-                        body_status = @post.body
+                        body_status = @post.body + "\n\n#" + @post.title + "\n┏┿────────────\n╂┘ " + @post.booktitle + "\n" + @post.bookauthor + "\n" + @post.bookpublisher + "\n ─────────────┿┛\n"
                     end
-                    access_token = session[:token]
-                    domain_array = @current_user.uid.split('@')
-                    domain = domain_array.last
-                    MastodonTootJob.perform_later(domain,access_token,body_status,@post)
+                elsif @post.title == "冒険の拠点を登録"
+                    mapstr = "https://maps.google.com/maps?q=" + @post.latitude.to_s + "," + @post.longitude.to_s + "+" + @post.placename
+                    mapuri = URI.encode(mapstr)
+                    body_status = "#冒険の拠点が登録されました\n┏┿────────────\n╂┘ " + @post.placename + "\n ─────────────┿┛\n" + @post.body + "\n" + mapuri
+                elsif session[:provider] == 'twitter' && session[:oauth_token] && @post.title == "冒険中のつぶやき"
+                    if Auth.find_by(user_id: @current_user.id)
+                        body_status = @post.body
+                        access_token = session[:oauth_token]
+                        access_token_secret = session[:oauth_token_secret] 
+                        PostTweetJob.perform_later(body_status,access_token,access_token_secret)
+                    end
+                else
+                    body_status = @post.body
                 end
-            else
-                render 'new'
-                return
+                access_token = session[:token]
+                domain_array = @current_user.uid.split('@')
+                domain = domain_array.last
+                MastodonTootJob.perform_later(domain,access_token,body_status,@post)
             end
+
             if @post.title == "復活の呪文でHP回復"
                 @current_user.hp += 100
                 @current_user.exp -= 90
@@ -209,6 +210,7 @@ class PostsController < ApplicationController
             @current_user.hp -= 10
             flash[:notice] = "投稿完了！経験値+10/HP-10"
             end
+
             if @current_user.exp >= (@current_user.level * 100)
                 flash[:notice] = "🎉レベルアップしたよ！✨"
                 @current_user.level += 1
@@ -219,15 +221,22 @@ class PostsController < ApplicationController
                 flash[:error] = "投稿でHPを使い果たして冒険中に倒れました..。投稿画面で「復活の呪文」を唱えよう！"
             end
             @current_user.save
-
+            if @post.title == "冒険の拠点を登録"
+                flash.now[:notice] = "冒険の拠点を登録しました！"
+                redirect_to map_path
+                return
+            end
+            respond_to do |format|
+                format.html { redirect_to @current_user }
+                format.json { render json: {:location=> user_path(@current_user)}, status: :created }
+            end
+        else
+            respond_to do |format|
+                format.html { render action: "new" }
+                format.json { render json: {:errors => @post.errors}, status: 422 }
+            end
         end
-        if @post.title == "冒険の拠点を登録"
-            flash.now[:notice] = "冒険の拠点を登録しました！"
-            redirect_to map_path
-            return
-        end
-        redirect_to @current_user
-        # redirect_to root_path
+        # redirect_to @current_user
     end
 
     def edit
@@ -246,10 +255,16 @@ class PostsController < ApplicationController
             if @post.title == "冒険の拠点を登録"
                 redirect_to map_path
             else
-                redirect_to post_path(@post)
+                respond_to do |format|
+                    format.html { redirect_to @post, notice: 'Blog was successfully created.' }
+                    format.json { render json: {:location=> post_path(@post)}, status: :created, notice: 'Blog was successfully created.' }
+                end
             end
         else
-            render 'edit'
+            respond_to do |format|
+                format.html { render action: "edit" }
+                format.json { render json: {:errors => @post.errors}, status: 422 }
+            end
         end
     end
 
