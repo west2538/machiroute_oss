@@ -2,7 +2,7 @@ class ApplicationController < ActionController::Base
 
   helper_method :current_user, :logged_in?
   helper_method :vapid_public_key
-  after_action :discard_flash_if_xhr
+  # after_action :discard_flash_if_xhr
 
   # 例外をキャッチ
   rescue_from ActiveRecord::RecordNotFound, with: :render_404
