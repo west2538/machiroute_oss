@@ -14,6 +14,12 @@
         <%= link_to sanitize('<span class="oi oi-pencil small text-primary" title="編集" aria-hidden="true"></span>'),
             edit_post_path(post),
             :class => 'font-weight-bold' %>
+        <%= link_to sanitize('<span class="oi oi-trash small text-danger" title="削除" aria-hidden="true"></span>'),
+            post_path(post),
+            method: :delete, 
+            :id => post.id,
+            :class => 'font-weight-bold',
+            data: { confirm: '本当に削除しますか？' } %>
         <% end %>
     <% elsif %>
         <%= link_to post.placename, post_path(post), data: { turbolinks: false } %>
