@@ -4,7 +4,7 @@
 
 <div class="col-sm-6 p-0">
     
-<%= form_with model: @post, multipart: true, id: :commentSubmit do |f| %>
+<%= form_with model: @post, multipart: true, local: true, id: :commentSubmit do |f| %>
   <%= f.text_area :body,
   :class => 'mb-2 form-control',
   :placeholder => '内容をお書きください',
