@@ -6,7 +6,7 @@
 
 <% if @current_user %>
 
-  <%= form_with model: @post, id: :commentSubmit, local: true do |f| %>
+  <%= form_with model: @post, multipart: true, id: :commentSubmit do |f| %>
       <%= f.select :title,
       [['新規サブクエスト','新規サブクエスト']],
       {},
@@ -40,7 +40,7 @@
             <label class="input-group-btn">
                 <span class="btn btn-secondary mt-1 mb-1 p-2" style="border: solid 1px #fff;">
                     <span class="oi oi-camera-slr text-white" title="写真" aria-hidden="true"></span> よければ写真もどうぞ
-                        <%= f.file_field :image, class: 'uploadFile', style: 'display:none' %>  
+                        <%= f.file_field :image, direct_upload: true, class: 'uploadFile', style: 'display:none' %>  
                 </span>
             </label>
           <div class="preview mb-3" style="border-radius: 8px;"></div> 
@@ -102,6 +102,7 @@
         </div>
       </div>
 
+      <div id="error_messages" class="font-weight-bold text-danger mt-3"></div>
       <p class="float-left mt-1 mb-3">
       (200字以内推奨)<br><span id="count">0</span>
       </p>
@@ -146,4 +147,10 @@ $('form').on('change', 'input[type="file"]', function(e) {
 
   reader.readAsDataURL(file);
 });
+</script>
+
+<script>
+ $( function() {
+   $("form[data-remote='true']").remoteValidation();
+ });
 </script>

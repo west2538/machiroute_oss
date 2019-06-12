@@ -27,18 +27,40 @@
         $(settings.messageContainer).append(errorHtml);
       }
     };
+
+    $.fn.serializeFiles = function() {
+      var form = $(this),
+          formData = new FormData(),
+          formParams = form.serializeArray();
   
+      $.each(form.find('input[type="file"]'), function(i, tag) {
+        $.each($(tag)[0].files, function(i, file) {
+          formData.append(tag.name, file);
+        });
+      });
+  
+      $.each(formParams, function(i, val) {
+        formData.append(val.name, val.value);
+      });
+  
+      return formData;
+    };
+
+
     $.fn.remoteValidation = function(options) {
       var settings = $.extend({}, RemoteValidation.defaults, options );
       return this.each( function() {
         var $this = this; //$(this), may change inside function, so assign it to $this.
         $(this).submit(function() {
+
           $.ajax({
             url: $(this).attr('action'),
             type: $(this).attr('method') || 'GET', 
-            data: $(this).serializeArray(), 
+            data: $(this).serializeFiles(),
             dataType: $(this).data('type') || 'json',
             crossDomain: null, 
+            processData: false,
+            contentType: false,
             beforeSend: function(xhr) {
               RemoteValidation.resetErrors($this, settings);
               if (typeof settings.beforeSend == 'function') {
