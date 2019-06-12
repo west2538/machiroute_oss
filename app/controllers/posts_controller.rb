@@ -222,7 +222,7 @@ class PostsController < ApplicationController
             end
             @current_user.save
             if @post.title == "冒険の拠点を登録"
-                flash.now[:notice] = "冒険の拠点を登録しました！"
+                flash[:notice] = "冒険の拠点を登録しました！"
                 redirect_to map_path
                 return
             end
