@@ -1,1 +1,6 @@
-$("#error_messages").append("<li><%= @post.errors.messages %></li>");
+<% @post.errors.messages.each do |msg| %>
+    <% str = msg[1].to_s %>
+    str = <%= raw str %>;
+    str = str[0].replace(/"/g, "");
+    $("#error_messages").append("<li>" + str + "</li>");
+<% end %>
