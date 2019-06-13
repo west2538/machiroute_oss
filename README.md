@@ -2,6 +2,8 @@
 
 [![GitHub release](https://img.shields.io/github/release/west2538/machiroute_oss.svg)][releases]
 
+[releases]: https://github.com/west2538/machiroute_oss/releases
+
 **サブクエストを作りクリアしあうことで**  
 **世界がちょっと明るくなる、リアルRPG系Webアプリ**  
   
