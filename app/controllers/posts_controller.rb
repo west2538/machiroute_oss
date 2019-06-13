@@ -115,24 +115,27 @@ class PostsController < ApplicationController
         if @post.title == "新規サブクエスト" && @post.scenario_start.present?
             sabun = (@post.scenario_start - Date.today).to_i
             unless sabun >= 1
+                @post.errors.messages[:scenario_start][0] = "開始日は明日以降で！"
                 respond_to do |format|
                     format.html { render action: "new" }
-                    format.json { render json: {:errors=>["開始日は明日以降で！"]}, status: 422 }
+                    format.js { @post.errors }
                 end
                 return
             end
             sabun = (@post.scenario_end - @post.scenario_start).to_i
             unless sabun <= 10
+                @post.errors.messages[:scenario_start][0] = "期間は最長10日間まで！"
                 respond_to do |format|
                     format.html { render action: "new" }
-                    format.json { render json: {:errors=>["期間は最長10日間まで！"]}, status: 422 }
+                    format.js { @post.errors }
                 end
                 return
             end
             unless sabun >= 0
+                @post.errors.messages[:scenario_start][0] = "終了日は開始日以降で！"
                 respond_to do |format|
                     format.html { render action: "new" }
-                    format.json { render json: {:errors=>["終了日は開始日以降で！"]}, status: 422 }
+                    format.js { @post.errors }
                 end
                 return
             end
@@ -226,17 +229,13 @@ class PostsController < ApplicationController
                 redirect_to map_path
                 return
             end
-            respond_to do |format|
-                format.html { redirect_to @current_user }
-                format.json { render json: {:location=> user_path(@current_user)}, status: :created }
-            end
+            redirect_to @current_user
         else
             respond_to do |format|
                 format.html { render action: "new" }
-                format.json { render json: {:errors => @post.errors}, status: 422 }
+                format.js { @post.errors }
             end
         end
-        # redirect_to @current_user
     end
 
     def edit
@@ -255,15 +254,12 @@ class PostsController < ApplicationController
             if @post.title == "冒険の拠点を登録"
                 redirect_to map_path
             else
-                respond_to do |format|
-                    format.html { redirect_to @post, notice: 'Blog was successfully created.' }
-                    format.json { render json: {:location=> post_path(@post)}, status: :created, notice: 'Blog was successfully created.' }
-                end
+                redirect_to @post
             end
         else
             respond_to do |format|
                 format.html { render action: "edit" }
-                format.json { render json: {:errors => @post.errors}, status: 422 }
+                format.js { @post.errors }
             end
         end
     end

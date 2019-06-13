@@ -22,7 +22,7 @@ class Post < ApplicationRecord
     validates :body, presence: { message: '4～300文字で入力してください' }, length: { in: 4..300, message: '4～300文字で入力してください' }
     with_options if: :book_select? do
         validates :bookisbn, presence: { message: '本の裏表紙に記載のISBNコードを入力して検索ボタンを押してね' }
-        validates :bookauthor, presence: true
+        # validates :bookauthor, presence: true
     end
     validates :placename, presence: { message: 'Googleマップに登録されている住所もしくはスポット名を入力してください' }, if: :guild_select?
     validates :newsurl, format: { with: /\A#{URI::regexp(%w(http https))}\z/, message: '正しいURLをペーストしてください' }, if: :news_select?
