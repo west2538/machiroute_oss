@@ -1,6 +1,7 @@
 # まちかどルート
 
 [![GitHub release](https://img.shields.io/github/release/west2538/machiroute_oss.svg)][releases]
+![Mastodon Follow](https://img.shields.io/mastodon/follow/1.svg?domain=https%3A%2F%2Ftokamstdn.jp&style=social)
 
 [releases]: https://github.com/west2538/machiroute_oss/releases
 
