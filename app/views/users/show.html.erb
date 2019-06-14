@@ -267,12 +267,10 @@ twitter: { title: og_title + ' | まちかどルート', description: 'リアル
       <%= link_to 'ステータス編集',
       edit_user_path,
       :class => 'btn btn-primary mb-1' %>
-      <% if @current_user %>
       <%= link_to 'ログアウト',
       signout_path,
       method: :delete,
       :class => 'btn btn-danger mb-1' %>
-      <% end %>
     <% end %>
   </div>
 </div>
