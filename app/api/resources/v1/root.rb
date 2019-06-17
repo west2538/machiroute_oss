@@ -23,6 +23,7 @@ module Resources
 
       mount Resources::V1::Posts
       mount Resources::V1::Notifications
+      mount Resources::V1::Comments
 
       # swaggerの設定
       if defined? GrapeSwaggerRails

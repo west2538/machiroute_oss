@@ -173,6 +173,42 @@ twitter: { title: og_title + ' | まちかどルート', description: 'リアル
 
         <div class="row">
           <div class="col-sm">
+            <h5 class="card-title">アクティビティ・チャート</h5>
+              <div id="heatmap"></div>
+              <script type="text/javascript">
+                var startDate = new Date();
+                startDate.setMonth(startDate.getMonth() - 5);
+
+                var parser = function(data) {
+                  return eval("(" + data + ")");
+                };
+
+                var cal = new CalHeatMap();
+                cal.init({
+                  itemSelector: "#heatmap",
+                  data: "/api/v1/comments?user_id=<%= @user.id %>&start=<%= Time.now.ago(6.months) %>&stop=<%= Time.now %>",
+                  afterLoadData: parser,
+                  cellSize: 5,
+                  domain: "month",
+                  subDomain: "day",
+                  range: 6,
+                  tooltip: true,
+                  start: startDate,
+                  legendColors: ["white","green"],
+                  domainLabelFormat: "%b",
+                  legend: [1,2,3,4],
+                  weekStartOnMonday: false,
+                  legendVerticalPosition: "center",
+                  legendOrientation: "vertical"
+                });
+              </script>
+              <p class="card-text small">※冒険者の投稿やクリアといった活動（アクティビティ）が多いほどチャートにたくさん草が生えます</p>
+            <hr>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col-sm">
             <h5 class="card-title">はじまりの召喚</h5>
             <p class="card-text mb-0" style="text-indent:20px;"><%= @user.created_at.strftime('%Y年%-m月%-d日 %-H:%M') %></p>
             <p class="card-text mt-0" style="text-indent:20px;">(<span data-livestamp="<%= @user.created_at.strftime('%Y-%m-%d %H:%M:%S') %>"></span>)</p>
