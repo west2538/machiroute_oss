@@ -174,8 +174,8 @@ twitter: { title: og_title + ' | まちかどルート', description: 'リアル
         <div class="row">
           <div class="col-sm">
             <h5 class="card-title">アクティビティ・チャート</h5>
-              <div id="heatmap"></div>
-              <script type="text/javascript">
+              <div id="heatmap" class="mt-4"></div>
+              <script>
                 var startDate = new Date();
                 startDate.setMonth(startDate.getMonth() - 5);
 
@@ -192,7 +192,7 @@ twitter: { title: og_title + ' | まちかどルート', description: 'リアル
                   domain: "month",
                   subDomain: "day",
                   range: 6,
-                  tooltip: true,
+                  tooltip: false,
                   start: startDate,
                   legendColors: ["white","green"],
                   domainLabelFormat: "%b",
@@ -202,7 +202,7 @@ twitter: { title: og_title + ' | まちかどルート', description: 'リアル
                   legendOrientation: "vertical"
                 });
               </script>
-              <p class="card-text small">※冒険者の投稿やクリアといった活動（アクティビティ）が多いほどチャートにたくさん草が生えます</p>
+              <p class="card-text small mt-3">※冒険者の投稿やクリアといった活動（アクティビティ）が多いほどチャートにたくさん草が生えます</p>
             <hr>
           </div>
         </div>
