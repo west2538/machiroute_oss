@@ -349,13 +349,17 @@ navigator.getBattery().then(function(battery) {
    
   battery.onchargingchange = function(){
     if (battery.charging === true) {
-    var element = document.getElementById("posts");
-    element.insertAdjacentHTML("afterend", "<tr><td class='px-0'><div class='box26'><span class='box-title'><i class='fa fa-battery-three-quarters' aria-hidden='true'></i> 充電を検知</span><p>充電の残量が変化すると数字が現れてその分だけHPが回復可能となります</p><section id='sec01'><form class='mt-3' action='battery' accept-charset='UTF-8' method='get'><input name='utf8' type='hidden' value='✓'><div class='input-group'><input type='text' class='form-control' style='width:100px;' id='battery' name='battery' readonly=''></input><button name='button' id='battery_btn' type='submit' class='btn btn-blue700_rsd ml-1' data-disable-with='パラリラ～ <i class=&#39;fa fa-spinner fa-spin&#39;></i>' disabled>ホイミ！</button></div></form></section></div></td></tr>");
+      if(document.getElementById("posts") != null){
+        var element = document.getElementById("posts");
+        element.insertAdjacentHTML("afterend", "<tr><td class='px-0'><div class='box26'><span class='box-title'><i class='fa fa-battery-three-quarters' aria-hidden='true'></i> 充電を検知</span><p>充電の残量が変化すると数字が現れてその分だけHPが回復可能となります</p><section id='sec01'><form class='mt-3' action='battery' accept-charset='UTF-8' method='get'><input name='utf8' type='hidden' value='✓'><div class='input-group'><input type='text' class='form-control' style='width:100px;' id='battery' name='battery' readonly=''></input><button name='button' id='battery_btn' type='submit' class='btn btn-blue700_rsd ml-1' data-disable-with='パラリラ～ <i class=&#39;fa fa-spinner fa-spin&#39;></i>' disabled>ホイミ！</button></div></form></section></div></td></tr>");
+      }
     }
   }
  
   battery.onlevelchange = function(){
-    document.getElementById( "battery" ).value = battery.level * 100;
-    document.getElementById( "battery_btn" ).disabled = "";
+    if(document.getElementById("battery") != null){
+      document.getElementById( "battery" ).value = battery.level * 100;
+      document.getElementById( "battery_btn" ).disabled = "";
+    }
   }
  });
