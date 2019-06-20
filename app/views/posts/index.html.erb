@@ -257,7 +257,7 @@
                                 <div class="chatting">
                                 <div class="says01">
                                 <p class="says01 font-weight-bold text-secondary d-inline-block" style="opacity: 0.87;">
-                                    <%= form_with model: Post.new, local: true, id: :commentSubmit do |f| %>
+                                    <%= form_with model: Post.new, id: :commentSubmit do |f| %>
                                     <div class="input-group">
                                         <input type="hidden" name="post[title]" value="冒険中のつぶやき">
                                         <%= f.text_field :body,
@@ -429,7 +429,7 @@
 
                     </div>
 
-                    <%= form_with model: Post.new, local: true, id: :commentSubmit, class: 'my-3' do |f| %>
+                    <%= form_with model: Post.new, id: :commentSubmit, class: 'my-3' do |f| %>
                         <input type="hidden" name="post[title]" value="冒険中のつぶやき">
                     <div class="input-group">
                         <span class="useravatar3"><%= image_tag @current_user.avatar, :onerror => "this.src='/assets/missing.png'" %></span>

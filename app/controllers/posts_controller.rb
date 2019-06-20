@@ -2,6 +2,8 @@ class PostsController < ApplicationController
 
     before_action :current_user
 
+    include AjaxHelper
+
     def index
         if @current_user
             @posts01 = Post.includes(:comments).where.not(title: '冒険の拠点を登録').page(params[:page]).per(20).order(updated_at: :desc)
@@ -229,7 +231,10 @@ class PostsController < ApplicationController
                 redirect_to map_path
                 return
             end
-            redirect_to @current_user
+            respond_to do |format|
+                format.js { render ajax_redirect_to(user_path(@current_user)) }
+            end
+            # redirect_to @current_user
         else
             respond_to do |format|
                 format.html { render action: "new" }
