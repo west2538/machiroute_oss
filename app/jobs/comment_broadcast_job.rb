@@ -2,7 +2,7 @@ class CommentBroadcastJob < ApplicationJob
     queue_as :default
   
     def perform(comment)
-      bokenshanum = User.count
+      bokenshanum = User.count.to_s(:delimited)
       clearnum = Comment.count.to_s(:delimited)
       levelavrg = User.average(:level).round
   
