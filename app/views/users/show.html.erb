@@ -87,13 +87,13 @@ twitter: { title: og_title + ' | まちかどルート', description: 'リアル
         <div class="row">
           <div class="col-sm">
             <h5 class="card-title">クリア件数</h5>
-            <p class="card-text level_count3 mb-0" style="text-indent:20px;"><%= @user_clears_count %> <span style="font-size:20px;">件</span></p>
+            <p class="card-text level_count3 mb-0" style="text-indent:20px;"><%= @user_clears_count.to_s(:delimited) %> <span style="font-size:20px;">件</span></p>
             <p class="card-text small mt-0">※クリアコメントを投稿した数</p>
           <hr>
           </div>
           <div class="col-sm">
             <h5 class="card-title">投稿の数</h5>
-            <p class="card-text level_count3 mb-0" style="text-indent:20px;"><%= @user_posts_count %> <span style="font-size:20px;">件</span></p>
+            <p class="card-text level_count3 mb-0" style="text-indent:20px;"><%= @user_posts_count.to_s(:delimited) %> <span style="font-size:20px;">件</span></p>
             <p class="card-text small mt-0">※クリアコメント以外の投稿数</p>
             <hr>
           </div>

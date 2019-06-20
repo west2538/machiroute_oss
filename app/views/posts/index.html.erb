@@ -155,10 +155,10 @@
                         <tbody>
                         <tr id="socialparam1" class="text-center">
                             <td class="py-0">
-                            <span class="status_number"><%= @boukensha_count %></span> <span class="font-weight-bold">名</span>
+                            <span class="status_number"><%= @boukensha_count.to_s(:delimited) %></span> <span class="font-weight-bold">名</span>
                             </td>
                             <td class="py-0">
-                            <span class="status_number"><%= @clears_count %></span> <span class="font-weight-bold">件</span>
+                            <span class="status_number"><%= @clears_count.to_s(:delimited) %></span> <span class="font-weight-bold">件</span>
                             </td>
                             <td class="py-0">
                             <span class="font-weight-bold">平均Lv.</span><span class="status_number"><%= @level_average %></span>
@@ -397,10 +397,10 @@
                             <tbody>
                             <tr id="socialparam2" class="text-center">
                                 <td class="py-0">
-                                <span class="status_number"><%= @boukensha_count %></span> <span class="font-weight-bold">名</span>
+                                <span class="status_number"><%= @boukensha_count.to_s(:delimited) %></span> <span class="font-weight-bold">名</span>
                                 </td>
                                 <td class="py-0">
-                                <span class="status_number"><%= @clears_count %></span> <span class="font-weight-bold">件</span>
+                                <span class="status_number"><%= @clears_count.to_s(:delimited) %></span> <span class="font-weight-bold">件</span>
                                 </td>
                                 <td class="py-0">
                                 <span class="font-weight-bold">平均Lv.</span><span class="status_number"><%= @level_average %></span>
@@ -697,10 +697,10 @@
                 <tbody>
                 <tr id="socialparam3" class="text-center">
                     <td class="pt-0 pb-1">
-                    <span class="status_number"><%= @boukensha_count %></span> <span class="font-weight-bold">名</span>
+                    <span class="status_number"><%= @boukensha_count.to_s(:delimited) %></span> <span class="font-weight-bold">名</span>
                     </td>
                     <td class="pt-0 pb-1">
-                    <span class="status_number"><%= @clears_count %></span> <span class="font-weight-bold">件</span>
+                    <span class="status_number"><%= @clears_count.to_s(:delimited) %></span> <span class="font-weight-bold">件</span>
                     </td>
                     <td class="pt-0 pb-1">
                     <span class="font-weight-bold">平均Lv.</span><span class="status_number"><%= @level_average %></span>

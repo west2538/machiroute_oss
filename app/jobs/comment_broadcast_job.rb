@@ -3,7 +3,7 @@ class CommentBroadcastJob < ApplicationJob
   
     def perform(comment)
       bokenshanum = User.count
-      clearnum = Comment.count
+      clearnum = Comment.count.to_s(:delimited)
       levelavrg = User.average(:level).round
   
       ActionCable.server.broadcast 'comment_channel', {bokenshanum: bokenshanum, clearnum: clearnum, levelavrg:levelavrg}
