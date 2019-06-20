@@ -157,53 +157,53 @@ navigator.geolocation.getCurrentPosition(success, error);
 
 // disable-with iOS対応
 
-$(document).on("turbolinks:load", function() {
-  if (!navigator.vendor.indexOf("Apple")==0 && /\sSafari\//.test(navigator.userAgent)) {
-    return;
-  }
+// $(document).on("turbolinks:load", function() {
+//   if (!navigator.vendor.indexOf("Apple")==0 && /\sSafari\//.test(navigator.userAgent)) {
+//     return;
+//   }
 
-  var formHandler = function (e) {
-    var rails = $.rails;
-    var form = $(this),
-      remote = form.data('remote') !== undefined,
-      blankRequiredInputs,
-      nonBlankFileInputs;
+//   var formHandler = function (e) {
+//     var rails = $.rails;
+//     var form = $(this),
+//       remote = form.data('remote') !== undefined,
+//       blankRequiredInputs,
+//       nonBlankFileInputs;
 
-    if (!rails.allowAction(form)) return rails.stopEverything(e);
+//     if (!rails.allowAction(form)) return rails.stopEverything(e);
 
-    if (form.attr('novalidate') == undefined) {
-      blankRequiredInputs = rails.blankInputs(form, rails.requiredInputSelector);
-      if (blankRequiredInputs && rails.fire(form, 'ajax:aborted:required', [blankRequiredInputs])) {
-        return rails.stopEverything(e);
-      }
-    }
+//     if (form.attr('novalidate') == undefined) {
+//       blankRequiredInputs = rails.blankInputs(form, rails.requiredInputSelector);
+//       if (blankRequiredInputs && rails.fire(form, 'ajax:aborted:required', [blankRequiredInputs])) {
+//         return rails.stopEverything(e);
+//       }
+//     }
 
-    if (remote) {
-      nonBlankFileInputs = rails.nonBlankInputs(form, rails.fileInputSelector);
-      if (nonBlankFileInputs) {
-        setTimeout(function(){ rails.disableFormElements(form); }, 13);
-        var aborted = rails.fire(form, 'ajax:aborted:file', [nonBlankFileInputs]);
+//     if (remote) {
+//       nonBlankFileInputs = rails.nonBlankInputs(form, rails.fileInputSelector);
+//       if (nonBlankFileInputs) {
+//         setTimeout(function(){ rails.disableFormElements(form); }, 13);
+//         var aborted = rails.fire(form, 'ajax:aborted:file', [nonBlankFileInputs]);
 
-        if (!aborted) { setTimeout(function(){ rails.enableFormElements(form); }, 13); }
+//         if (!aborted) { setTimeout(function(){ rails.enableFormElements(form); }, 13); }
 
-        return aborted;
-      }
+//         return aborted;
+//       }
 
-      rails.handleRemote(form);
-      return false;
+//       rails.handleRemote(form);
+//       return false;
 
-    } else {
-      if (!e.isTrigger) {
-        e.preventDefault();
-        rails.disableFormElements(form);
-        setTimeout(function(){ form.trigger('submit'); }, 13);
-      }
-    }
-  };
+//     } else {
+//       if (!e.isTrigger) {
+//         e.preventDefault();
+//         rails.disableFormElements(form);
+//         setTimeout(function(){ form.trigger('submit'); }, 13);
+//       }
+//     }
+//   };
 
-  $(document).undelegate('form', 'submit.rails');
-  $(document).delegate('form', 'submit.rails', formHandler);
-});
+//   $(document).undelegate('form', 'submit.rails');
+//   $(document).delegate('form', 'submit.rails', formHandler);
+// });
 
 // 冒険中のつぶやき モーダルウィンドウ
 
