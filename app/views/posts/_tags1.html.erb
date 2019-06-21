@@ -2,7 +2,7 @@
 
     <%= form_with url: 'tag', method: :get, id: :commentSubmit, class: 'my-0', local: true do |f| %>
     <div class="input-group">
-        <%= f.text_field :tagsearch,
+        <%= f.search_field :tagsearch,
         :class => 'form-control',
         :placeholder => 'タグを検索',
         :autocomplete => 'off',
