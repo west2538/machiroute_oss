@@ -162,7 +162,6 @@ $(function(){
                     <a href="https://note.mu/intent/social_button" class="note-social-button" data-url="<%= 'https://machiroute.herokuapp.com' + post_path(@post) %>" data-hashtags="まちかどルート,サブクエスト,ソーシャルアップデート"></a>
                     <script async src="https://cdn.st-note.com/js/social_button.min.js"></script>
                 </div>
-                <div class="form-group row" style="margin-left:0px; margin-right:0px;">
                 <div class="input-group">
                     <input class="border border-info text-secondary form-control-plaintext" style="border-radius: 3px 0 0 3px;" id="CopyTarget" type="text" value="<%= @og_title + ' https://machiroute.herokuapp.com' + post_path(@post) + ' #まちかどルート #ソーシャルアップデート' %>" readonly>
                     <div class="input-group-append">
@@ -171,8 +170,6 @@ $(function(){
                     </button>
                     </div>
                 </div>
-                </div>
-
             </small>
             </p>
             <% if session[:uid] == @post.post_uid || session[:uid] == "townsguild@another-guild.com" %>

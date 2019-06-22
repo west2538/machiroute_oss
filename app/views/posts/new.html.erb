@@ -20,6 +20,7 @@
       :class => 'mb-2 form-control',
       :placeholder => '内容をお書きください',
       :onkeyup => 'updateCount(value, "count")',
+      :rows => '6',
       :id => 'commentInput' %>
       <% if @post.errors.messages[:body].any? %>
       <div class="bg-secondary p-2 mb-1" style="border-radius: 3px 3px 3px 3px; opacity: 0.9;">
@@ -54,6 +55,7 @@
       :class => 'mb-2 form-control',
       :placeholder => '内容をお書きください',
       :onkeyup => 'updateCount(value, "count")',
+      :rows => '6',
       :id => 'commentInput' %>
       <% if @post.errors.messages[:body].any? %>
       <div class="bg-secondary p-2 mb-1" style="border-radius: 3px 3px 3px 3px; opacity: 0.9;">
@@ -264,6 +266,7 @@
       :class => 'mb-2 form-control',
       :placeholder => '内容をお書きください',
       :onkeyup => 'updateCount(value, "count")',
+      :rows => '6',
       :id => 'commentInput' %>
       <% if @post.errors.messages[:body].any? %>
       <div class="bg-secondary p-2 mb-1" style="border-radius: 3px 3px 3px 3px; opacity: 0.9;">
