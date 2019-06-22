@@ -246,9 +246,11 @@
 
                 <div class="d-none d-md-block d-lg-block d-xl-block">
 
-                    <div id="modal-main">
+                    <div class="modal fade" id="modalCenter" tabindex="-1" role="dialog" aria-labelledby="modalCenterTitle" aria-hidden="true">
                         <% if @current_user.avatar.present? %>
-                        <table class="table table-borderless ml-3">
+                        <div class="modal-dialog modal-dialog-centered" role="document">
+                        <div class="modal-content" style="background-color: #94c984;">
+                        <table class="table table-borderless ml-3 mb-0">
                         <tr>
                             <td class="balloon01 px-0">
                                 <div class="faceicon">
@@ -260,11 +262,12 @@
                                     <%= form_with model: Post.new, id: :commentSubmit do |f| %>
                                     <div class="input-group">
                                         <input type="hidden" name="post[title]" value="冒険中のつぶやき">
-                                        <%= f.text_field :body,
+                                        <%= f.text_area :body,
                                         :class => 'form-control',
                                         :style => 'width: 340px;',
                                         :placeholder => '冒険中なにしてる？',
                                         :autocomplete => 'off',
+                                        :row => '2',
                                         :id => 'modalinput' %>
                                     <div class="input-group-append">
                                         <%= button_tag :type => "submit", data: { disable_with: "<i class='fa fa-spinner fa-spin'></i>" }, :class =>"btn btn-outline-secondary bg-success" do %>
@@ -289,12 +292,14 @@
                             </td>
                         </tr>
                         </table>
+                        </div>
+                        </div>
                         <% end %>
                     </div>
             
                     <div id="contents" style="width: 288px;">
                         <% if @current_user.avatar.present? %>
-                        <a id="modal-open">
+                        <a data-toggle="modal" data-target="#modalCenter">
                         <table class="table table-borderless mb-0">
                         <tr>
                             <td class="balloon01 px-0 pb-0">

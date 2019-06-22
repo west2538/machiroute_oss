@@ -207,49 +207,57 @@ navigator.geolocation.getCurrentPosition(success, error);
 
 // 冒険中のつぶやき モーダルウィンドウ
 
-$(document).on("turbolinks:load", function() {
- 
-    $("#modal-open").click(function(){
-     $("body").append('<div id="modal-bg"></div>');
- 
-    modalResize();
- 
-    $("#modal-bg,#modal-main").fadeIn("fast");
+$(document).on("turbolinks:load", function () {
 
-    document.getElementById('modalinput').focus();
- 
-    $(window).keyup(function(e){
+$('#modalCenter').on('shown.bs.modal', function (e) {
+  document.getElementById('modalinput').focus();
+})
 
-	if(e.keyCode == 27){
-            $("#modal-main,#modal-bg").fadeOut("fast",function(){
-            $('#modal-bg').remove() ;
-         });
-    }
-    });
-
-    $("#modal-bg").click(function(){
-          $("#modal-main,#modal-bg").fadeOut("fast",function(){
-              $('#modal-bg').remove() ;
-         });
- 
-    });
-    
-    $(window).resize(modalResize);
-    function modalResize(){
-
-        var w = $(window).width();
-        var h = $(window).height();
-
-        var cw = $("#modal-main").outerWidth();
-        var ch = $("#modal-main").outerHeight();
-
-        $("#modal-main").css({
-            "left": ((w - cw)/2) + "px",
-            "top": ((h - ch)/2-80) + "px"
-        });
-     }
-   });
 });
+
+// $(document).on("turbolinks:load", function() {
+ 
+//     $("#modal-open").click(function(){
+//      $("body").append('<div id="modal-bg"></div>');
+ 
+//     modalResize();
+ 
+//     $("#modal-bg,#modal-main").fadeIn("fast");
+
+//     document.getElementById('modalinput').focus();
+ 
+//     $(window).keyup(function(e){
+
+// 	if(e.keyCode == 27){
+//             $("#modal-main,#modal-bg").fadeOut("fast",function(){
+//             $('#modal-bg').remove() ;
+//          });
+//     }
+//     });
+
+//     $("#modal-bg").click(function(){
+//           $("#modal-main,#modal-bg").fadeOut("fast",function(){
+//               $('#modal-bg').remove() ;
+//          });
+ 
+//     });
+    
+//     $(window).resize(modalResize);
+//     function modalResize(){
+
+//         var w = $(window).width();
+//         var h = $(window).height();
+
+//         var cw = $("#modal-main").outerWidth();
+//         var ch = $("#modal-main").outerHeight();
+
+//         $("#modal-main").css({
+//             "left": ((w - cw)/2) + "px",
+//             "top": ((h - ch)/2-80) + "px"
+//         });
+//      }
+//    });
+// });
 
 // Web Share API
 

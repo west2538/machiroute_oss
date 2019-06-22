@@ -573,7 +573,7 @@ textarea {
     height: 2000px;
 }
 
-#modal-open {
+/* #modal-open {
     color: #cc0000;
 }
 
@@ -599,7 +599,7 @@ textarea {
   top:0;
   left:0;
   z-index: 1;
-}
+} */
 
 .fb_iframe_widget > span {
     vertical-align: baseline !important;
