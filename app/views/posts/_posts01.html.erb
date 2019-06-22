@@ -170,11 +170,9 @@
         <% if post.comments.find_by(user_uid: @current_user.uid) %>
         <div class="card text-white text-center bg-success my-1 tilt" style="max-width: 18rem;">
             <% if post.image.attached? %>
-                <%= link_to post_path(post) do %>
                 <div class="trim"><%= image_tag post.image.variant(resize: "288x288", auto_orient: true, strip: true, quality: 60), :class => "card-img-top" %></div>
-                <% end %>
             <% end %>
-            <%= link_to(post_path(post), class: 'card-body bg-success d-inline-block') do %>
+            <%= link_to(post_path(post), class: 'card-body bg-success d-inline-block stretched-link') do %>
             <%# <%= button_to(post_path(post), {method: "get", class: "card-body btn btn-success btn-block p-0", style: "height:100px;", data: { disable_with: "読み込み中 <i class='fa fa-spinner fa-spin'></i>" }}) do %>
             <h5 class="card-title text-white d-inline-block wf-nicomoji"><span class="oi oi-task" title="サブクエスト[クリア済]" aria-hidden="true"></span> サブクエ クリア✨</h5><br>
             <p class="card-text font-weight-bold text-white d-inline-block text-truncate my-0" style="max-width: 220px; opacity: 0.87;">
@@ -190,11 +188,9 @@
         <% else %>
             <div class="card text-white text-center bg-danger my-1 tilt" style="max-width: 18rem;">
             <% if post.image.attached? %>
-                <%= link_to post_path(post) do %>
                 <div class="trim"><%= image_tag post.image.variant(resize: "288x288", auto_orient: true, strip: true, quality: 60), :class => "card-img-top" %></div>
-                <% end %>
             <% end %>
-            <%= link_to(post_path(post), class: 'card-body bg-danger d-inline-block') do %>
+            <%= link_to(post_path(post), class: 'card-body bg-danger d-inline-block stretched-link') do %>
             <h5 class="card-title text-white d-inline-block wf-nicomoji"><span class="oi oi-task" title="サブクエスト" aria-hidden="true"></span> サブクエスト ⚔</h5><br>
             <p class="card-text font-weight-bold text-white d-inline-block text-truncate my-0" style="max-width: 220px; opacity: 0.87;">
                 <%= post.body %>
