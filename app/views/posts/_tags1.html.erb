@@ -7,11 +7,11 @@
         :placeholder => 'タグを検索',
         :autocomplete => 'off',
         :id => 'autocomplete_search1' %>
-        <label class="input-group-btn m-0">
-            <%= button_tag :type => "submit", data: { disable_with: "<i class='fa fa-spinner fa-spin'></i>" }, :class =>"btn btn-info" do %>
-            <span class="oi oi-magnifying-glass" title="検索" aria-hidden="true"></span>
+        <div class="input-group-append">
+            <%= button_tag :type => "submit", data: { disable_with: "<i class='fa fa-spinner fa-spin'></i>" }, :class => "btn btn-outline-secondary bg-info" do %>
+            <span class="oi oi-magnifying-glass text-white" title="検索" aria-hidden="true"></span>
             <% end %>
-        </label>
+        </div>
     </div>
     <% end %>
 

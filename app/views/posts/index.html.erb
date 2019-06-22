@@ -266,11 +266,11 @@
                                         :placeholder => '冒険中なにしてる？',
                                         :autocomplete => 'off',
                                         :id => 'modalinput' %>
-                                    <label class="input-group-btn m-0">
-                                        <%= button_tag :type => "submit", data: { disable_with: "<i class='fa fa-spinner fa-spin'></i>" }, :class =>"btn btn-success" do %>
-                                        <span class="oi oi-chat" title="つぶやく" aria-hidden="true"></span>
+                                    <div class="input-group-append">
+                                        <%= button_tag :type => "submit", data: { disable_with: "<i class='fa fa-spinner fa-spin'></i>" }, :class =>"btn btn-outline-secondary bg-success" do %>
+                                        <span class="oi oi-chat text-white" title="つぶやく" aria-hidden="true"></span>
                                         <% end %>
-                                    </label>
+                                    </div>
                                     </div>
                                     <% end %>
                                 </p>
@@ -306,11 +306,11 @@
                                 <fieldset disabled>
                                     <div class="input-group">
                                     <input type="text" class="form-control" placeholder="冒険中なにしてる">
-                                    <label class="input-group-btn m-0">
-                                    <button class="btn btn-success">
-                                    <span class="oi oi-chat" title="つぶやく" aria-hidden="true"></span>
+                                    <div class="input-group-append">
+                                    <button class="btn btn-outline-secondary bg-success">
+                                    <span class="oi oi-chat text-white" title="つぶやく" aria-hidden="true"></span>
                                     </button>
-                                    </label>
+                                    </div>
                                     </div>
                                 </fieldset>
                                 <small style="float: right;" class="mt-2 mb-2 text-primary">
@@ -624,15 +624,22 @@
 
                 <div class="col-md-1 m-0 p-0 d-lg-none">
                     <div class="comment-bg" style="width: 288px;">
-                        <table class="table table-borderless">
-                            <tr class="bg-info my-3 text-center">
-                            <td>
-                                <%= link_to('unclear') do %>
-                                <span class="oi oi-magnifying-glass text-white"></span>
-                                <span class="font-weight-bold text-white">せーぶ済みの未クリアを探す</span>
-                                <% end %>
+                        <table class="table table-borderless m-0">
+                            <tr>
+                            <td class="text-nowrap my-auto">
+                                <span class="oi oi-paperclip text-info ml-2" aria-hidden="true"></span>
+                                <span class="font-weight-bold"> タグ</span>
+                            </td>
+                            <td class="bg-info my-3 text-center">
+                                <div class="btn-group">
+                                    <%= link_to('unclear') do %>
+                                    <span class="oi oi-magnifying-glass text-white"></span> <span class="font-weight-bold text-white">せーぶ済みの未クリア</span>
+                                    <% end %>
+                                </div>
                             </td>
                             </tr>
+                        </table>
+                        <table class="table table-borderless">
                             <tr>
                             <td class="pb-0">
                                 <%= render 'tags1' %>
