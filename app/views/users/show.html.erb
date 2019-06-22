@@ -286,10 +286,14 @@ twitter: { title: og_title + ' | まちかどルート', description: 'リアル
             <script async src="https://cdn.st-note.com/js/social_button.min.js"></script>
         </div>
         <div class="form-group row small" style="margin-left:0px; margin-right:0px;">
-            <input class="border border-info rounded text-secondary form-control-plaintext col-10" id="CopyTarget" type="text" value="<%= og_title + ' https://machiroute.herokuapp.com' + user_path(@user) + ' #まちかどルート #ソーシャルアップデート' %>" readonly>
-            <button type="button" class="btn btn-sm btn-info col-2" onclick="CopyToClipboard()" data-toggle="tooltip" data-placement="top" title="コピー">
-                </i><i class="fa fa-clipboard" aria-hidden="true"></i>
+            <div class="input-group">
+            <input class="border border-info text-secondary form-control-plaintext" style="border-radius: 3px 0 0 3px;" id="CopyTarget" type="text" value="<%= og_title + ' https://machiroute.herokuapp.com' + user_path(@user) + ' #まちかどルート #ソーシャルアップデート' %>" readonly>
+            <div class="input-group-append">
+            <button type="button" class="btn btn-sm btn-outline-secondary bg-info" onclick="CopyToClipboard()" data-toggle="tooltip" data-placement="top" title="コピー">
+                </i><i class="fa fa-clipboard text-white" aria-hidden="true"></i>
             </button>
+            </div>
+            </div>
         </div>
 
       </div>
