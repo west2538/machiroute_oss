@@ -2,7 +2,7 @@ module ApplicationHelper
 
   def default_meta_tags
       {
-        site: 'サブクエスト作成アプリ',
+        site: 'リアルRPGのサブクエスト作成アプリ',
         title: 'まちかどルート',
         reverse: true,
         charset: 'utf-8',
@@ -16,7 +16,7 @@ module ApplicationHelper
         ],
         og: {
           site_name: 'まちかどルート',
-          title: 'まちかどルート | サブクエスト作成アプリ',
+          title: 'まちかどルート | リアルRPGのサブクエスト作成アプリ',
           description: 'リアルRPG！あなたの冒険が世界をちょっと楽しくする。サブクエストをつくってクリアするWebアプリ',
           type: 'website',
           url: request.original_url,
