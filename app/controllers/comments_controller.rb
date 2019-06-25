@@ -31,15 +31,17 @@ def create
             end
             flash.now[:notice] = "クリア！経験値+30/HP+10"
         end
-        @current_user.machika_token += 1
-        @current_user.save
-        flash.now[:notice] = flash.now[:notice] + "💌さらにMaChiKaがサブクエスト投稿者からあなたに+1贈呈されました"
-        @user = User.where(uid: @post.post_uid).order(created_at: :desc).first
-        @user.machika_token -= 1
-        if @user.machika_token < 0
-            @user.machika_token = 0
+        unless @post.post_uid == @current_user.uid
+            @current_user.machika_token += 1
+            flash.now[:notice] = flash.now[:notice] + "💌さらにMaChiKaがサブクエスト投稿者からあなたに+1贈呈されました"
+            @user = User.where(uid: @post.post_uid).order(created_at: :desc).first
+            @user.machika_token -= 1
+            if @user.machika_token < 0
+                @user.machika_token = 0
+            end
+            @user.save
         end
-        @user.save
+        @current_user.save
     end
     respond_to do |format|
         format.js { @comment }
