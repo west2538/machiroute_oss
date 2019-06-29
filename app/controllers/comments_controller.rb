@@ -69,8 +69,7 @@ private
             @post = Post.find_by(id: params[:post_id])
             @user = User.where(uid: @post.post_uid).order(created_at: :desc).first
             unless @post.post_uid == @current_user.uid
-                @notification = Notification.new(user_id: @user.id, notified_by_id: @current_user.id, post_id: @post.id, notified_type: 'クリア')
-                @notification.save
+                Notification.create(user_id: @user.id, notified_by_id: @current_user.id, post_id: @post.id, notified_type: 'クリア')
                 user_ids = @user.id
                 DeviceWebpushJob.perform_later(user_ids)
                 # WebpushService.new.webpush_clients('あなたのサブクエストがクリアされました')

@@ -24,8 +24,7 @@ class AppearanceChannel < ApplicationCable::Channel
           send_from_user_uid = send_from_user_bunkatsu[1] + "@" + send_from_user_bunkatsu[0]
           send_from_user = User.find_by(uid: send_from_user_uid)
           if send_from_user.present?
-            @notification = Notification.new(user_id: member.id, notified_by_id: send_from_user.id, notified_type: 'mastodon', post_id: 1)
-            @notification.save
+            Notification.create(user_id: member.id, notified_by_id: send_from_user.id, notified_type: 'mastodon', post_id: 1)
           end
         end
       end

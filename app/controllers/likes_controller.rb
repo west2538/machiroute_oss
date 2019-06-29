@@ -57,8 +57,7 @@ class LikesController < ApplicationController
     #     @post = Post.find_by(id: params[:post_id])
     #     @user = User.where(uid: @post.post_uid).order(created_at: :desc).first
     #     unless @post.post_uid == session[:uid]
-    #         @notification = Notification.new(user_id: @user.id, notified_by_id: @current_user.id, post_id: @post.id, notified_type: 'せーぶ')
-    #         @notification.save
+    #         Notification.create(user_id: @user.id, notified_by_id: @current_user.id, post_id: @post.id, notified_type: 'せーぶ')
     #     end
     # end
 
