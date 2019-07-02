@@ -42,7 +42,7 @@ class ApplicationController < ActionController::Base
           end
         else
           if @current_user.instance_title.present?
-            flash[:error] = "冒険者名を決めましょう！"
+            flash[:error] = "Mastodonから届くメールの確認ボタンを押しましたか？それでは冒険者名を決めましょう！"
             redirect_to edit_user_path(@current_user)
             return
           else
