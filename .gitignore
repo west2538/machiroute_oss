@@ -36,6 +36,7 @@ machiroutevision.json
 /public/packs-test
 /node_modules
 /test/*
+/log/*
 yarn-debug.log*
 .yarn-integrity
 .env.development
