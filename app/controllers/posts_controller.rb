@@ -336,6 +336,7 @@ class PostsController < ApplicationController
     end
 
     private
+
     def post_params
         params.require(:post).permit(
         :title, :body, :image, :latitude, :longitude, :label_list, :bookisbn, :booktitle, :bookpublisher, :bookauthor, :bookpubdate, :bookcover, :newsurl, :newstitle, :newsimage, :stationname, :scenario_start, :scenario_end,
@@ -343,21 +344,18 @@ class PostsController < ApplicationController
         )
     end
 
-    private
     def cache_maps
         Rails.cache.fetch("cache_maps", expires_in: 1.hour) do
             Post.includes(:comments).where.not(latitude: nil).order(created_at: :desc).to_a
         end
     end
 
-    private
     def cache_specialposts
         Rails.cache.fetch("cache_specialposts", expires_in: 1.hour) do
             Post.includes(:comments).where.not(scenario_start: nil).where('scenario_start <= ?', Date.today).where('scenario_end >= ?', Date.today).to_a
         end
     end
 
-    private
     def cache_ranks
         Rails.cache.fetch("cache_ranks", expires_in: 1.hour) do
             Comment.where('created_at > ?', Time.now - 7.days).group(:post_id).order(Arel.sql('count(post_id) desc')).limit(3).pluck(:post_id).to_a
