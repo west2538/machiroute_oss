@@ -310,7 +310,8 @@ class PostsController < ApplicationController
     end
 
     def map
-        @post = Post.includes(:comments).where.not(latitude: nil).order(created_at: :desc)
+        @post = cache_maps
+        # @post = Post.includes(:comments).where.not(latitude: nil).order(created_at: :desc)
     end
 
     def auto_complete
@@ -342,4 +343,12 @@ class PostsController < ApplicationController
         placename:[], qroutes_attributes: [:id, :post_id, :qplacename, :qdescription, :latitude, :longitude, :_destroy]
         )
     end
+
+    private
+    def cache_maps
+        Rails.cache.fetch("cache_maps", expires_in: 1.hour) do
+            Post.includes(:comments).where.not(latitude: nil).order(created_at: :desc).to_a
+        end
+    end
+
 end
