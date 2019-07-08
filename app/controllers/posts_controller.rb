@@ -311,7 +311,6 @@ class PostsController < ApplicationController
 
     def map
         @post = cache_maps
-        # @post = Post.includes(:comments).where.not(latitude: nil).order(created_at: :desc)
     end
 
     def auto_complete
