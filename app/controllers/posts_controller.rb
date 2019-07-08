@@ -13,7 +13,7 @@ class PostsController < ApplicationController
 
             @online_users = User.where.not(online_at: nil).limit(12).order(online_at: :desc)
 
-            @special_posts = Post.includes(:comments).where.not(scenario_start: nil).where('scenario_start <= ?', Date.today).where('scenario_end >= ?', Date.today)
+            @special_posts = cache_specialposts
             if @special_posts.present?
                 array_posts01 = @posts01.to_a
                 @special_posts = @special_posts.to_a
@@ -22,7 +22,7 @@ class PostsController < ApplicationController
                 end
             end
 
-            @ranks = Comment.where('created_at > ?', Time.now - 7.days).group(:post_id).order(Arel.sql('count(post_id) desc')).limit(3).pluck(:post_id)
+            @ranks = cache_ranks
             @boukensha_count = User.count
             @clears_count = Comment.count
             @user_clears_count = Comment.where(user_uid: @current_user.uid).count
@@ -348,6 +348,20 @@ class PostsController < ApplicationController
     def cache_maps
         Rails.cache.fetch("cache_maps", expires_in: 1.hour) do
             Post.includes(:comments).where.not(latitude: nil).order(created_at: :desc).to_a
+        end
+    end
+
+    private
+    def cache_specialposts
+        Rails.cache.fetch("cache_specialposts", expires_in: 1.hour) do
+            Post.includes(:comments).where.not(scenario_start: nil).where('scenario_start <= ?', Date.today).where('scenario_end >= ?', Date.today).to_a
+        end
+    end
+
+    private
+    def cache_ranks
+        Rails.cache.fetch("cache_ranks", expires_in: 1.hour) do
+            Comment.where('created_at > ?', Time.now - 7.days).group(:post_id).order(Arel.sql('count(post_id) desc')).limit(3).pluck(:post_id).to_a
         end
     end
 
