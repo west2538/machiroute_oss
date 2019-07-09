@@ -1,10 +1,9 @@
 GIT
   remote: https://github.com/west2538/omniauth.git
-  revision: d38aa3e41b4330eb66f0a5e6a3e8b9a3bbc0a8b1
-  tag: csslinktag34
+  revision: 85c4aeabdb42d9c9a204ac26950505847335cff9
   specs:
-    omniauth (1.8.1)
-      hashie (>= 3.4.6, < 3.6.0)
+    omniauth (1.9.0)
+      hashie (>= 3.4.6, < 3.7.0)
       rack (>= 1.6.2, < 3)
 
 GEM
@@ -185,7 +184,7 @@ GEM
     grpc (1.21.0)
       google-protobuf (~> 3.7)
       googleapis-common-protos-types (~> 1.0)
-    hashie (3.5.7)
+    hashie (3.6.0)
     heapy (0.1.4)
     heroku-deflater (0.6.3)
       rack (>= 1.4.5)
