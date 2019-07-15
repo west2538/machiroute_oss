@@ -674,6 +674,7 @@
 
         <div class="comment-bg2" style="background:#fff; position:fixed; top:64px; width:288px;">
 
+            <% browser = Browser.new("Some User Agent", accept_language: "en-us") %>
             <% unless browser.device.mobile? %>
             <div class="magic-square mx-auto" style="position:absolute; top:280px; left:68px;">
             <div class="magic-square-content">
