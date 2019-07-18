@@ -104,8 +104,8 @@ class SessionsController < ApplicationController
           flash[:notice] = "ログイン完了！HP+10"
 
           if @user.machika_token == nil
-          @user.machika_token = 20
-          flash[:notice] = "ログインボーナス💌MaChiKa+20"
+            @user.machika_token = 20
+            flash[:notice] = "ログインボーナス💌MaChiKa+20"
           end
 
           if @user.level == nil
@@ -140,20 +140,11 @@ class SessionsController < ApplicationController
 
   end
 
-  # セッションを破棄/ログアウト
   def destroy
-
-    # provider = params[:provider]
-    # @auth = User.find_or_create_from_auth(request.env['omniauth.auth'])
-    # auth.destroy
-
-    # @_current_userの値をnilにする
     @current_user = nil
-    # reset_session
     session[:uid] = nil
     session[:token] = nil
     cookies.delete(:user_id)
-    # session[:provider] = nil
     flash[:notice] = "ログアウトしました"
     redirect_to root_path
   end
