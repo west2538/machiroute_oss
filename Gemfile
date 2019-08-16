@@ -33,7 +33,7 @@ gem 'rack-attack'
 gem 'google-cloud-vision'
 gem 'google-protobuf', '~> 3.8'
 gem 'momentjs-rails'
-gem 'webpush', '~> 0.3.6'
+gem 'webpush'
 gem 'redis', '~> 4.1'
 gem 'sidekiq'
 gem 'sinatra', require: false
