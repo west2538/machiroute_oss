@@ -121,7 +121,7 @@ https://play.google.com/store/apps/details?id=xyz.appmaker.tzozva
 
 * Heroku Hobby Dynos(heroku-18) 
 * Ruby 2.6.3 
-* Rails 5.2.3 
+* Rails 6.0 
 * PostgreSQL 11.5 
 * Redis 4.0.14 
 * Amazon S3
@@ -133,7 +133,7 @@ https://play.google.com/store/apps/details?id=xyz.appmaker.tzozva
 * Host OS: Windows 10 Home バージョン 1903 
 * Guest OS: CentOS Linux release 7.6.1810 (Core) 
 * Ruby 2.6.3 
-* Rails 5.2.3 
+* Rails 6.0 
 * Visual Studio Code 
 * WinSCP 
 * その他のツール一覧はこちらでも確認できます  
