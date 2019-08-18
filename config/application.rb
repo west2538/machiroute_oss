@@ -18,7 +18,7 @@ module Myblog
     config.time_zone = 'Asia/Tokyo'
 
     # config.session_store_servers = ENV['REDISTOGO_URL']
-    config.session_store_servers = ENV['REDIS_URL']
+    # config.session_store_servers = ENV['REDIS_URL']
 
     # api
     # config.paths.add File.join('app', 'api'), glob: File.join('**', '*.rb')
