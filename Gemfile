@@ -18,8 +18,7 @@ gem 'jquery-rails'
 gem 'jquery-ui-rails'
 gem 'aws-sdk-s3', require: false
 gem 'mini_magick'
-# gem 'redis-rails'
-gem 'acts-as-taggable-on'
+gem 'acts-as-taggable-on', git: 'https://github.com/mbleigh/acts-as-taggable-on.git', branch: 'master'
 gem 'nested_form_fields'
 gem 'rails-i18n'
 gem 'dotenv-rails'
@@ -45,7 +44,7 @@ gem 'grape-swagger'
 gem 'grape-swagger-rails'
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
-gem 'rails', '~> 6.0'
+gem 'rails', '6.0.0'
 # Use sqlite3 as the database for Active Record
 # gem 'sqlite3'
 # Use Puma as the app server
