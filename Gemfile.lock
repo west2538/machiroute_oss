@@ -1,4 +1,12 @@
 GIT
+  remote: https://github.com/ogasawaraShinnosuke/acts-as-taggable-on.git
+  revision: d01c315f616b91071bf41e0bba13d1f7a3002505
+  branch: master
+  specs:
+    acts-as-taggable-on (6.0.1)
+      activerecord (>= 5.0, < 6.1)
+
+GIT
   remote: https://github.com/west2538/omniauth.git
   revision: 85c4aeabdb42d9c9a204ac26950505847335cff9
   specs:
@@ -64,8 +72,6 @@ GEM
       minitest (~> 5.1)
       tzinfo (~> 1.1)
       zeitwerk (~> 2.1, >= 2.1.8)
-    acts-as-taggable-on (5.0.0)
-      activerecord (>= 4.2.8)
     addressable (2.6.0)
       public_suffix (>= 2.0.2, < 4.0)
     archive-zip (0.12.0)
@@ -465,7 +471,7 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
-  acts-as-taggable-on
+  acts-as-taggable-on!
   aws-sdk-s3
   bootsnap
   byebug
