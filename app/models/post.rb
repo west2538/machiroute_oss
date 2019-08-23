@@ -7,7 +7,9 @@ class Post < ApplicationRecord
     has_one_attached :image
 
     after_commit :watchmstdn_self, on: [:create, :update]
-    after_commit :annotate_self, on: [:create, :update]
+
+    # Google Cloud Visionによるセーフサーチ
+    # after_commit :annotate_self, on: [:create, :update]
 
     # after_create_commit :watchmstdn_self
     # after_update_commit :watchmstdn_self

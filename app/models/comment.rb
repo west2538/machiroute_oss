@@ -9,7 +9,10 @@ class Comment < ApplicationRecord
     file_content_type: { allow: ['image/jpg','image/jpeg', 'image/png', 'image/gif'], message: '写真をアップロードできませんでした' }, on: :create, if: :image_attached?
 
   after_commit :commentmstdn_self, on: [:create, :update]
-  after_commit :annotate_self, on: [:create, :update]
+
+  # Google Cloud Visionによるセーフサーチ
+  # after_commit :annotate_self, on: [:create, :update]
+
   # after_create_commit { CommentBroadcastJob.perform_later self }
 
   def image_attached?
