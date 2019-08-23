@@ -73,7 +73,8 @@ class Post < ApplicationRecord
 
     def annotate_self
         if image.attached?
-            ImageAnnotateJob.set(wait: 10.second).perform_later(self)
+            image_url = self.image&.service_url&.split("?")&.first
+            ImageAnnotateJob.set(wait: 10.second).perform_later(self,image_url)
         end
     end
 
