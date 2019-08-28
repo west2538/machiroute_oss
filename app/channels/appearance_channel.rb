@@ -31,13 +31,17 @@ class AppearanceChannel < ApplicationCable::Channel
     rescue => e
     end
 
-    member.update_attributes(online: true, online_at: DateTime.now)
+    member.online = true
+    member.online_at = DateTime.now
+    member.save
     stream_from "appearance_user"
   end
 
   def unsubscribed
     member = User.where(id: current_user.id).first
     return unless member
-    member.update_attributes(online: false, online_at: DateTime.now)
+    member.online = false
+    member.online_at = DateTime.now
+    member.save
   end
 end
