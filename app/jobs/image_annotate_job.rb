@@ -1,10 +1,9 @@
 class ImageAnnotateJob < ApplicationJob
   queue_as :second
 
-  def perform(target,image_url)
+  def perform(target)
  
-    tempfile = image_url
-    # tempfile = target.image.attachment.service.send(:object_for, target.image.key).public_url
+    tempfile = target.image.attachment.service.send(:object_for, target.image.key).public_url
 
     require "google/cloud/vision"
     image_annotator = Google::Cloud::Vision::ImageAnnotator.new

@@ -1,4 +1,11 @@
+:verbose: false
 :concurrency: 5
+:max_retries: 3
+
+:timeout: 8
+
 :queues:
   - [default, 7]
   - [second, 5]
+  - [active_storage_analysis, 3]
+  - [active_storage_purge, 1]

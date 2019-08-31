@@ -9,7 +9,7 @@ class Post < ApplicationRecord
     after_commit :watchmstdn_self, on: [:create, :update]
 
     # Google Cloud Visionによるセーフサーチ
-    # after_commit :annotate_self, on: [:create, :update]
+    after_commit :annotate_self, on: [:create, :update]
 
     # after_create_commit :watchmstdn_self
     # after_update_commit :watchmstdn_self
@@ -75,8 +75,7 @@ class Post < ApplicationRecord
 
     def annotate_self
         if image.attached?
-            image_url = self.image&.service_url&.split("?")&.first
-            ImageAnnotateJob.set(wait: 10.second).perform_later(self,image_url)
+            ImageAnnotateJob.set(wait: 10.second).perform_later(self)
         end
     end
 
