@@ -17,7 +17,7 @@ module Myblog
 
     config.time_zone = 'Asia/Tokyo'
 
-    # config.active_storage.variant_processor = :vips
+    config.active_storage.variant_processor = :vips
 
     # config.session_store_servers = ENV['REDISTOGO_URL']
     # config.session_store_servers = ENV['REDIS_URL']

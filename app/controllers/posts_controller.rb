@@ -45,7 +45,7 @@ class PostsController < ApplicationController
         @og_title = @post.body.truncate(17)
 
         if @post.image.attached?
-            @imgurl = url_for(@post.image.variant(resize: "738x600", auto_orient: true, strip: true, quality: 60))
+            @imgurl = url_for(@post.image.variant(resize_to_fit: [738,600], autorot: true, saver: { strip: true, quality: 60 }))
             @imgpixel = { :width => 640, :height => 427 }
         end
 
