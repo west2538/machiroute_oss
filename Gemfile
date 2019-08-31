@@ -18,6 +18,7 @@ gem 'jquery-rails'
 gem 'jquery-ui-rails'
 gem 'aws-sdk-s3', require: false
 gem 'mini_magick'
+# gem 'image_processing', '~> 1.2'
 gem 'acts-as-taggable-on', git: 'https://github.com/ogasawaraShinnosuke/acts-as-taggable-on.git', branch: 'master'
 gem 'nested_form_fields'
 gem 'rails-i18n'
