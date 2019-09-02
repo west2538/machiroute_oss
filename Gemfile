@@ -41,6 +41,7 @@ gem 'grape-entity'
 gem 'grape_logging'
 gem 'grape-swagger'
 gem 'grape-swagger-rails'
+gem 'puma_worker_killer'
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem 'rails', '6.0.0'
