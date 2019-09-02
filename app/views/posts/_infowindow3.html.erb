@@ -8,7 +8,7 @@
         </small>
         <br>
         <% if post.image.attached? %>
-            <%= image_tag post.image.variant(resize_to_fit: [200,200], autorot: true, saver: { strip: true, quality: 60 }) %>
+            <%= image_tag post.image.variant(resize: "200x200", auto_orient: true, strip: true, quality: 60) %>
         <% end %>
         <% if @current_user.uid == post.post_uid || @current_user.uid == "townsguild@another-guild.com" %>
         <%= link_to sanitize('<span class="oi oi-pencil small text-primary" title="編集" aria-hidden="true"></span>'),

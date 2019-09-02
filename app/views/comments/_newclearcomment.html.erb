@@ -15,7 +15,7 @@
       <span class="oi oi-person text-warning" title="クリアコメント" aria-hidden="true"></span> <%= comment.body %>
       <% end %>
       <% if comment.image.attached? %>
-          <br><%= image_tag comment.image.variant(resize_to_fit: [240,300], autorot: true, saver: { strip: true, quality: 60 }), :class => "mt-1", :style => "max-width: 240px;" %>
+          <br><%= image_tag comment.image.variant(resize: "240x300", auto_orient: true, strip: true), :class => "mt-1", :style => "max-width: 240px;" %>
       <% end %>
       <% if session[:uid] == "townsguild@another-guild.com" %>
           <% unless comment.id.nil? %>

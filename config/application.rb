@@ -17,7 +17,7 @@ module Myblog
 
     config.time_zone = 'Asia/Tokyo'
 
-    config.active_storage.variant_processor = :vips
+    # config.active_storage.variant_processor = :vips
 
   end
 end

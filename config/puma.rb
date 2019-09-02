@@ -46,7 +46,7 @@ before_fork do
       config.rolling_restart_frequency = 3 * 3600
     end
     PumaWorkerKiller.enable_rolling_restart
-  end
+end
 
 # SSL
 
