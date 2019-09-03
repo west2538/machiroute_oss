@@ -132,8 +132,6 @@ https://play.google.com/store/apps/details?id=xyz.appmaker.tzozva
 * VM VirtualBox 6.0.10 
 * Host OS: Windows 10 Home バージョン 1903 
 * Guest OS: CentOS Linux release 7.6.1810 (Core) 
-* Ruby 2.6.4 
-* Rails 6.0 
 * Visual Studio Code 
 * WinSCP 
 * その他のツール一覧はこちらでも確認できます  
