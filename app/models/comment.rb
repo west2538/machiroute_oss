@@ -27,8 +27,7 @@ class Comment < ApplicationRecord
 
   def annotate_self
     if image.attached?
-        image_url = self.image&.service_url&.split("?")&.first
-        ImageAnnotateJob.set(wait: 10.second).perform_later(self,image_url)
+        ImageAnnotateJob.set(wait: 10.second).perform_later(self)
     end
   end
 
