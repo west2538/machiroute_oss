@@ -24,7 +24,7 @@
                     <%= truncate(post.newstitle, omission: '...', length: 46) %>
                 </small>
             <% end %>
-            <p class="card-text font-weight-bold text-secondary mt-2 mb-1 px-2" style="word-break: break-all;">
+            <p class="card-text font-weight-bold text-secondary mt-2 mb-1 px-2" style="word-break: break-all; text-align: justify;">
                 <% URI.extract(post.body).uniq.each {|url| post.body.gsub!(url, '')} %>
                 <%= post.body %>
                 <% if @current_user.uid == "townsguild@another-guild.com" %>
