@@ -197,7 +197,7 @@ GEM
       grape (>= 0.16.2)
     grape-swagger-rails (0.3.1)
       railties (>= 3.2.12)
-    grape_logging (1.8.2)
+    grape_logging (1.8.3)
       grape
       rack
     grpc (1.23.0)
