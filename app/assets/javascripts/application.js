@@ -371,3 +371,19 @@ navigator.getBattery().then(function(battery) {
     }
   }
  });
+
+ // Android 入力時のフォーカス制御
+
+$(document).on("turbolinks:load", function () {
+
+  if(/Android 4\.[0-3]/.test(navigator.appVersion)){
+    window.addEventListener("resize", function(){
+       if(document.activeElement.tagName=="textarea"){
+          window.setTimeout(function(){
+             document.activeElement.scrollIntoViewIfNeeded();
+          },0);
+       }
+    })
+  }
+
+});
