@@ -172,7 +172,7 @@ class PostsController < ApplicationController
                 access_token = session[:token]
                 domain_array = @current_user.uid.split('@')
                 domain = domain_array.last
-                # MastodonTootJob.perform_later(domain,access_token,body_status,@post)
+                MastodonTootJob.perform_later(domain,access_token,body_status,@post)
             end
 
             if @post.title == "復活の呪文でHP回復"
