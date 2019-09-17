@@ -54,3 +54,15 @@ $('form').on('change', 'input[type="file"]', function(e) {
   reader.readAsDataURL(file);
 });
 </script>
+
+<script>
+if(/Android 4\.[0-3]/.test(navigator.appVersion)){
+window.addEventListener("resize", function(){
+    if(document.activeElement.tagName=="textarea"){
+        window.setTimeout(function(){
+            document.activeElement.scrollIntoViewIfNeeded();
+        },0);
+    }
+})
+}
+</script>
