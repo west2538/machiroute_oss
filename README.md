@@ -131,7 +131,7 @@ https://play.google.com/store/apps/details?id=xyz.appmaker.tzozva
 * DELL XPS 15 9560(SSD 512GB/RAM16GB) 
 * VM VirtualBox 6.0.12 
 * Host OS: Windows 10 Home バージョン 1903 
-* Guest OS: CentOS Linux release 7.6.1810 (Core) 
+* Guest OS: CentOS Linux release 7.7.1908 (Core) 
 * Visual Studio Code 
 * WinSCP 
 * その他のツール一覧はこちらでも確認できます  
