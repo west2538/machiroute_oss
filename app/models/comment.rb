@@ -11,7 +11,7 @@ class Comment < ApplicationRecord
   after_commit :commentmstdn_self, on: [:create, :update]
 
   # Google Cloud Visionによるセーフサーチ
-  # after_commit :annotate_self, on: [:create, :update]
+  after_commit :annotate_self, on: [:create, :update]
 
   # after_create_commit { CommentBroadcastJob.perform_later self }
 
