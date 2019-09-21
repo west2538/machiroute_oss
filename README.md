@@ -155,4 +155,10 @@ https://lounge.dmm.com/detail/1397/
 
 独自のAPIを提供しています  
 https://note.mu/west2538/n/nea30c9e3936f  
-https://machiroute.herokuapp.com/docs
+https://machiroute.herokuapp.com/docs  
+  
+
+## リアルRPGのプラットフォーム  
+  
+まちかどルートはソーシャルアップデートを目指すリアルRPGプロジェクトのプラットフォームのひとつとして展開中です  
+https://machikado-guild.com/
