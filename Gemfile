@@ -42,6 +42,7 @@ gem 'grape_logging'
 gem 'grape-swagger'
 gem 'grape-swagger-rails'
 gem 'puma_worker_killer'
+gem "rubyzip", ">= 1.3.0"
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem 'rails', '6.0.0'
@@ -96,7 +97,7 @@ group :test do
   #  gem 'sqlite3', '~> 1.4'
   # Adds support for Capybara system testing and selenium driver
   gem 'capybara'
-  gem 'selenium-webdriver'
+  # gem 'selenium-webdriver'
   # Easy installation and use of chromedriver to run system tests with Chrome
   gem 'chromedriver-helper'
 end
