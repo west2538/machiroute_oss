@@ -141,11 +141,8 @@ https://qiita.com/west2538
   
 ## パフォーマンス
 
-(2019年2月9日の時点)  
-* 平均レスポンス 173ms(0.173秒) 
-* New Relic Apdex score:0.96(Max 1.0) 
-* Google PageSpeedInsights モバイル:79 パソコン:97 
-* Pingdom Website Speed Test C78
+(2019年10月7日の時点)  
+* 平均レスポンス 119ms 
   
 ## サポーター/寄付について 
 よかったら開発者およびユーザー（冒険者）のサポーターになってください！  
