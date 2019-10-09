@@ -18,7 +18,7 @@ gem 'jquery-rails'
 gem 'jquery-ui-rails'
 gem 'mini_magick'
 gem 'aws-sdk-s3', require: false
-gem 'acts-as-taggable-on', git: 'https://github.com/ogasawaraShinnosuke/acts-as-taggable-on.git', branch: 'master'
+gem 'acts-as-taggable-on', git: 'https://github.com/ogasawaraShinnosuke/acts-as-taggable-on.git', branch: 'ogasawaraShinnosuke-patch-1'
 gem 'nested_form_fields'
 gem 'rails-i18n'
 gem 'dotenv-rails'

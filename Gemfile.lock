@@ -1,7 +1,7 @@
 GIT
   remote: https://github.com/ogasawaraShinnosuke/acts-as-taggable-on.git
-  revision: 20339048a8ca920c5add6638197349bc97173a59
-  branch: master
+  revision: 879edc122c414c36939a4a680b756987e5e8a037
+  branch: ogasawaraShinnosuke-patch-1
   specs:
     acts-as-taggable-on (6.0.1)
       activerecord (>= 5.0, < 6.1)
