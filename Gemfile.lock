@@ -242,7 +242,7 @@ GEM
       activerecord
       kaminari-core (= 1.1.1)
     kaminari-core (1.1.1)
-    libsqreen (0.3.0.0.1)
+    libsqreen (0.3.0.0.2)
     listen (3.1.5)
       rb-fsevent (~> 0.9, >= 0.9.4)
       rb-inotify (~> 0.9, >= 0.9.7)
@@ -386,7 +386,7 @@ GEM
       tilt
     serviceworker-rails (0.6.0)
       railties (>= 3.1)
-    sidekiq (6.0.2)
+    sidekiq (6.0.3)
       connection_pool (>= 2.2.2)
       rack (>= 2.0.0)
       rack-protection (>= 2.0.0)
@@ -414,7 +414,7 @@ GEM
       activesupport (>= 4.0)
       sprockets (>= 3.0.0)
     sq_mini_racer (0.2.5.0.1.beta2)
-    sqreen (1.18.0)
+    sqreen (1.18.1)
       libsqreen (~> 0.3.0.0)
       sq_mini_racer (~> 0.2.4.sqreen2)
     thin (1.7.2)
