@@ -22,7 +22,7 @@ gem 'acts-as-taggable-on', git: 'https://github.com/ogasawaraShinnosuke/acts-as-
 gem 'nested_form_fields'
 gem 'rails-i18n'
 gem 'dotenv-rails'
-gem 'opengraph_parser'
+gem 'opengraph_parser', git: 'https://github.com/huyha85/opengraph_parser.git', branch: 'master'
 gem 'file_validators'
 gem 'order_as_specified'
 gem 'omniauth-twitter'
