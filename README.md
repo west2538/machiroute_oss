@@ -122,14 +122,14 @@ https://play.google.com/store/apps/details?id=xyz.appmaker.tzozva
 * Heroku Hobby Dynos(heroku-18) 
 * Ruby 2.6.5 
 * Rails 6.0.2.1 
-* PostgreSQL 11.5 
+* PostgreSQL 11.6 
 * Redis 5.0.6 
 * Amazon S3
   
 ## 開発環境 
 
 * DELL XPS 15 9560(SSD 512GB/RAM16GB) 
-* VM VirtualBox 6.1.0 
+* VM VirtualBox 6.1.2 
 * Host OS: Windows 10 Home ビルド 19041 
 * Guest OS: CentOS Linux release 7.7.1908 (Core) 
 * Visual Studio Code 
