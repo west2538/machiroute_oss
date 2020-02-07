@@ -123,7 +123,7 @@ https://play.google.com/store/apps/details?id=xyz.appmaker.tzozva
 * Ruby 2.6.5 
 * Rails 6.0.2.1 
 * PostgreSQL 11.6 
-* Redis 5.0.6 
+* Redis 5.0.7 
 * Amazon S3
   
 ## 開発環境 
