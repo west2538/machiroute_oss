@@ -8,14 +8,6 @@ GIT
       nokogiri
 
 GIT
-  remote: https://github.com/ogasawaraShinnosuke/acts-as-taggable-on.git
-  revision: 879edc122c414c36939a4a680b756987e5e8a037
-  branch: ogasawaraShinnosuke-patch-1
-  specs:
-    acts-as-taggable-on (6.0.1)
-      activerecord (>= 5.0, < 6.1)
-
-GIT
   remote: https://github.com/west2538/omniauth.git
   revision: 85c4aeabdb42d9c9a204ac26950505847335cff9
   specs:
@@ -81,6 +73,8 @@ GEM
       minitest (~> 5.1)
       tzinfo (~> 1.1)
       zeitwerk (~> 2.2)
+    acts-as-taggable-on (6.5.0)
+      activerecord (>= 5.0, < 6.1)
     addressable (2.7.0)
       public_suffix (>= 2.0.2, < 5.0)
     archive-zip (0.12.0)
@@ -323,7 +317,7 @@ GEM
       multi_json (~> 1.3)
       multi_xml (~> 0.5)
       rack (>= 1.2, < 3)
-    oj (3.10.3)
+    oj (3.10.5)
     omniauth-mastodon (0.9.3)
       omniauth (~> 1.0)
       omniauth-oauth2 (~> 1.1)
@@ -488,7 +482,7 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
-  acts-as-taggable-on!
+  acts-as-taggable-on
   aws-sdk-s3
   bootsnap
   byebug
