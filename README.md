@@ -120,7 +120,7 @@ https://play.google.com/store/apps/details?id=xyz.appmaker.tzozva
 ## 稼働環境  
 
 * Heroku Hobby Dynos(heroku-18) 
-* Ruby 2.6.5 
+* Ruby 2.6.6 
 * Rails 6.0.2.2 
 * PostgreSQL 12.2 
 * Redis 5.0.7 
