@@ -42,7 +42,8 @@ gem 'grape_logging'
 gem 'grape-swagger'
 gem 'grape-swagger-rails'
 gem 'puma_worker_killer'
-gem "rubyzip", ">= 1.3.0"
+gem 'rubyzip', '>= 1.3.0'
+gem 'fileutils', '~> 1.4', '>= 1.4.1'
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem 'rails', '6.0.2.2'
