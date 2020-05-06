@@ -121,7 +121,7 @@ https://play.google.com/store/apps/details?id=xyz.appmaker.tzozva
 
 * Heroku Hobby Dynos(heroku-18) 
 * Ruby 2.6.6 
-* Rails 6.0.2.2 
+* Rails 6.0.3 
 * PostgreSQL 12.2 
 * Redis 5.0.8 
 * Amazon S3
