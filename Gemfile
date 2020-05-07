@@ -1,11 +1,11 @@
 source 'https://rubygems.org'
 git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 
-ruby '2.6.6'
+ruby '2.7.1'
 
 gem 'kaminari'
 gem 'serviceworker-rails'
-gem 'mastodon-api', '~> 2.0', require: 'mastodon'
+gem 'mastodon-api', git: 'https://github.com/tootsuite/mastodon-api.git', branch: 'master', require: 'mastodon'
 gem 'omniauth-mastodon'
 gem 'omniauth', git: 'https://github.com/west2538/omniauth.git', branch: 'master'
 gem 'rails_autolink'
