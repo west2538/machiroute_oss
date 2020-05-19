@@ -86,14 +86,14 @@
         <div class="bg-secondary p-2" style="border-radius: 0px 0px 3px 3px; opacity: 0.9;">
         <span class="oi oi-location text-white ml-1 mb-2" title="ルート" aria-hidden="true"></span> <span class="font-weight-bold text-white">周辺の攻略スポットも追加する？</span>
               <%= f.nested_fields_for :qroutes, wrapper_tag: :div do |q| %>
-                  <div class="form-row mb-1">
-                    <div class="col-5">
+                  <div class="form-row ml-1 mb-1">
+                    <div>
                     <%= q.text_field :qplacename, class: 'form-control', autocomplete: 'off', placeholder: '追加する住所orスポット名' %>
                     </div>
-                    <div class="col">
+                    <div>
                     <%= q.text_field :qdescription, class: 'form-control', autocomplete: 'off', placeholder: 'そこで何を攻略する？' %>
                     </div>
-                    <div class="col">
+                    <div>
                     <%= q.remove_nested_fields_link sanitize('<span class="oi oi-trash" title="ルート削除" aria-hidden="true"></span>'), class: 'btn btn-danger', role: 'button' %>
                     </div>
                   </div>
