@@ -35,6 +35,12 @@ class ApplicationController < ActionController::Base
             last_post = Post.where(post_uid: @current_user.uid).last
             sabun = (Date.today - last_post.created_at.to_datetime).to_i
             if sabun >= 3
+              if params[:link] != nil
+                @post = Post.new
+                @post.newsurl = params[:link]
+                render 'form4'
+                return
+              end
               flash[:error] = "しばらく冒険の投稿がないようです。何か投稿してみましょう！"
               redirect_to new_post_path
               return
