@@ -1,0 +1,107 @@
+<% if @current_user %>
+
+<div class="row mx-auto mt-2">
+
+<div class="col-sm-3 p-0 d-md-block d-lg-block"></div>
+
+<div class="col-sm-6 p-0">
+
+<% if @current_user.hp == 0 %>
+
+  <%= form_with model: @post, multipart: true, id: :commentSubmit do |f| %>
+      <%= f.select :title,
+      ['復活の呪文でHP回復'],
+      {},
+      class: 'mb-2 form-control form-control-lg' %>
+
+      <h4 class="font-weight-bold" style="text-size: 8px;">あなたの呪文をどうぞ！</h4>
+
+      <%= f.text_area :body,
+      :class => 'mb-2 form-control',
+      :placeholder => '内容をお書きください',
+      :onkeyup => 'updateCount(value, "count")',
+      :rows => '6',
+      :id => 'commentInput' %>
+      <% if @post.errors.messages[:body].any? %>
+      <div class="bg-secondary p-2 mb-1" style="border-radius: 3px 3px 3px 3px; opacity: 0.9;">
+        <span class="font-weight-bold text-warning"><%= @post.errors.messages[:body][0] %></span>
+      </div>
+      <% end %>
+      <div id="error_messages" class="font-weight-bold text-danger mt-3"></div>
+      <p class="float-left mt-1 mb-3">
+      (200字以内推奨)<br><span id="count">0</span>
+      </p>
+      <p class="text-right mt-1 mb-5">
+      <%= button_tag :type => "submit", :class =>"btn btn-lg btn-blue700_rsd", data: { disable_with: "投稿中 <i class='fa fa-spinner fa-spin'></i>" } do %>
+      投稿する
+      <% end %>
+      <%# <%= submit_tag "投稿する", :class => "btn btn-lg btn-blue700_rsd", data: { disable_with: "投稿中 <i class='fa fa-spinner fa-spin'></i>" } %>
+
+      </p>
+  <% end %>
+
+<% else %>
+
+  <%= form_with model: @post, multipart: true, id: :commentSubmit do |f| %>
+      <%= f.select :title,
+      [['ニュース','ニュース']],
+      {},
+      class: 'mb-2 form-control form-control-lg',
+      onchange: 'entryChange();' %>
+
+      <h4 class="font-weight-bold" style="text-size: 8px;">冒険者として気になるニュースを投稿してシェアしよう</h4>
+
+      <%= f.text_area :body,
+      :class => 'mb-2 form-control',
+      :placeholder => '内容をお書きください',
+      :onkeyup => 'updateCount(value, "count")',
+      :rows => '6',
+      :id => 'commentInput' %>
+      <% if @post.errors.messages[:body].any? %>
+      <div class="bg-secondary p-2 mb-1" style="border-radius: 3px 3px 3px 3px; opacity: 0.9;">
+        <span class="font-weight-bold text-warning"><%= @post.errors.messages[:body][0] %></span>
+      </div>
+      <% end %>
+
+      <div id="4thBox">
+
+        <div class="bg-secondary p-2" style="border-radius: 3px 3px 0px 0px; opacity: 0.9;">
+          <span class="oi oi-link-intact text-white ml-1 mb-2" title="URL" aria-hidden="true"></span> <span class="font-weight-bold text-white">ニュースのURLをペーストしてね</span>
+          <div class="input-group">
+            <input id="newsurl" type="url" name="post[newsurl]" value="<%= @post.newsurl %>" class="form-control" autocomplete="off" placeholder="https://から始まるURLをペースト">
+            <input id="newsimage" type="hidden" name="post[newsimage]" value="">
+            <input id="newstitle" type="hidden" name="post[newstitle]" value="">
+          </div>
+          <div id="result" class="text-white"></div>
+          <% if @post.errors.messages[:newsurl].any? %>
+          <span class="font-weight-bold text-warning"><%= @post.errors.messages[:newsurl][0] %></span>
+          <% end %>
+        </div>
+
+      </div>
+
+      <div id="error_messages" class="font-weight-bold text-danger mt-3"></div>
+      <p class="float-left mt-1 mb-3">
+      (200字以内推奨)<br><span id="count">0</span>
+      </p>
+      <p class="text-right mt-1 mb-5">
+      <% if session[:provider] == 'twitter' && session[:oauth_token] && @auth_user %>
+        <span id="twitter_relation" style="position:relative; top:-10px;"><i class="fa fa-twitter-square fa-lg text-success" aria-hidden="true"></i> <small class="font-weight-bold text-success m-0">連携中</small></span>
+      <% else %>
+        <span id="twitter_relation"></span>
+      <% end %>
+      <%= button_tag :type => "submit", :class =>"btn btn-lg btn-blue700_rsd", data: { disable_with: "投稿中 <i class='fa fa-spinner fa-spin'></i>" } do %>
+      投稿する
+      <% end %>
+      </p>
+  <% end %>
+
+<% end %>
+
+</div>
+
+<div class="col-sm-3 p-0 d-md-block d-lg-block"></div>
+
+</div>
+
+<% end %>

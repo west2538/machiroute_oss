@@ -10,6 +10,7 @@ Rails.application.routes.draw do
   resources :devices, only: [:create]
 
   get '.well-known/assetlinks' => "wellknown#assetlinks"
+  get 'share-target' => "posts#index"
 
   get 'notifications/link_through'
   get 'notifications/update_all' => "notifications#update_all"
@@ -48,6 +49,7 @@ Rails.application.routes.draw do
   get 'gallery' , as: 'gallery', to: 'posts#gallery'
   get 'form2' , as: 'form2', to: 'posts#form2'
   get 'form3' , as: 'form3', to: 'posts#form3'
+  get 'form4' , as: 'form4', to: 'posts#form4'
   get 'battery' , as: 'battery', to: 'posts#battery'
 
   get 'notifications/:id/link_through', to: 'notifications#link_through',

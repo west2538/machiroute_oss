@@ -6,6 +6,14 @@ class PostsController < ApplicationController
 
     def index
         if @current_user
+
+            if params[:link] != nil
+                @post = Post.new
+                @post.newsurl = params[:link]
+                render 'form4'
+                return
+            end
+
             @posts01 = Post.includes(:comments).where.not(title: '冒険の拠点を登録').page(params[:page]).per(20).order(updated_at: :desc)
             @posts02 = Post.includes(:comments).where.not(title: '冒険の拠点を登録').where(post_uid: @current_user.uid).page(params[:page]).per(10).order(created_at: :desc)
             like_post_ids = Like.where(user_id: @current_user.id).order(created_at: :desc).pluck(:post_id)
@@ -285,6 +293,10 @@ class PostsController < ApplicationController
     def form3
         @post = Post.new
         @post.label_list = params[:qtag]
+    end
+
+    def form4
+
     end
 
     def gallery

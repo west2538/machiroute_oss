@@ -15,5 +15,16 @@
   "theme_color": "#000000",
   "background_color": "#FFFFFF",
   "display": "fullscreen",
-  "orientation": "portrait"
+  "orientation": "portrait",
+  "share_target": {
+    "url_template": "/share-target?link={url}",
+    "action": "/share-target",
+    "method": "GET",
+    "enctype": "application/x-www-form-urlencoded",
+    "params": {
+      "title": "name",
+      "text": "link",
+      "url": "link"
+    }
+  }
 }
