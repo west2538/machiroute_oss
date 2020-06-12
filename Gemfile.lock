@@ -8,6 +8,14 @@ GIT
       nokogiri
 
 GIT
+  remote: https://github.com/mbleigh/acts-as-taggable-on.git
+  revision: 47da5036dea61cb971bfaf72de5fa93c85255307
+  branch: master
+  specs:
+    acts-as-taggable-on (6.5.0)
+      activerecord (>= 5.0, < 6.1)
+
+GIT
   remote: https://github.com/tootsuite/mastodon-api.git
   revision: 60b0ed09c3b979cbeb833db0a320b30e1b022a1e
   branch: master
@@ -85,15 +93,13 @@ GEM
       minitest (~> 5.1)
       tzinfo (~> 1.1)
       zeitwerk (~> 2.2, >= 2.2.2)
-    acts-as-taggable-on (6.5.0)
-      activerecord (>= 5.0, < 6.1)
     addressable (2.7.0)
       public_suffix (>= 2.0.2, < 5.0)
     archive-zip (0.12.0)
       io-like (~> 0.3.0)
     aws-eventstream (1.1.0)
     aws-partitions (1.329.0)
-    aws-sdk-core (3.99.1)
+    aws-sdk-core (3.99.2)
       aws-eventstream (~> 1, >= 1.0.2)
       aws-partitions (~> 1, >= 1.239.0)
       aws-sigv4 (~> 1.1)
@@ -512,7 +518,7 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
-  acts-as-taggable-on
+  acts-as-taggable-on!
   aws-sdk-s3
   bootsnap
   byebug
