@@ -44,6 +44,7 @@ gem 'grape-swagger-rails'
 gem 'puma_worker_killer'
 gem 'rubyzip', '>= 1.3.0'
 gem 'fileutils', '~> 1.4', '>= 1.4.1'
+gem 'rails_same_site_cookie'
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem 'rails', '6.0.3.1'
