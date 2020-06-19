@@ -9,9 +9,9 @@ function onInstall(event) {
     caches.open(CACHE_NAME).then(function prefill(cache) {
       return cache.addAll([
         '<%= asset_path("application.css") %>',
-        '/assets/bg.jpg',
-        '/assets/logo.png',
-        '/assets/footer_weed.png',
+        '<%= image_path("bg.jpg") %>',
+        '<%= image_path("logo.png") %>',
+        '<%= image_path("footer_weed.png") %>',
         '/offline.html'
         // you get the idea ...
       ]);

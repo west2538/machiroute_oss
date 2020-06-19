@@ -7,14 +7,14 @@
             <% if post.newsimage.present? %>
                 <%= link_to(post.newsurl, :target => '_blank', :rel => 'noopener noreferrer') do %>
                 <div class="trim news">
-                <%= image_tag(post.newsimage, :class => "card-img-top", :onerror => "this.src='/assets/ogpimage.png'") %>
+                <%= image_tag(post.newsimage, :class => "card-img-top", :onerror => "this.src='ogpimage.png'") %>
                 <small class="news-badge">ニュース</small>
                 </div>
                 <% end %>
             <% else %>
                 <%= link_to(post.newsurl, :target => '_blank', :rel => 'noopener noreferrer') do %>
                 <div class="trim news">
-                <%= image_tag('/assets/ogpimage.png', :class => "card-img-top") %>
+                <%= image_tag('ogpimage.png', :class => "card-img-top") %>
                 <small class="news-badge">ニュース</small>
                 </div>
                 <% end %>
@@ -115,7 +115,7 @@
     <tr>
         <td class="balloon px-0">
             <div class="faceicon">
-                <img src="/assets/nobookcover.jpg">
+                <img src="<%= image_path('nobookcover.jpg') %>">
             </div>
             <div class="chatting">
             <div class="says">
@@ -245,7 +245,7 @@
     <tr>
         <td class="balloon77 px-0">
             <div class="faceicon">
-                <%= image_tag @user.avatar, :onerror => "this.src='/assets/missing.png'" %>
+                <%= image_tag @user.avatar, :onerror => "this.src='/images/missing.png'" %>
             </div>
             <div class="chatting">
             <div class="says">
@@ -327,7 +327,7 @@
     <tr>
         <td class="balloon77 px-0">
             <div class="faceicon">
-                <%= image_tag @user.avatar, :onerror => "this.src='/assets/missing.png'" %>
+                <%= image_tag @user.avatar, :onerror => "this.src='/images/missing.png'" %>
             </div>
             <div class="chatting">
             <div class="says">

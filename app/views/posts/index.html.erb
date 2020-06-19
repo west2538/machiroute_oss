@@ -14,9 +14,9 @@
             <table class="table table-borderless m-0">
                 <tr style="border; 1px; solid #ddd;">
                     <% if @current_user.avatar.present? %>
-                    <span class="useravatar"><%= image_tag @current_user.avatar, :onerror => "this.src='/assets/missing.png'" %></span>
+                    <span class="useravatar"><%= image_tag @current_user.avatar, :onerror => "this.src='/images/missing.png'" %></span>
                     <% else %>
-                    <span class="useravatar"><%= image_tag '/assets/missing.png' %></span>
+                    <span class="useravatar"><%= image_tag 'missing.png' %></span>
                     <% end %>
                     <% if @current_user.display_name.present? %>
                         <span class="text-success mt-3 mb-0" title="ログイン中の冒険者" aria-hidden="true"> 
@@ -254,7 +254,7 @@
                         <tr>
                             <td class="balloon01 px-0">
                                 <div class="faceicon">
-                                    <%= image_tag @current_user.avatar, :onerror => "this.src='/assets/missing.png'" %>
+                                    <%= image_tag @current_user.avatar, :onerror => "this.src='/images/missing.png'" %>
                                 </div>
                                 <div class="chatting">
                                 <div class="says01">
@@ -304,7 +304,7 @@
                         <tr>
                             <td class="balloon01 px-0 pb-0">
                                 <div class="faceicon">
-                                    <%= image_tag @current_user.avatar, :onerror => "this.src='/assets/missing.png'" %>
+                                    <%= image_tag @current_user.avatar, :onerror => "this.src='/images/missing.png'" %>
                                 </div>
                                 <div class="chatting">
                                 <div class="says01 pt-3">
@@ -437,7 +437,7 @@
                     <%= form_with model: Post.new, class: 'my-3' do |f| %>
                         <input type="hidden" name="post[title]" value="冒険中のつぶやき">
                     <div class="input-group">
-                        <span class="useravatar3"><%= image_tag @current_user.avatar, :onerror => "this.src='/assets/missing.png'" %></span>
+                        <span class="useravatar3"><%= image_tag @current_user.avatar, :onerror => "this.src='/images/missing.png'" %></span>
                         <%= f.text_area :body,
                         :class => 'form-control',
                         :placeholder => '冒険中なにしてる？',
@@ -499,7 +499,7 @@
                 <table class="table table-borderless m-0">
                     <tr style="border; 1px; solid #ddd;">
                     <span class="useravatar2">
-                    <%= image_tag @current_user.avatar, :onerror => "this.src='/assets/missing.png'" %></span>
+                    <%= image_tag @current_user.avatar, :onerror => "this.src='/images/missing.png'" %></span>
                     <% if @current_user.display_name.present? %>
                         <span class="ml-1 mt-3 mb-0" title="ログイン中の冒険者" aria-hidden="true"> 
                         <%= link_to @current_user.display_name,

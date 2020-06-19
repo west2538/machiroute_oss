@@ -19,7 +19,7 @@
  body {
     font-family: Verdana, sans-serif;
     font-size: 14px;
-    background-image:url(/assets/bg.jpg);
+    background-image:url("/images/bg.jpg");
     background-position: center center;
     background-repeat: no-repeat;
     background-attachment: fixed;
@@ -32,7 +32,7 @@
       background:none;
     }
     body::before {
-      background:url(/assets/bg.jpg) no-repeat center;
+      background:url("/images/bg.jpg") no-repeat center;
       background-size: cover;
       display: block;
       position: fixed;
