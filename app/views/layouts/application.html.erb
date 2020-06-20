@@ -46,13 +46,13 @@ Your route changes the world.
 <link rel="manifest" href="/manifest.json" />
 <meta name="theme-color" content="#000000">
 <meta property="fb:app_id" content="1978263365541185" />
-<link rel="icon" href="<%= image_path('favicon.ico') %>">
-<link rel="apple-touch-icon" sizes="180x180" href="<%= image_path('apple-touch-icon.png') %>">
+<link rel="icon" href="<%= asset_path('favicon.ico') %>">
+<link rel="apple-touch-icon" sizes="180x180" href="<%= asset_path('apple-touch-icon.png') %>">
 <meta name="application-name" content="まちかどルート"/>
-<meta name="msapplication-square70x70logo" content="<%= image_path('mstile-70x70.png') %>"/>
-<meta name="msapplication-square150x150logo" content="<%= image_path('mstile-150x150.png') %>"/>
-<meta name="msapplication-wide310x150logo" content="<%= image_path('mstile-310x150.png') %>"/>
-<meta name="msapplication-square310x310logo" content="<%= image_path('mstile-310x310.png') %>"/>
+<meta name="msapplication-square70x70logo" content="<%= asset_path('mstile-70x70.png') %>"/>
+<meta name="msapplication-square150x150logo" content="<%= asset_path('mstile-150x150.png') %>"/>
+<meta name="msapplication-wide310x150logo" content="<%= asset_path('mstile-310x150.png') %>"/>
+<meta name="msapplication-square310x310logo" content="<%= asset_path('mstile-310x310.png') %>"/>
 <meta name="msapplication-TileColor" content="#FFFFFF"/>
 
 <% if @current_user %>
@@ -159,7 +159,7 @@ Your route changes the world.
 <% else %>
 
   <div class="row mx-auto text-center" style="width:290px;">
-    <img src="<%= image_path('ogpimage.png') %>" width="290" height="145" alt="まちかどルート">
+    <img src="<%= asset_path('ogpimage.png') %>" width="290" height="145" alt="まちかどルート">
     <div class="p-3 mb-2 text-secondary bg-white" style="width:100%; border:#fff solid 1px; border-radius: 0px 0px 6px 6px;">
       <p class="font-weight-bold text-center mb-1">リアルRPGの世界へ</p>
       <h5 class="font-weight-bold text-center mb-3">ようこそ！</h5>
@@ -240,7 +240,7 @@ Your route changes the world.
 <div style="height: 100px;"></div>
 
 <div class="row">
-  <footer class="fixed-bottom text-center text-white mt-3 pt-3" style="height:70px; background-image: url('<%= image_path("footer_weed.png") %>'); background-repeat: repeat-x; opacity: 0.87;">
+  <footer class="fixed-bottom text-center text-white mt-3 pt-3" style="height:70px; background-image: url('<%= asset_path("footer_weed.png") %>'); background-repeat: repeat-x; opacity: 0.87;">
     <p class="mt-2 pt-3">Your route <span class="oi oi-pencil" title="あなたの冒険が世界を変える" aria-hidden="true"></span> changes the world.</p>
   </footer>
 </div>

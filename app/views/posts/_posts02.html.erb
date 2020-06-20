@@ -6,14 +6,14 @@
             <% if post.newsimage.present? %>
                 <%= link_to(post.newsurl, :target => '_blank', :rel => 'noopener noreferrer') do %>
                 <div class="trim news">
-                <%= image_tag(post.newsimage, :class => "card-img-top", :onerror => "this.src='/images/ogpimage.png'") %>
+                <%= image_tag(post.newsimage, :class => "card-img-top", :onerror => "this.src='" + asset_path('ogpimage.png') + "'") %>
                 <small class="news-badge">ニュース</small>
                 </div>
                 <% end %>
             <% else %>
                 <%= link_to(post.newsurl, :target => '_blank', :rel => 'noopener noreferrer') do %>
                 <div class="trim news">
-                <%= image_tag('ogpimage.png', :class => "card-img-top") %>
+                <%= image_tag asset_tag('ogpimage.png'), class: 'card-img-top' %>
                 <small class="news-badge">ニュース</small>
                 </div>
                 <% end %>
@@ -116,7 +116,7 @@
     <tr>
         <td class="balloon px-0">
             <div class="faceicon">
-                <img src="<%= image_path('nobookcover.jpg') %>">
+                <img src="<%= asset_path('nobookcover.jpg') %>">
             </div>
             <div class="chatting">
             <div class="says">
@@ -244,7 +244,7 @@
     <tr>
         <td class="balloon77 px-0">
             <div class="faceicon">
-                <%= image_tag @current_user.avatar, :onerror => "this.src='/images/missing.png'" %>
+                <%= image_tag @current_user.avatar, :onerror => "this.src='" + asset_path('missing.png') + "'" %>
             </div>
             <div class="chatting">
             <div class="says">
@@ -325,7 +325,7 @@
     <tr>
         <td class="balloon77 px-0">
             <div class="faceicon">
-                <%= image_tag @current_user.avatar, :onerror => "this.src='/images/missing.png'" %>
+                <%= image_tag @current_user.avatar, :onerror => "this.src='" + asset_path('missing.png') + "'" %>
             </div>
             <div class="chatting">
             <div class="says">
