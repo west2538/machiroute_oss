@@ -6,7 +6,7 @@
             <% if post.newsimage.present? %>
                 <%= link_to(post.newsurl, :target => '_blank', :rel => 'noopener noreferrer') do %>
                 <div class="trim news">
-                <%= image_tag(post.newsimage, :class => "card-img-top", :onerror => "this.src='ogpimage.png'") %>
+                <%= image_tag(post.newsimage, :class => "card-img-top", :onerror => "this.src='/images/ogpimage.png'") %>
                 <small class="news-badge">ニュース</small>
                 </div>
                 <% end %>
