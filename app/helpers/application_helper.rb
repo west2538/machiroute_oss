@@ -11,8 +11,8 @@ module ApplicationHelper
         canonical: request.original_url,
         separator: '|',
         icon: [
-          { href: image_url('https://machiroute.herokuapp.com' + asset_path('favicon.ico')) },
-          { href: image_url('https://machiroute.herokuapp.com' + asset_path('apple-touch-icon180.png')), rel: 'apple-touch-icon', sizes: '180x180', type: 'image/png' },
+          { href: image_url(asset_path('favicon.ico')) },
+          { href: image_url(asset_path('apple-touch-icon180.png')), rel: 'apple-touch-icon', sizes: '180x180', type: 'image/png' },
         ],
         og: {
           site_name: 'まちかどルート',
@@ -20,7 +20,7 @@ module ApplicationHelper
           description: 'リアルRPG！あなたの冒険が世界をちょっと楽しくする。サブクエストをつくってクリアするWebアプリ',
           type: 'website',
           url: request.original_url,
-          image: image_url('https://machiroute.herokuapp.com' + asset_path('ogpimage.png')),
+          image: image_url(asset_path('ogpimage.png')),
           locale: 'ja_JP',
         },
         twitter: {
@@ -28,7 +28,7 @@ module ApplicationHelper
           site: '@townsguild',
           title: 'まちかどルート',
           description: 'リアルRPG！あなたの冒険が世界をちょっと楽しくする。サブクエストをつくってクリアするWebアプリ',
-          image: image_url('https://machiroute.herokuapp.com' + asset_path('ogpimage.png')),
+          image: image_url(asset_path('ogpimage.png')),
         }
       }
     end

@@ -8,10 +8,6 @@ function onInstall(event) {
   event.waitUntil(
     caches.open(CACHE_NAME).then(function prefill(cache) {
       return cache.addAll([
-        '<%= asset_path("application.css") %>',
-        '<%= asset_path("bg.jpg") %>',
-        '<%= asset_path("logo.png") %>',
-        '<%= asset_path("footer_weed.png") %>',
         '/offline.html'
         // you get the idea ...
       ]);
