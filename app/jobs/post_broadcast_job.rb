@@ -12,17 +12,17 @@ class PostBroadcastJob < ApplicationJob
       display_name = '@' + cableuser[0]
     end
     unless post.bookcover.present?
-      post.bookcover = asset_path('nobookcover.jpg')
+      post.bookcover = ActionController::Base.helpers.asset_path('nobookcover.jpg')
     end
     unless post.newsimage.present?
-      post.newsimage = asset_path('ogpimage.png')
+      post.newsimage = ActionController::Base.helpers.asset_path('ogpimage.png')
     end
     cablebokensha = '/users/' + @user.id.to_s
     cabledomain = cableuser[1]
     cabledate1 = post.updated_at.strftime('%-m月%-d日 %-H:%M')
     cabledate2 = post.updated_at.strftime('%Y-%m-%d %H:%M:%S')
-    missing = asset_path('missing.png')
-    ogpmiage = asset_path('ogpimage.png')
+    missing = ActionController::Base.helpers.asset_path('missing.png')
+    ogpimage = ActionController::Base.helpers.asset_path('ogpimage.png')
     if post.title == 'ニュース'
       if post.newstitle.present?
         newstitle = post.newstitle.truncate(46)
