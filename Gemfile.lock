@@ -98,7 +98,7 @@ GEM
     archive-zip (0.12.0)
       io-like (~> 0.3.0)
     aws-eventstream (1.1.0)
-    aws-partitions (1.335.0)
+    aws-partitions (1.337.0)
     aws-sdk-core (3.102.1)
       aws-eventstream (~> 1, >= 1.0.2)
       aws-partitions (~> 1, >= 1.239.0)
@@ -107,7 +107,7 @@ GEM
     aws-sdk-kms (1.35.0)
       aws-sdk-core (~> 3, >= 3.99.0)
       aws-sigv4 (~> 1.1)
-    aws-sdk-s3 (1.71.1)
+    aws-sdk-s3 (1.72.0)
       aws-sdk-core (~> 3, >= 3.102.1)
       aws-sdk-kms (~> 1)
       aws-sigv4 (~> 1.1)
@@ -299,7 +299,7 @@ GEM
       activerecord
       kaminari-core (= 1.2.1)
     kaminari-core (1.2.1)
-    libsqreen (0.6.1.0.0)
+    libsqreen (0.6.1.0.1)
     listen (3.1.5)
       rb-fsevent (~> 0.9, >= 0.9.4)
       rb-inotify (~> 0.9, >= 0.9.7)
@@ -521,7 +521,7 @@ GEM
     websocket-extensions (0.1.5)
     xpath (3.2.0)
       nokogiri (~> 1.8)
-    zeitwerk (2.3.0)
+    zeitwerk (2.3.1)
 
 PLATFORMS
   ruby
