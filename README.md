@@ -114,7 +114,12 @@ https://play.google.com/store/apps/details?id=xyz.appmaker.tzozva
 * サブクエストの閲覧履歴機能  
 * RSSフィード生成（IFTTT等との連携で新規サブクエストのメール通知などが可能）  
 * Google Cloud Visionの強力解析で不適切な画像をブロック  
-* **PWA（Progressive Web App）として構築**。スマホのホーム画面にアイコンを追加可能。Webアプリなのにネイティブアプリ(Google PlayやApp Storeからダウンロードするアプリ)のようにフルスクリーン表示。Badging API対応のためアプリアイコンに通知バッジを表示。Web Share Target API対応によってネイティブアプリからURLを共有してタイムラインに投稿可能  
+* **PWA（Progressive Web App）として構築**  
+ - スマホのホーム画面にアイコンを追加可能  
+ - Webアプリなのにネイティブアプリ(Google PlayやApp Storeからダウンロードするアプリ)のようにフルスクリーン表示  
+ - Badging API対応のためアプリアイコンに通知バッジを表示  
+ - Web Share Target API対応によってネイティブアプリからURLを共有してタイムラインに投稿可能  
+ - アイコンショートカットに対応。スマホのホーム画面にあるアイコンを長押しするとサブクエスト新規作成画面にジャンプできます  
 * ほかにも細かなおもしろ機能ありますよ  
   
 ## 稼働環境  
