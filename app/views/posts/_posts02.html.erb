@@ -13,7 +13,7 @@
             <% else %>
                 <%= link_to(post.newsurl, :target => '_blank', :rel => 'noopener noreferrer') do %>
                 <div class="trim news">
-                <%= image_tag asset_tag('ogpimage.png'), class: 'card-img-top' %>
+                <%= image_tag asset_path('ogpimage.png'), class: 'card-img-top' %>
                 <small class="news-badge">ニュース</small>
                 </div>
                 <% end %>
