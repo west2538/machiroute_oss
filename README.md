@@ -116,6 +116,7 @@ https://play.google.com/store/apps/details?id=xyz.appmaker.tzozva
 * Google Cloud Visionの強力解析で不適切な画像をブロック  
 * **PWA（Progressive Web App）として構築**  
     - スマホのホーム画面にアイコンを追加可能  
+    - Webプッシュ通知に対応。あなたのサブクエストを誰かがクリアすると通知してくれます
     - Webアプリなのにネイティブアプリ(Google PlayやApp Storeからダウンロードするアプリ)のようにフルスクリーン表示  
     - Badging API対応のためアプリアイコンに通知バッジを表示  
     - Web Share Target API対応によってネイティブアプリからURLを共有してタイムラインに投稿可能  
