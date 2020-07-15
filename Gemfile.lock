@@ -338,7 +338,7 @@ GEM
     mustermann-grape (1.0.1)
       mustermann (>= 1.0.0)
     naught (1.1.0)
-    nested_form_fields (0.8.2)
+    nested_form_fields (0.8.3)
       coffee-rails (>= 3.2.1)
       jquery-rails
       rails (>= 3.2.0)
@@ -520,7 +520,7 @@ GEM
     websocket-extensions (0.1.5)
     xpath (3.2.0)
       nokogiri (~> 1.8)
-    zeitwerk (2.3.1)
+    zeitwerk (2.4.0)
 
 PLATFORMS
   ruby
