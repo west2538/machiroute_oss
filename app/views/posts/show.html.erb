@@ -154,13 +154,9 @@ $(function(){
                 <br>
                 <span class="oi oi-clock" title="投稿日時" aria-hidden="true"></span> <%= @post.created_at.strftime('%Y/%m/%d %H:%M') %>
                 <div class="mt-3 mb-1">
-                    <a href="https://twitter.com/share?ref_src=twsrc%5Etfw" class="twitter-share-button" data-text="<%= @og_title + ' #まちかどルート #ソーシャルアップデート' %>" data-url="<%= 'https://machiroute.herokuapp.com' + post_path(@post) %>" data-lang="ja" data-show-count="false">Tweet</a>
-                    <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
                     <button type="button" class="btn btn-sm btn-dark js-btn-share" style="width:70px; height:20px; position:relative; top:-7px;">
                         <i class="fa fa-share-alt" aria-hidden="true" style="position:relative; top:-4px;"></i>
                     </button>
-                    <a href="https://note.mu/intent/social_button" class="note-social-button" data-url="<%= 'https://machiroute.herokuapp.com' + post_path(@post) %>" data-hashtags="まちかどルート,サブクエスト,ソーシャルアップデート"></a>
-                    <script async src="https://cdn.st-note.com/js/social_button.min.js"></script>
                 </div>
                 <div class="input-group">
                     <input class="border border-info text-secondary form-control-plaintext" style="border-radius: 3px 0 0 3px;" id="CopyTarget" type="text" value="<%= @og_title + ' https://machiroute.herokuapp.com' + post_path(@post) + ' #まちかどルート #ソーシャルアップデート' %>" readonly>
