@@ -440,7 +440,7 @@ GEM
       tilt
     serviceworker-rails (0.6.0)
       railties (>= 3.1)
-    sidekiq (6.1.0)
+    sidekiq (6.1.1)
       connection_pool (>= 2.2.2)
       rack (~> 2.0)
       redis (>= 4.2.0)
@@ -576,7 +576,7 @@ DEPENDENCIES
   sass-rails
   sassc
   serviceworker-rails
-  sidekiq
+  sidekiq (~> 6.1, >= 6.1.1)
   sinatra
   spring
   spring-watcher-listen (~> 2.0.0)

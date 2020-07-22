@@ -33,7 +33,7 @@ gem 'google-protobuf'
 gem 'momentjs-rails'
 gem 'webpush'
 gem 'redis'
-gem 'sidekiq'
+gem 'sidekiq', '~> 6.1', '>= 6.1.1'
 gem 'sinatra', require: false
 gem 'redis-namespace'
 gem 'grape'
