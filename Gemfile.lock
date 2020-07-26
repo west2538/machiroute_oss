@@ -421,8 +421,24 @@ GEM
     rb-inotify (0.10.1)
       ffi (~> 1.0)
     redis (4.2.1)
+    redis-actionpack (5.2.0)
+      actionpack (>= 5, < 7)
+      redis-rack (>= 2.1.0, < 3)
+      redis-store (>= 1.1.0, < 2)
+    redis-activesupport (5.2.0)
+      activesupport (>= 3, < 7)
+      redis-store (>= 1.3, < 2)
     redis-namespace (1.7.0)
       redis (>= 3.0.4)
+    redis-rack (2.1.2)
+      rack (>= 2.0.8, < 3)
+      redis-store (>= 1.2, < 2)
+    redis-rails (5.0.2)
+      redis-actionpack (>= 5.0, < 6)
+      redis-activesupport (>= 5.0, < 6)
+      redis-store (>= 1.2, < 2)
+    redis-store (1.9.0)
+      redis (>= 4, < 5)
     regexp_parser (1.7.1)
     ruby-statistics (2.1.2)
     ruby2_keywords (0.0.2)
@@ -572,6 +588,7 @@ DEPENDENCIES
   rails_same_site_cookie
   redis
   redis-namespace
+  redis-rails
   rubyzip (>= 1.3.0)
   sass-rails
   sassc
