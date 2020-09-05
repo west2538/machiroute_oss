@@ -135,7 +135,7 @@ https://play.google.com/store/apps/details?id=xyz.appmaker.tzozva
 ## 開発環境 
 
 * DELL XPS 15 9560(SSD 512GB/RAM16GB) 
-* VM VirtualBox 6.1.12 
+* VM VirtualBox 6.1.14 
 * Host OS: Windows 10 Home 20H2 19042 
 * Guest OS: CentOS Linux release 7.8.2003 (Core) 
 * Visual Studio Code 
