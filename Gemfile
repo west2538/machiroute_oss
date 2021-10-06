@@ -34,7 +34,7 @@ gem 'momentjs-rails'
 gem 'webpush'
 gem 'redis'
 gem 'redis-rails'
-gem 'sidekiq', '~> 6.1', '>= 6.1.1'
+gem 'sidekiq', '~> 6.2'
 gem 'sinatra', require: false
 gem 'redis-namespace'
 gem 'grape'
