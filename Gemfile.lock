@@ -375,7 +375,7 @@ GEM
     puma_worker_killer (0.3.0)
       get_process_mem (~> 0.2)
       puma (>= 2.7, < 5)
-    rack (2.2.3)
+    rack (2.2.6.2)
     rack-accept (0.4.5)
       rack (>= 0.4)
     rack-protection (2.1.0)
